@@ -1,0 +1,4 @@
+# Trivy Ignore File
+# Add CVEs here to ignore them in the container scan.
+# Format: CVE-YYYY-NNNNN
+# Provide a comment above each ignored CVE explaining why it is ignored.

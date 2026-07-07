@@ -1,0 +1,368 @@
+{
+  "HomePage": {
+    "title": "Maligayang pagdating, {address}",
+    "description": "Pagbibigay ng tulong pinansyal sa pamamagitan ng micro-loans na sinusuportahan ng remittance.",
+    "getStarted": "Magsimula Na",
+    "learnMore": "Matuto Nang Higit Pa",
+    "stats": {
+      "netWorth": "Netong Halaga",
+      "activeLoans": "Mga aktibong loan",
+      "totalRemitted": "Kabuuang naipadala",
+      "yieldApy": "Kita (APY)"
+    },
+    "activity": {
+      "title": "Kamakailang aktibidad",
+      "viewAll": "Tingnan lahat",
+      "emptyTitle": "Wala pang aktibidad",
+      "empty": "Wala pang kamakailang aktibidad. Lalabas dito ang iyong mga transaksyon."
+    },
+    "quickActions": {
+      "title": "Mabilis na aksyon",
+      "applyLoan": "Mag-apply ng loan",
+      "applyLoanDesc": "Kumuha ng agarang liquidity",
+      "sendRemittance": "Magpadala ng remittance",
+      "sendRemittanceDesc": "Maglipat ng pondo sa buong mundo"
+    },
+    "outreach": {
+      "title": "Pakikilahok sa Komunidad",
+      "description": "Ang mga bagong borrower sa Ghana ay naghahanap ng mga micro-loan para sa mga kagamitang pang-agrikultura. Tulungang palaguin ang ecosystem!",
+      "explore": "Galugarin ang mga pagkakataon"
+    },
+    "disconnected": {
+      "heading": "Dashboard",
+      "subheading": "Maligayang pagdating sa ZizaLend. Ikonekta ang iyong wallet upang makita ang iyong portfolio.",
+      "walletNotConnected": "Hindi Nakakonekta ang Wallet",
+      "connectPrompt": "Ikonekta ang iyong wallet upang suriin ang iyong on-chain credit score, pamahalaan ang mga aktibong posisyon, at subaybayan ang mga cross-border na remittance.",
+      "connectButton": "Ikonekta ang Wallet"
+    },
+    "reminder": {
+      "due": "Dapat bayaran sa loob ng {hours}h — Loan #{loanId}",
+      "repayNow": "Bayaran ngayon",
+      "dismiss": "Itago ang paalala ng pagbabayad"
+    },
+    "creditScore": {
+      "label": "Credit Score",
+      "tooltip": "Credit Score: Isang on-chain na senyales ng pagiging mapagkakatiwalaan sa pagbabayad. Ang mas mataas na score ay maaaring mag-unlock ng mas magagandang kondisyon sa paglipas ng panahon.",
+      "tooltipLabel": "Impormasyon tungkol sa credit score"
+    }
+  },
+  "ActivityPage": {
+    "title": "Kasaysayan ng Aktibidad",
+    "description": "Tingnan ang lahat ng iyong mga kahilingan pang-pautang, remesa, at transaksyon sa isang lugar.",
+    "notConnected": "Wallet na hindi konektado",
+    "connectWalletToViewActivity": "Ikonekta ang iyong wallet upang makita ang iyong kasaysayan ng aktibidad.",
+    "emptyState": "Walang aktibidad pa. Ang iyong mga transaksyon ay lalitaw dito.",
+    "filters": {
+      "all": "Lahat ng Aktibidad",
+      "loan": "Mga Pautang",
+      "remittance": "Mga Remesa"
+    },
+    "status": {
+      "pending": "Naghihintay",
+      "processing": "Pinoproseso",
+      "active": "Aktibo",
+      "completed": "Nakumpleto",
+      "repaid": "Binayaran",
+      "failed": "Nabigo",
+      "liquidated": "Na-liquidate",
+      "defaulted": "Di-nakamit"
+    },
+    "pagination": {
+      "showing": "Ipinapakita {start}–{end} ng {total} na mga transaksyon",
+      "previous": "Nakaraang",
+      "next": "Susunod"
+    }
+  },
+  "Navigation": {
+    "home": "Tahanan",
+    "loans": "Mga Loan",
+    "repay": "Bayaran",
+    "dashboard": "Dashboard",
+    "activity": "Aktibidad",
+    "notifications": "Mga Notification",
+    "liquidations": "Mga Liquidasyon",
+    "adminDisputes": "Mga Dispute"
+  },
+  "Loans": {
+    "title": "Mga Loan",
+    "description": "Suriin ang mga aktibong pasilidad, mga takdang petsa, at mga panahon ng pagbabayad sa isang lugar.",
+    "borrowerPortal": "Portal ng Borrower",
+    "outstanding": "Natitira",
+    "dueThisWeek": "Dapat Bayaran Ngayong Linggo",
+    "portfolioHealth": "Kalusugan ng Portfolio",
+    "viewDetails": "Tingnan ang mga detalye",
+    "health": {
+      "strong": "Malakas",
+      "watch": "Bantayan",
+      "atRisk": "Nasa Panganib"
+    },
+    "tabs": {
+      "all": "Lahat",
+      "active": "Aktibo",
+      "repaid": "Bayad Na",
+      "defaulted": "Hindi Nabayaran"
+    },
+    "empty": {
+      "title": "Walang nahanap na loan",
+      "description": "Wala ka pang loan sa kategoryang ito.",
+      "action": "Mag-apply ng loan"
+    },
+    "pagination": {
+      "prev": "Nakaraan",
+      "next": "Susunod",
+      "pageOf": "Pahina {current} of {total}"
+    },
+    "loanNumber": "Loan #{id}",
+    "due": "Dapat bayaran sa {date}",
+    "status": {
+      "active": "Aktibo",
+      "pending": "Nakabinbin"
+    }
+  },
+  "Kingdom": {
+    "title": "Dashboard ng Kaharian",
+    "description": "Subaybayan ang iyong pag-unlad, i-unlock ang mga tagumpay, at umangat sa mga ranggo",
+    "welcome": "Maligayang pagdating, {kingdomTitle}!",
+    "level": "Ngayon ay nasa Level {level} ka",
+    "achievements": "Mga Tagumpay",
+    "unlockedCount": "{unlocked} / {total}",
+    "progress": "Pag-unlad",
+    "unlocked": "I-unlock {date}",
+    "repaymentProgress": "Pag-unlad ng Pagbabayad",
+    "nft": {
+      "eyebrow": "Credit Asset",
+      "title": "Remittance NFT",
+      "description": "Tingnan ang on-chain credit asset na nabuo mula sa iyong remittance at repayment history.",
+      "connectTitle": "Ikonekta ang wallet",
+      "connectDescription": "Lalabas dito ang iyong Remittance NFT kapag nakakonekta na ang wallet mo.",
+      "error": "Hindi ma-load ang iyong Remittance NFT ngayon.",
+      "emptyTitle": "Wala pang Remittance NFT",
+      "emptyDescription": "Ipadala ang unang remittance para simulan ang paggawa ng on-chain credit asset.",
+      "emptyAction": "Magpadala ng unang remittance",
+      "score": "Score",
+      "historyHash": "History hash",
+      "defaultCount": "Bilang ng default",
+      "cooldownRemaining": "Natitirang transfer cooldown",
+      "lastUpdateLedger": "Huling update ledger",
+      "metadataUri": "Metadata URI",
+      "ledgers": "{count} na ledger",
+      "notAvailable": "Hindi available"
+    }
+  },
+  "Notifications": {
+    "eyebrow": "Inbox",
+    "title": "Mga Notification",
+    "description": "Suriin ang repayment reminders, score changes, loan updates, at alerts sa iisang lugar.",
+    "viewAll": "Tingnan lahat ng notifications",
+    "unread": "Hindi pa Nababasa",
+    "markRead": "Markahan read",
+    "markAllVisibleRead": "Markahan ang unread bilang read",
+    "filters": {
+      "title": "Mga Filter",
+      "unreadOnly": "Unread lang"
+    },
+    "types": {
+      "all": "Lahat",
+      "loan_approved": "Naaprubahang loan",
+      "repayment_due": "Due na repayment",
+      "repayment_confirmed": "Nakumpirmang repayment",
+      "loan_defaulted": "Defaulted na loan",
+      "score_changed": "Nagbago ang score"
+    },
+    "empty": {
+      "title": "Walang notification",
+      "description": "Lalabas dito ang mga bagong alert at reminder.",
+      "action": "Bumalik sa dashboard"
+    },
+    "error": "Hindi ma-load ang notifications. Subukan ulit.",
+    "pagination": {
+      "summary": "Ipinapakita ang {count} sa {total} notification sa page {page}"
+    }
+  },
+  "LoanCard": {
+    "totalOwed": "Kabuuang Utang",
+    "principal": "Pangunahing Halaga",
+    "accruedInterest": "Naipon na Interes",
+    "interest": "Interes",
+    "nextPayment": "Susunod na Pagbabayad",
+    "daysRemaining": "{days} na araw na natitira",
+    "daysOverdue": "{days} na araw na lintasan",
+    "defaultedLabel": "Kontakin ang support upang makapagrecover",
+    "onTrack": "Sa Track",
+    "dueSoon": "Malapit nang Dapat Bayaran",
+    "overdue": "Lintasan",
+    "defaulted": "Hindi Nabayaran",
+    "repayNow": "Bayaran Ngayon",
+    "payNowOverdue": "Bayaran Ngayon (Lintasan)",
+    "contactSupport": "Kontakin ang Support",
+    "viewDetails": "Tingnan ang Mga Detalye",
+    "details": "Mga Detalye"
+  },
+  "AdminDisputes": {
+    "eyebrow": "Pagsusuri ng Admin",
+    "title": "Mga Dispute",
+    "description": "Suriin ang bukas na default disputes at itala ang pinal na resolusyon.",
+    "checkingAccess": "Sinusuri ang admin access...",
+    "refresh": "I-refresh",
+    "loading": "Naglo-load ng disputes...",
+    "review": "Suriin",
+    "empty": {
+      "title": "Walang bukas na dispute",
+      "description": "Lalabas dito ang bagong borrower disputes kapag naisumite."
+    },
+    "error": {
+      "title": "Hindi ma-load ang disputes",
+      "description": "Suriin ang iyong admin session at subukan muli."
+    },
+    "table": {
+      "borrower": "Nangungutang",
+      "loanId": "ID ng Loan",
+      "reason": "Buod ng dahilan",
+      "submitted": "Isinumite",
+      "action": "Aksyon"
+    },
+    "detail": {
+      "title": "Dispute #{id}",
+      "submitted": "Isinumite ni {borrower} noong {date}",
+      "loading": "Naglo-load ng dispute...",
+      "back": "Bumalik sa disputes",
+      "error": "Hindi ma-load ang dispute na ito.",
+      "reason": "Dahilan ng borrower",
+      "noteLabel": "Tala ng resolusyon",
+      "notePlaceholder": "Ipaliwanag kung bakit kinukumpirma o binabaligtad ang default.",
+      "noteHelp": "Maglagay ng hindi bababa sa 5 character.",
+      "confirmDefault": "Kumpirmahin ang default",
+      "reverseDefault": "Baligtarin ang default",
+      "loan": {
+        "title": "Buod ng kaugnay na loan",
+        "openLoan": "Buksan ang loan",
+        "principal": "Pangunahing Halaga",
+        "totalOwed": "Kabuuang utang",
+        "totalRepaid": "Kabuuang nabayaran",
+        "status": "Katayuan",
+        "nextPayment": "Susunod na bayad"
+      },
+      "modal": {
+        "confirmTitle": "Kumpirmahin ang default na ito?",
+        "confirmDescription": "Mananatiling default ang loan at ise-save ang resolution note.",
+        "reverseTitle": "Baligtarin ang default na ito?",
+        "reverseDescription": "Binabaligtad nito ang default outcome at ise-save ang resolution note.",
+        "close": "Isara",
+        "cancel": "Kanselahin",
+        "submit": "Isumite",
+        "submitting": "Isinusumite..."
+      }
+    }
+  },
+  "Settings": {
+    "language": "Wika",
+    "selectLanguage": "Piliin ang Wika"
+  },
+  "LoanDetails": {
+    "actions": {
+      "refinance": "I-refinance",
+      "requestExtension": "Humiling ng extension"
+    },
+    "common": {
+      "cancel": "Kanselahin",
+      "confirming": "Kinukumpirma..."
+    },
+    "health": {
+      "title": "Kalusugan ng Loan",
+      "loading": "Naglo-load ng health factor...",
+      "unavailableTitle": "Hindi available ang health data",
+      "unavailableDescription": "Hindi pa available ang collateral at debt data para sa loan na ito.",
+      "collateral": "Collateral",
+      "totalDebt": "Kabuuang utang",
+      "threshold": "Limitasyon ng liquidasyon",
+      "sourceContract": "Gamit ang contract health view",
+      "sourceBackend": "Gamit ang backend-computed health data",
+      "sourceDerived": "Derived mula sa collateral at kabuuang utang",
+      "cta": "Magdagdag ng collateral",
+      "states": {
+        "healthy": "Malusog",
+        "watch": "Bantayan",
+        "atRisk": "Nasa panganib"
+      },
+      "descriptions": {
+        "healthy": "Ang collateral coverage ay komportableng nasa itaas ng liquidation threshold.",
+        "watch": "Malapit na ang collateral coverage sa safety margin. Isaalang-alang ang pagdagdag ng collateral.",
+        "atRisk": "Ang loan na ito ay nasa panganib ng liquidation. Magdagdag ng collateral para maibalik ang coverage."
+      }
+    },
+    "refinance": {
+      "title": "I-refinance ang loan",
+      "principal": "Bagong principal na halaga",
+      "interestRate": "Rate ng interes (%)",
+      "term": "Termino",
+      "previewTitle": "Inaasahang amortisasyon",
+      "previewDescription": "Preview ng inaasahang repayment schedule bago pumirma.",
+      "submit": "I-build, Pirmahan at Isumite"
+    },
+    "extension": {
+      "title": "Humiling ng extension",
+      "extraLedgers": "Dagdag na ledgers",
+      "newDueDate": "Bagong due date",
+      "submit": "I-build, Pirmahan at Isumite"
+    }
+  },
+  "Lend": {
+    "cooldownActive": "Available ang withdraw sa humigit-kumulang {minutes} minuto habang aktibo ang cooldown."
+  },
+  "Liquidations": {
+    "eyebrow": "Console ng Liquidator",
+    "title": "Mga Liquidatable Loan",
+    "description": "Suriin ang active positions na mababa sa liquidation threshold at magsumite ng liquidation transactions.",
+    "refresh": "I-refresh",
+    "liquidate": "I-liquidate",
+    "liquidating": "Nili-liquidate...",
+    "pending": "Binubuo ang liquidation transaction...",
+    "success": "Naisumite ang liquidation",
+    "unknownBorrower": "Hindi kilalang borrower",
+    "walletRequired": {
+      "title": "Ikonekta ang wallet",
+      "description": "Ikonekta ang liquidator wallet bago magsumite ng liquidation transactions."
+    },
+    "empty": {
+      "title": "Walang liquidatable loans",
+      "description": "Ang active loans ay kasalukuyang nasa itaas ng liquidation threshold."
+    },
+    "error": {
+      "title": "Hindi ma-load ang liquidations",
+      "description": "Suriin ang liquidations API at subukan muli."
+    },
+    "table": {
+      "loan": "Loan",
+      "borrower": "Nangungutang",
+      "collateral": "Collateral",
+      "debt": "Kabuuang utang",
+      "health": "Kalusugan",
+      "action": "Aksyon"
+    }
+  },
+  "RecentTransactions": {
+    "open": "Buksan ang mga kamakailang transaksyon",
+    "close": "Isara",
+    "title": "Kamakailang transaksyon",
+    "description": "Ang pinakabagong aktibidad mo sa mga loan, remittance, at pool.",
+    "loading": "Naglo-load ng kamakailang aktibidad...",
+    "error": "Hindi ma-load ang mga kamakailang transaksyon.",
+    "empty": "Wala pang kamakailang aktibidad."
+  },
+  "Governance": {
+    "title": "Governance Console",
+    "description": "Mga nakabinbing multisig na panukala at paglilipat ng admin.",
+    "forbidden": "Wala kang access sa bahaging ito.",
+    "loading": "Naglo-load ng mga panukala...",
+    "error": "Hindi ma-load ang governance state.",
+    "empty": "Walang nakabinbing panukala.",
+    "pending": "Nakabinbin",
+    "approved": "Naaprubahan",
+    "pendingProposal": "Nakabinbing panukala",
+    "approvals": "Mga pag-apruba",
+    "currentAdmin": "Kasalukuyang admin",
+    "targetContract": "Target na kontrata",
+    "expiresAt": "Mawawalan ng bisa",
+    "timeToExecutable": "Oras hanggang sa maipatupad"
+  }
+}

@@ -1,0 +1,23 @@
+name: Load Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_url:
+        description: 'Target URL to run the load test against (e.g. deployed staging URL)'
+        required: true
+        default: 'https://staging.ZizaLend.com'
+
+jobs:
+  k6-load-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run k6 baseline load test
+        uses: grafana/k6-action@v0.3.0
+        with:
+          filename: scripts/loadtest/baseline.js
+        env:
+          TARGET_URL: ${{ github.event.inputs.target_url }}

@@ -1,0 +1,31 @@
+#!/bin/sh
+
+STAGED_FILES=$(git diff --cached --name-only)
+
+# Frontend
+if echo "$STAGED_FILES" | grep -q '^frontend/'; then
+  echo "Running frontend lint-staged..."
+  (
+    cd frontend
+    npx lint-staged
+  ) || exit 1
+fi
+
+# Backend
+if echo "$STAGED_FILES" | grep -q '^backend/'; then
+  echo "Running backend checks..."
+  (
+    cd backend
+    npm run lint:fix
+    npm run format
+  ) || exit 1
+fi
+
+# Contracts
+if echo "$STAGED_FILES" | grep -q '^contracts/'; then
+  echo "Running cargo fmt..."
+  (
+    cd contracts
+    cargo fmt --all --check
+  ) || exit 1
+fi

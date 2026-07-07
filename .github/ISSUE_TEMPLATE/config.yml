@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: ZizaLend Telegram
+    url: https://t.me/+DOylgFv1jyJlNzM0
+    about: Please ask and answer questions here.
+  - name: Contributing Guidelines
+    url: https://github.com/LabsCrypt/ZizaLend/blob/main/CONTRIBUTING.md
+    about: Learn how to contribute to the project.
+  - name: Security Policy
+    url: https://github.com/LabsCrypt/ZizaLend/blob/main/SECURITY.md
+    about: Learn how to report security vulnerabilities.

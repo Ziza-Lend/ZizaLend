@@ -1,0 +1,61 @@
+name: CodeQL
+
+# Static security analysis for:
+# - backend/ and frontend/ (JavaScript/TypeScript)
+# - contracts/ (Rust/Soroban smart contracts)
+# Complements the supply-chain-audit job in ci.yml by catching SQL injection,
+# prototype pollution, XSS, path traversal, and ReDoS before they ship.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Weekly, Monday 06:00 UTC — catches newly-published query updates.
+    - cron: "0 6 * * 1"
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      contents: read
+      actions: read
+    strategy:
+      fail-fast: false
+     matrix:
+  language:
+    - javascript-typescript
+    - rust
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          queries: security-and-quality
+
+      # JS/TS needs no compilation; autobuild is a no-op safeguard.
+      - name: Autobuild JS/TS
+  if: matrix.language == 'javascript-typescript'
+  uses: github/codeql-action/autobuild@v3
+
+- name: Install Rust toolchain
+  if: matrix.language == 'rust'
+  uses: dtolnay/rust-toolchain@stable
+  with:
+    targets: wasm32-unknown-unknown
+
+- name: Build Soroban contracts workspace
+  if: matrix.language == 'rust'
+  working-directory: contracts
+  run: cargo build --workspace --target wasm32-unknown-unknown
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"

@@ -1,0 +1,368 @@
+{
+  "HomePage": {
+    "title": "Bienvenido, {address}",
+    "description": "Potenciar la inclusión financiera transfronteriza a través de micropréstamos respaldados por remesas.",
+    "getStarted": "Empezar",
+    "learnMore": "Aprender más",
+    "stats": {
+      "netWorth": "Valor neto",
+      "activeLoans": "Préstamos activos",
+      "totalRemitted": "Total remetido",
+      "yieldApy": "Rendimiento (APY)"
+    },
+    "activity": {
+      "title": "Actividad reciente",
+      "viewAll": "Ver todo",
+      "emptyTitle": "Aun no hay actividad",
+      "empty": "Aún no hay actividad reciente. Sus transacciones aparecerán aquí."
+    },
+    "quickActions": {
+      "title": "Acciones rápidas",
+      "applyLoan": "Solicitar préstamo",
+      "applyLoanDesc": "Obtenga liquidez instantánea",
+      "sendRemittance": "Enviar remesa",
+      "sendRemittanceDesc": "Transferir fondos globalmente"
+    },
+    "outreach": {
+      "title": "Alcance comunitario",
+      "description": "Nuevos prestatarios en Ghana buscan micropréstamos para herramientas agrícolas. ¡Ayuda a hacer crecer el ecosistema!",
+      "explore": "Explorar oportunidades"
+    },
+    "disconnected": {
+      "heading": "Tablero",
+      "subheading": "Bienvenido a ZizaLend. Por favor conecta tu billetera para ver tu portafolio.",
+      "walletNotConnected": "Billetera no conectada",
+      "connectPrompt": "Conecta tu billetera para analizar tu puntuación crediticia on-chain, gestionar posiciones activas y rastrear remesas internacionales.",
+      "connectButton": "Conectar billetera"
+    },
+    "reminder": {
+      "due": "Pago pendiente en {hours}h — Préstamo #{loanId}",
+      "repayNow": "Pagar ahora",
+      "dismiss": "Descartar recordatorio de pago"
+    },
+    "creditScore": {
+      "label": "Puntuación crediticia",
+      "tooltip": "Puntuación crediticia: una señal on-chain de confiabilidad de pago. Las puntuaciones más altas pueden desbloquear mejores condiciones con el tiempo.",
+      "tooltipLabel": "Información sobre puntuación crediticia"
+    }
+  },
+  "ActivityPage": {
+    "title": "Historial de actividad",
+    "description": "Ver todas tus solicitudes de préstamo, remesas y transacciones en un solo lugar.",
+    "notConnected": "Cartera no conectada",
+    "connectWalletToViewActivity": "Conecte su cartera para ver su historial de actividad.",
+    "emptyState": "Sin actividad aún. Sus transacciones aparecerán aquí.",
+    "filters": {
+      "all": "Toda la actividad",
+      "loan": "Préstamos",
+      "remittance": "Remesas"
+    },
+    "status": {
+      "pending": "Pendiente",
+      "processing": "Procesando",
+      "active": "Activo",
+      "completed": "Completado",
+      "repaid": "Pagado",
+      "failed": "Fallido",
+      "liquidated": "Liquidado",
+      "defaulted": "Incumplido"
+    },
+    "pagination": {
+      "showing": "Mostrando {start}–{end} de {total} transacciones",
+      "previous": "Anterior",
+      "next": "Siguiente"
+    }
+  },
+  "Navigation": {
+    "home": "Inicio",
+    "loans": "Préstamos",
+    "repay": "Repagar",
+    "dashboard": "Tablero",
+    "activity": "Actividad",
+    "notifications": "Notificaciones",
+    "liquidations": "Liquidaciones",
+    "adminDisputes": "Disputas"
+  },
+  "Loans": {
+    "title": "Préstamos",
+    "description": "Revise las instalaciones activas, las fechas de vencimiento y los periodos de reembolso en un solo lugar.",
+    "borrowerPortal": "Portal del Prestatario",
+    "outstanding": "Pendiente",
+    "dueThisWeek": "Vence esta semana",
+    "portfolioHealth": "Salud de la cartera",
+    "viewDetails": "Ver detalles",
+    "health": {
+      "strong": "Fuerte",
+      "watch": "Vigilar",
+      "atRisk": "En riesgo"
+    },
+    "tabs": {
+      "all": "Todos",
+      "active": "Activos",
+      "repaid": "Pagados",
+      "defaulted": "Incumplidos"
+    },
+    "empty": {
+      "title": "No se encontraron préstamos",
+      "description": "Aún no tienes préstamos en esta categoría.",
+      "action": "Solicitar un préstamo"
+    },
+    "pagination": {
+      "prev": "Anterior",
+      "next": "Siguiente",
+      "pageOf": "Página {current} de {total}"
+    },
+    "loanNumber": "Préstamo #{id}",
+    "due": "Vence el {date}",
+    "status": {
+      "active": "Activo",
+      "pending": "Pendiente"
+    }
+  },
+  "Kingdom": {
+    "title": "Panel del Reino",
+    "description": "Rastrear tu progreso, desbloquear logros y subir de rango",
+    "welcome": "¡Bienvenido, {kingdomTitle}!",
+    "level": "Actualmente estás en el Nivel {level}",
+    "achievements": "Logros",
+    "unlockedCount": "{unlocked} / {total}",
+    "progress": "Progreso",
+    "unlocked": "Desbloqueado {date}",
+    "repaymentProgress": "Progreso de reembolso",
+    "nft": {
+      "eyebrow": "Activo crediticio",
+      "title": "Remittance NFT",
+      "description": "Consulta el activo crediticio en cadena creado a partir de tus remesas e historial de pagos.",
+      "connectTitle": "Conecta tu billetera",
+      "connectDescription": "Tu Remittance NFT aparecerá aquí cuando conectes tu billetera.",
+      "error": "No se pudo cargar tu Remittance NFT en este momento.",
+      "emptyTitle": "Aún no tienes Remittance NFT",
+      "emptyDescription": "Envía tu primera remesa para empezar a construir un activo crediticio en cadena.",
+      "emptyAction": "Enviar primera remesa",
+      "score": "Puntaje",
+      "historyHash": "Hash del historial",
+      "defaultCount": "Incumplimientos",
+      "cooldownRemaining": "Enfriamiento de transferencia restante",
+      "lastUpdateLedger": "Último ledger actualizado",
+      "metadataUri": "URI de metadatos",
+      "ledgers": "{count} ledgers",
+      "notAvailable": "No disponible"
+    }
+  },
+  "Notifications": {
+    "eyebrow": "Bandeja",
+    "title": "Notificaciones",
+    "description": "Revisa recordatorios de pago, cambios de puntaje, actualizaciones de préstamos y alertas en un solo lugar.",
+    "viewAll": "Ver todas las notificaciones",
+    "unread": "No leída",
+    "markRead": "Marcar leída",
+    "markAllVisibleRead": "Marcar no leídas como leídas",
+    "filters": {
+      "title": "Filtros",
+      "unreadOnly": "Solo no leídas"
+    },
+    "types": {
+      "all": "Todas",
+      "loan_approved": "Préstamo aprobado",
+      "repayment_due": "Pago pendiente",
+      "repayment_confirmed": "Pago confirmado",
+      "loan_defaulted": "Préstamo en incumplimiento",
+      "score_changed": "Puntaje cambiado"
+    },
+    "empty": {
+      "title": "No se encontraron notificaciones",
+      "description": "Las nuevas alertas y recordatorios aparecerán aquí.",
+      "action": "Volver al panel"
+    },
+    "error": "No se pudieron cargar las notificaciones. Inténtalo de nuevo.",
+    "pagination": {
+      "summary": "Mostrando {count} de {total} notificaciones en la página {page}"
+    }
+  },
+  "LoanCard": {
+    "totalOwed": "Total adeudado",
+    "principal": "Principal",
+    "accruedInterest": "Interés acumulado",
+    "interest": "Interés",
+    "nextPayment": "Próximo pago",
+    "daysRemaining": "{days} días restantes",
+    "daysOverdue": "{days} días vencidos",
+    "defaultedLabel": "Contacta a soporte para recuperar",
+    "onTrack": "En camino",
+    "dueSoon": "Vence pronto",
+    "overdue": "Vencido",
+    "defaulted": "Incumplido",
+    "repayNow": "Repagar ahora",
+    "payNowOverdue": "Pagar ahora (Vencido)",
+    "contactSupport": "Contactar soporte",
+    "viewDetails": "Ver detalles",
+    "details": "Detalles"
+  },
+  "AdminDisputes": {
+    "eyebrow": "Consola admin",
+    "title": "Disputas",
+    "description": "Revise disputas abiertas de incumplimiento y registre la resolucion final.",
+    "checkingAccess": "Comprobando acceso de admin...",
+    "refresh": "Actualizar",
+    "loading": "Cargando disputas...",
+    "review": "Revisar",
+    "empty": {
+      "title": "No hay disputas abiertas",
+      "description": "Las nuevas disputas de prestatarios apareceran aqui cuando se envien."
+    },
+    "error": {
+      "title": "No se pudieron cargar las disputas",
+      "description": "Revise su sesion de admin e intente de nuevo."
+    },
+    "table": {
+      "borrower": "Prestatario",
+      "loanId": "ID del prestamo",
+      "reason": "Resumen de la razon",
+      "submitted": "Enviado",
+      "action": "Accion"
+    },
+    "detail": {
+      "title": "Disputa #{id}",
+      "submitted": "Enviada por {borrower} el {date}",
+      "loading": "Cargando disputa...",
+      "back": "Volver a disputas",
+      "error": "No se pudo cargar esta disputa.",
+      "reason": "Razon del prestatario",
+      "noteLabel": "Nota de resolucion",
+      "notePlaceholder": "Explique por que se confirma o revierte el incumplimiento.",
+      "noteHelp": "Ingrese al menos 5 caracteres.",
+      "confirmDefault": "Confirmar incumplimiento",
+      "reverseDefault": "Revertir incumplimiento",
+      "loan": {
+        "title": "Resumen del prestamo vinculado",
+        "openLoan": "Abrir prestamo",
+        "principal": "Principal",
+        "totalOwed": "Total adeudado",
+        "totalRepaid": "Total pagado",
+        "status": "Estado",
+        "nextPayment": "Proximo pago"
+      },
+      "modal": {
+        "confirmTitle": "Confirmar este incumplimiento?",
+        "confirmDescription": "Esto mantiene el prestamo en incumplimiento y guarda la nota de resolucion.",
+        "reverseTitle": "Revertir este incumplimiento?",
+        "reverseDescription": "Esto revierte el resultado de incumplimiento y guarda la nota de resolucion.",
+        "close": "Cerrar",
+        "cancel": "Cancelar",
+        "submit": "Enviar",
+        "submitting": "Enviando..."
+      }
+    }
+  },
+  "Settings": {
+    "language": "Idioma",
+    "selectLanguage": "Seleccione el idioma"
+  },
+  "LoanDetails": {
+    "actions": {
+      "refinance": "Refinanciar",
+      "requestExtension": "Solicitar extensión"
+    },
+    "common": {
+      "cancel": "Cancelar",
+      "confirming": "Confirmando..."
+    },
+    "health": {
+      "title": "Salud del prestamo",
+      "loading": "Cargando factor de salud...",
+      "unavailableTitle": "Datos de salud no disponibles",
+      "unavailableDescription": "Los datos de garantia y deuda aun no estan disponibles para este prestamo.",
+      "collateral": "Garantia",
+      "totalDebt": "Deuda total",
+      "threshold": "Umbral de liquidacion",
+      "sourceContract": "Usando vista de salud del contrato",
+      "sourceBackend": "Usando datos de salud calculados por backend",
+      "sourceDerived": "Derivado de garantia y deuda total",
+      "cta": "Agregar garantia",
+      "states": {
+        "healthy": "Saludable",
+        "watch": "Vigilar",
+        "atRisk": "En riesgo"
+      },
+      "descriptions": {
+        "healthy": "La cobertura de garantia esta comodamente por encima del umbral de liquidacion.",
+        "watch": "La cobertura de garantia esta cerca del margen de seguridad. Considere agregar garantia.",
+        "atRisk": "Este prestamo esta en riesgo de liquidacion. Agregue garantia para restaurar la cobertura."
+      }
+    },
+    "refinance": {
+      "title": "Refinanciar préstamo",
+      "principal": "Nuevo monto principal",
+      "interestRate": "Tasa de interés (%)",
+      "term": "Plazo",
+      "previewTitle": "Amortización proyectada",
+      "previewDescription": "Vista previa del plan de pago esperado antes de firmar.",
+      "submit": "Construir, Firmar y Enviar"
+    },
+    "extension": {
+      "title": "Solicitar extensión",
+      "extraLedgers": "Ledgers adicionales",
+      "newDueDate": "Nueva fecha de vencimiento",
+      "submit": "Construir, Firmar y Enviar"
+    }
+  },
+  "Lend": {
+    "cooldownActive": "Retiro disponible en aproximadamente {minutes} minuto(s) mientras el enfriamiento está activo."
+  },
+  "Liquidations": {
+    "eyebrow": "Consola de liquidadores",
+    "title": "Prestamos liquidables",
+    "description": "Revise posiciones activas bajo el umbral de liquidacion y envie transacciones de liquidacion.",
+    "refresh": "Actualizar",
+    "liquidate": "Liquidar",
+    "liquidating": "Liquidando...",
+    "pending": "Construyendo transaccion de liquidacion...",
+    "success": "Liquidacion enviada",
+    "unknownBorrower": "Prestatario desconocido",
+    "walletRequired": {
+      "title": "Conecte la billetera",
+      "description": "Conecte una billetera de liquidador antes de enviar transacciones de liquidacion."
+    },
+    "empty": {
+      "title": "No hay prestamos liquidables",
+      "description": "Los prestamos activos estan actualmente por encima del umbral de liquidacion."
+    },
+    "error": {
+      "title": "No se pudieron cargar las liquidaciones",
+      "description": "Revise la API de liquidaciones e intente de nuevo."
+    },
+    "table": {
+      "loan": "Prestamo",
+      "borrower": "Prestatario",
+      "collateral": "Garantia",
+      "debt": "Deuda total",
+      "health": "Salud",
+      "action": "Accion"
+    }
+  },
+  "RecentTransactions": {
+    "open": "Abrir transacciones recientes",
+    "close": "Cerrar",
+    "title": "Transacciones recientes",
+    "description": "Tu actividad mas reciente en prestamos, remesas y operaciones del pool.",
+    "loading": "Cargando actividad reciente...",
+    "error": "No se pudieron cargar las transacciones recientes.",
+    "empty": "Aun no hay actividad reciente."
+  },
+  "Governance": {
+    "title": "Consola de gobernanza",
+    "description": "Propuestas multisig pendientes y transiciones de administrador.",
+    "forbidden": "No tienes acceso a esta seccion.",
+    "loading": "Cargando propuestas...",
+    "error": "No se pudo cargar el estado de gobernanza.",
+    "empty": "No hay propuestas pendientes.",
+    "pending": "Pendiente",
+    "approved": "Aprobada",
+    "pendingProposal": "Propuesta pendiente",
+    "approvals": "Aprobaciones",
+    "currentAdmin": "Administrador actual",
+    "targetContract": "Contrato objetivo",
+    "expiresAt": "Expira",
+    "timeToExecutable": "Tiempo hasta ejecutable"
+  }
+}

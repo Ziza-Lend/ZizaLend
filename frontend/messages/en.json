@@ -1,0 +1,368 @@
+{
+  "HomePage": {
+    "title": "Welcome, {address}",
+    "description": "Empowering cross-border financial inclusion through micro-loans backed by remittances.",
+    "getStarted": "Get Started",
+    "learnMore": "Learn More",
+    "stats": {
+      "netWorth": "Net Worth",
+      "activeLoans": "Active Loans",
+      "totalRemitted": "Total Remitted",
+      "yieldApy": "Yield (APY)"
+    },
+    "activity": {
+      "title": "Recent Activity",
+      "viewAll": "View All",
+      "emptyTitle": "No activity yet",
+      "empty": "No recent activity yet. Your transactions will appear here."
+    },
+    "quickActions": {
+      "title": "Quick Actions",
+      "applyLoan": "Apply for Loan",
+      "applyLoanDesc": "Get instant liquidity",
+      "sendRemittance": "Send Remittance",
+      "sendRemittanceDesc": "Transfer funds globally"
+    },
+    "outreach": {
+      "title": "Community Outreach",
+      "description": "New borrowers in Ghana are looking for micro-loans for agricultural tools. Help grow the ecosystem!",
+      "explore": "Explore Opportunities"
+    },
+    "disconnected": {
+      "heading": "Dashboard",
+      "subheading": "Welcome to ZizaLend. Please connect your wallet to view your portfolio.",
+      "walletNotConnected": "Wallet Not Connected",
+      "connectPrompt": "Connect your wallet to analyze your on-chain credit score, manage active positions, and track cross-border remittances.",
+      "connectButton": "Connect Wallet"
+    },
+    "reminder": {
+      "due": "Repayment due in {hours}h — Loan #{loanId}",
+      "repayNow": "Repay now",
+      "dismiss": "Dismiss repayment reminder"
+    },
+    "creditScore": {
+      "label": "Credit Score",
+      "tooltip": "Credit Score: An on-chain signal of repayment reliability. Higher scores can unlock better terms over time.",
+      "tooltipLabel": "Credit score info"
+    }
+  },
+  "ActivityPage": {
+    "title": "Activity History",
+    "description": "View all your loan requests, remittances, and transactions in one place.",
+    "notConnected": "Wallet Not Connected",
+    "connectWalletToViewActivity": "Connect your wallet to view your activity history.",
+    "emptyState": "No activity yet. Your transactions will appear here.",
+    "filters": {
+      "all": "All Activity",
+      "loan": "Loans",
+      "remittance": "Remittances"
+    },
+    "status": {
+      "pending": "Pending",
+      "processing": "Processing",
+      "active": "Active",
+      "completed": "Completed",
+      "repaid": "Repaid",
+      "failed": "Failed",
+      "liquidated": "Liquidated",
+      "defaulted": "Defaulted"
+    },
+    "pagination": {
+      "showing": "Showing {start}–{end} of {total} transactions",
+      "previous": "Previous",
+      "next": "Next"
+    }
+  },
+  "Navigation": {
+    "home": "Home",
+    "loans": "Loans",
+    "repay": "Repay",
+    "dashboard": "Dashboard",
+    "activity": "Activity",
+    "notifications": "Notifications",
+    "liquidations": "Liquidations",
+    "adminDisputes": "Disputes"
+  },
+  "Loans": {
+    "title": "Loans",
+    "description": "Review active facilities, due dates, and repayment windows from one place.",
+    "borrowerPortal": "Borrower Portal",
+    "outstanding": "Outstanding",
+    "dueThisWeek": "Due This Week",
+    "portfolioHealth": "Portfolio Health",
+    "viewDetails": "View details",
+    "health": {
+      "strong": "Strong",
+      "watch": "Watch",
+      "atRisk": "At Risk"
+    },
+    "tabs": {
+      "all": "All",
+      "active": "Active",
+      "repaid": "Repaid",
+      "defaulted": "Defaulted"
+    },
+    "empty": {
+      "title": "No loans found",
+      "description": "You do not have loans in this category yet.",
+      "action": "Request a loan"
+    },
+    "pagination": {
+      "prev": "Prev",
+      "next": "Next",
+      "pageOf": "Page {current} of {total}"
+    },
+    "loanNumber": "Loan #{id}",
+    "due": "Due {date}",
+    "status": {
+      "active": "Active",
+      "pending": "Pending"
+    }
+  },
+  "Kingdom": {
+    "title": "Kingdom Dashboard",
+    "description": "Track your progress, unlock achievements, and rise through the ranks",
+    "welcome": "Welcome, {kingdomTitle}!",
+    "level": "You are currently at Level {level}",
+    "achievements": "Achievements",
+    "unlockedCount": "{unlocked} / {total}",
+    "progress": "Progress",
+    "unlocked": "Unlocked {date}",
+    "repaymentProgress": "Repayment Progress",
+    "nft": {
+      "eyebrow": "Credit Asset",
+      "title": "Remittance NFT",
+      "description": "View the on-chain credit asset built from your remittance and repayment history.",
+      "connectTitle": "Connect your wallet",
+      "connectDescription": "Your Remittance NFT appears here once your wallet is connected.",
+      "error": "Unable to load your Remittance NFT right now.",
+      "emptyTitle": "No Remittance NFT yet",
+      "emptyDescription": "Send your first remittance to start building an on-chain credit asset.",
+      "emptyAction": "Send first remittance",
+      "score": "Score",
+      "historyHash": "History hash",
+      "defaultCount": "Default count",
+      "cooldownRemaining": "Transfer cooldown remaining",
+      "lastUpdateLedger": "Last update ledger",
+      "metadataUri": "Metadata URI",
+      "ledgers": "{count} ledgers",
+      "notAvailable": "Not available"
+    }
+  },
+  "Notifications": {
+    "eyebrow": "Inbox",
+    "title": "Notifications",
+    "description": "Review repayment reminders, score changes, loan updates, and alerts from one place.",
+    "viewAll": "View all notifications",
+    "unread": "Unread",
+    "markRead": "Mark read",
+    "markAllVisibleRead": "Mark unread as read",
+    "filters": {
+      "title": "Filters",
+      "unreadOnly": "Unread only"
+    },
+    "types": {
+      "all": "All",
+      "loan_approved": "Loan approved",
+      "repayment_due": "Repayment due",
+      "repayment_confirmed": "Repayment confirmed",
+      "loan_defaulted": "Loan defaulted",
+      "score_changed": "Score changed"
+    },
+    "empty": {
+      "title": "No notifications found",
+      "description": "New alerts and reminders will appear here.",
+      "action": "Back to dashboard"
+    },
+    "error": "Unable to load notifications. Please try again.",
+    "pagination": {
+      "summary": "Showing {count} of {total} notifications on page {page}"
+    }
+  },
+  "LoanCard": {
+    "totalOwed": "Total Owed",
+    "principal": "Principal",
+    "accruedInterest": "Accrued Interest",
+    "interest": "Interest",
+    "nextPayment": "Next Payment",
+    "daysRemaining": "{days} days remaining",
+    "daysOverdue": "{days} days overdue",
+    "defaultedLabel": "Contact support to recover",
+    "onTrack": "On Track",
+    "dueSoon": "Due Soon",
+    "overdue": "Overdue",
+    "defaulted": "Defaulted",
+    "repayNow": "Repay Now",
+    "payNowOverdue": "Pay Now (Overdue)",
+    "contactSupport": "Contact Support",
+    "viewDetails": "View Details",
+    "details": "Details"
+  },
+  "AdminDisputes": {
+    "eyebrow": "Admin Review",
+    "title": "Disputes",
+    "description": "Review open default disputes and record the final resolution.",
+    "checkingAccess": "Checking admin access...",
+    "refresh": "Refresh",
+    "loading": "Loading disputes...",
+    "review": "Review",
+    "empty": {
+      "title": "No open disputes",
+      "description": "New borrower disputes will appear here as they are filed."
+    },
+    "error": {
+      "title": "Unable to load disputes",
+      "description": "Check your admin session and try again."
+    },
+    "table": {
+      "borrower": "Borrower",
+      "loanId": "Loan ID",
+      "reason": "Reason summary",
+      "submitted": "Submitted",
+      "action": "Action"
+    },
+    "detail": {
+      "title": "Dispute #{id}",
+      "submitted": "Filed by {borrower} on {date}",
+      "loading": "Loading dispute...",
+      "back": "Back to disputes",
+      "error": "This dispute could not be loaded.",
+      "reason": "Borrower's reason",
+      "noteLabel": "Resolution note",
+      "notePlaceholder": "Explain why the default is being confirmed or reversed.",
+      "noteHelp": "Enter at least 5 characters.",
+      "confirmDefault": "Confirm default",
+      "reverseDefault": "Reverse default",
+      "loan": {
+        "title": "Linked loan summary",
+        "openLoan": "Open loan",
+        "principal": "Principal",
+        "totalOwed": "Total owed",
+        "totalRepaid": "Total repaid",
+        "status": "Status",
+        "nextPayment": "Next payment"
+      },
+      "modal": {
+        "confirmTitle": "Confirm this default?",
+        "confirmDescription": "This keeps the loan in default and stores the resolution note.",
+        "reverseTitle": "Reverse this default?",
+        "reverseDescription": "This reverses the default outcome and stores the resolution note.",
+        "close": "Close",
+        "cancel": "Cancel",
+        "submit": "Submit",
+        "submitting": "Submitting..."
+      }
+    }
+  },
+  "Settings": {
+    "language": "Language",
+    "selectLanguage": "Select Language"
+  },
+  "LoanDetails": {
+    "actions": {
+      "refinance": "Refinance",
+      "requestExtension": "Request extension"
+    },
+    "common": {
+      "cancel": "Cancel",
+      "confirming": "Confirming..."
+    },
+    "health": {
+      "title": "Loan health",
+      "loading": "Loading health factor...",
+      "unavailableTitle": "Health data unavailable",
+      "unavailableDescription": "Collateral and debt data are not available for this loan yet.",
+      "collateral": "Collateral",
+      "totalDebt": "Total debt",
+      "threshold": "Liquidation threshold",
+      "sourceContract": "Using contract health view",
+      "sourceBackend": "Using backend-computed health data",
+      "sourceDerived": "Derived from collateral and total debt",
+      "cta": "Add collateral",
+      "states": {
+        "healthy": "Healthy",
+        "watch": "Watch",
+        "atRisk": "At risk"
+      },
+      "descriptions": {
+        "healthy": "Collateral coverage is comfortably above the liquidation threshold.",
+        "watch": "Collateral coverage is close to the safety margin. Consider adding collateral.",
+        "atRisk": "This loan is at risk of liquidation. Add collateral to restore coverage."
+      }
+    },
+    "refinance": {
+      "title": "Refinance loan",
+      "principal": "New principal amount",
+      "interestRate": "Interest rate (%)",
+      "term": "Term",
+      "previewTitle": "Projected amortization",
+      "previewDescription": "Preview of expected repayment schedule before signing.",
+      "submit": "Build, Sign & Submit"
+    },
+    "extension": {
+      "title": "Request extension",
+      "extraLedgers": "Additional ledgers",
+      "newDueDate": "New due date",
+      "submit": "Build, Sign & Submit"
+    }
+  },
+  "Lend": {
+    "cooldownActive": "Withdraw available in about {minutes} minute(s) while cooldown is active."
+  },
+  "Liquidations": {
+    "eyebrow": "Liquidator Console",
+    "title": "Liquidatable Loans",
+    "description": "Review active positions below the liquidation threshold and submit liquidation transactions.",
+    "refresh": "Refresh",
+    "liquidate": "Liquidate",
+    "liquidating": "Liquidating...",
+    "pending": "Building liquidation transaction...",
+    "success": "Liquidation submitted",
+    "unknownBorrower": "Unknown borrower",
+    "walletRequired": {
+      "title": "Connect wallet",
+      "description": "Connect a liquidator wallet before submitting liquidation transactions."
+    },
+    "empty": {
+      "title": "No liquidatable loans",
+      "description": "Active loans are currently above the liquidation threshold."
+    },
+    "error": {
+      "title": "Unable to load liquidations",
+      "description": "Check the liquidations API and try again."
+    },
+    "table": {
+      "loan": "Loan",
+      "borrower": "Borrower",
+      "collateral": "Collateral",
+      "debt": "Total debt",
+      "health": "Health",
+      "action": "Action"
+    }
+  },
+  "RecentTransactions": {
+    "open": "Open recent transactions",
+    "close": "Close",
+    "title": "Recent transactions",
+    "description": "Your latest activity across loans, remittances, and pool operations.",
+    "loading": "Loading recent activity…",
+    "error": "Could not load recent transactions. Please try again.",
+    "empty": "No recent activity yet."
+  },
+  "Governance": {
+    "title": "Governance Console",
+    "description": "Pending multisig proposals and admin transitions.",
+    "forbidden": "You don't have access to this area.",
+    "loading": "Loading proposals…",
+    "error": "Could not load governance state.",
+    "empty": "No pending proposals.",
+    "pending": "Pending",
+    "approved": "Approved",
+    "pendingProposal": "Pending proposal",
+    "approvals": "Approvals",
+    "currentAdmin": "Current admin",
+    "targetContract": "Target contract",
+    "expiresAt": "Expires at",
+    "timeToExecutable": "Time to executable"
+  }
+}

@@ -1,0 +1,16 @@
+name: Contracts Security
+description: Report a security vulnerability in the smart contracts
+title: "[Security]: "
+labels: ["security"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## ⚠️ Private Disclosure Preferred
+        Please do NOT report security vulnerabilities in public issues.
+        Refer to our [SECURITY.md](../SECURITY.md) for instructions on how to privately disclose security issues.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: If you must report it here, please keep details abstract until we can move to a private channel.

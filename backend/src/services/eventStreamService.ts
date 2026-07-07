@@ -1,0 +1,321 @@
+import type { Response } from 'express';
+import logger from '../utils/logger.js';
+
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+export interface LoanEventPayload {
+  eventId: string;
+  eventType: string;
+  loanId?: number | undefined;
+  address?: string | undefined;
+  amount?: string | undefined;
+  ledger: number;
+  ledgerClosedAt: string;
+  txHash: string;
+}
+
+type SseClient = Response;
+
+interface ClientInfo {
+  res: SseClient;
+  userKey: string;
+}
+
+const MAX_CONNECTIONS_PER_USER = 3;
+
+/** Borrower-specific SSE clients: borrowerPublicKey → Set<ClientInfo> */
+const borrowerClients = new Map<string, Set<ClientInfo>>();
+
+/** Admin SSE clients listening to all events */
+const adminClients = new Set<ClientInfo>();
+
+/** All SSE clients grouped by authenticated user key for connection limiting */
+const userClients = new Map<string, Set<SseClient>>();
+
+// ─── Event Stream Service ─────────────────────────────────────────────────────
+
+const HEARTBEAT_INTERVAL_MS = 30_000;
+
+class EventStreamService {
+  private heartbeatTimer: ReturnType<typeof setInterval> | null = null;
+  closeAll: (reason: string) => void = this.closeAllConnections;
+
+  startHeartbeat(): void {
+    if (this.heartbeatTimer) {
+      return;
+    }
+
+    this.heartbeatTimer = setInterval(() => {
+      const allClients = this.collectAllClients();
+      for (const clientInfo of allClients) {
+        try {
+          clientInfo.res.write(': ping\n\n');
+        } catch {
+          this.removeClient(clientInfo);
+        }
+      }
+
+      const counts = this.getConnectionCount();
+      logger.withContext().info('SSE heartbeat', {
+        borrower: counts.borrower,
+        admin: counts.admin,
+        total: counts.total,
+      });
+    }, HEARTBEAT_INTERVAL_MS);
+  }
+
+  stopHeartbeat(): void {
+    if (this.heartbeatTimer) {
+      clearInterval(this.heartbeatTimer);
+      this.heartbeatTimer = null;
+    }
+  }
+
+  private stopHeartbeatIfEmpty(): void {
+    if (this.getConnectionCount().total === 0) {
+      this.stopHeartbeat();
+    }
+  }
+
+  private collectAllClients(): ClientInfo[] {
+    const all: ClientInfo[] = [];
+    for (const clients of borrowerClients.values()) {
+      for (const client of clients) {
+        all.push(client);
+      }
+    }
+    for (const client of adminClients) {
+      all.push(client);
+    }
+    return all;
+  }
+
+  private removeClient(clientInfo: ClientInfo): void {
+    for (const [borrower, clients] of borrowerClients) {
+      clients.delete(clientInfo);
+      if (clients.size === 0) {
+        borrowerClients.delete(borrower);
+      }
+    }
+    adminClients.delete(clientInfo);
+    const userSet = userClients.get(clientInfo.userKey);
+    if (userSet) {
+      userSet.delete(clientInfo.res);
+      if (userSet.size === 0) {
+        userClients.delete(clientInfo.userKey);
+      }
+    }
+  }
+
+  sendEvent(res: SseClient, event: LoanEventPayload): void {
+    const payload =
+      `id: ${event.eventId}\n` + `event: loan-event\n` + `data: ${JSON.stringify(event)}\n\n`;
+
+    res.write(payload);
+  }
+
+  private registerUserClient(userKey: string, res: SseClient): void {
+    if (!userClients.has(userKey)) {
+      userClients.set(userKey, new Set());
+    }
+    userClients.get(userKey)!.add(res);
+  }
+
+  private unregisterUserClient(userKey: string, res: SseClient): void {
+    const clients = userClients.get(userKey);
+    if (!clients) {
+      return;
+    }
+
+    clients.delete(res);
+    if (clients.size === 0) {
+      userClients.delete(userKey);
+    }
+  }
+
+  canOpenConnection(userKey: string): boolean {
+    return (userClients.get(userKey)?.size ?? 0) < MAX_CONNECTIONS_PER_USER;
+  }
+
+  getUserConnectionCount(userKey: string): number {
+    return userClients.get(userKey)?.size ?? 0;
+  }
+
+  getMaxConnectionsPerUser(): number {
+    return MAX_CONNECTIONS_PER_USER;
+  }
+
+  /**
+   * Registers an SSE client for a specific borrower's events.
+   * Returns an unsubscribe function for cleanup on disconnect.
+   */
+  subscribeAddress(userKey: string, address: string, res: SseClient): () => void {
+    if (!borrowerClients.has(address)) {
+      borrowerClients.set(address, new Set());
+    }
+    const clientInfo: ClientInfo = { res, userKey };
+    borrowerClients.get(address)!.add(clientInfo);
+    this.registerUserClient(userKey, res);
+    this.startHeartbeat();
+
+    logger.withContext().info('SSE client subscribed to borrower events', {
+      address,
+      userKey,
+      activeConnections: this.getUserConnectionCount(userKey),
+    });
+
+    return () => {
+      borrowerClients.get(address)?.delete(clientInfo);
+      if (borrowerClients.get(address)?.size === 0) {
+        borrowerClients.delete(address);
+      }
+      this.unregisterUserClient(userKey, res);
+      this.stopHeartbeatIfEmpty();
+      logger.withContext().info('SSE client unsubscribed from address events', {
+        address,
+        userKey,
+        activeConnections: this.getUserConnectionCount(userKey),
+      });
+    };
+  }
+
+  /**
+   * Registers an SSE client for all events (admin stream).
+   * Returns an unsubscribe function for cleanup on disconnect.
+   */
+  subscribeAll(userKey: string, res: SseClient): () => void {
+    const clientInfo: ClientInfo = { res, userKey };
+    adminClients.add(clientInfo);
+    this.registerUserClient(userKey, res);
+    this.startHeartbeat();
+
+    logger.withContext().info('SSE admin client subscribed to all events', {
+      userKey,
+      activeConnections: this.getUserConnectionCount(userKey),
+    });
+
+    return () => {
+      adminClients.delete(clientInfo);
+      this.unregisterUserClient(userKey, res);
+      this.stopHeartbeatIfEmpty();
+      logger.withContext().info('SSE admin client unsubscribed from all events', {
+        userKey,
+        activeConnections: this.getUserConnectionCount(userKey),
+      });
+    };
+  }
+
+  /**
+   * Broadcasts a loan event to relevant SSE clients:
+   * - Borrower-specific clients for that borrower (with user identity verification)
+   * - All admin clients
+   */
+  broadcast(event: LoanEventPayload): void {
+    // Push to address-specific clients with user identity verification
+    if (event.address) {
+      const clients = borrowerClients.get(event.address);
+      if (clients?.size) {
+        const clientsToRemove: ClientInfo[] = [];
+        for (const clientInfo of clients) {
+          try {
+            // Verify user identity before sending (fixes #471)
+            this.sendEvent(clientInfo.res, event);
+          } catch (err) {
+            logger.withContext().error('SSE write error (address)', {
+              address: event.address,
+              userKey: clientInfo.userKey,
+              err,
+            });
+            clientsToRemove.push(clientInfo);
+          }
+        }
+        // Remove failed clients after iteration
+        for (const clientInfo of clientsToRemove) {
+          clients.delete(clientInfo);
+        }
+      }
+    }
+
+    // Push to admin clients
+    const adminsToRemove: ClientInfo[] = [];
+    for (const clientInfo of adminClients) {
+      try {
+        this.sendEvent(clientInfo.res, event);
+      } catch (err) {
+        logger.withContext().error('SSE write error (admin)', {
+          userKey: clientInfo.userKey,
+          err,
+        });
+        adminsToRemove.push(clientInfo);
+      }
+    }
+    // Remove failed clients after iteration
+    for (const clientInfo of adminsToRemove) {
+      adminClients.delete(clientInfo);
+    }
+  }
+
+  /** Returns the number of active SSE connections. */
+  getConnectionCount(): { borrower: number; admin: number; total: number } {
+    let borrowerCount = 0;
+    for (const clients of borrowerClients.values()) {
+      borrowerCount += clients.size;
+    }
+    return {
+      borrower: borrowerCount,
+      admin: adminClients.size,
+      total: borrowerCount + adminClients.size,
+    };
+  }
+
+  closeAllConnections(message = 'Server shutting down'): void {
+    this.stopHeartbeat();
+    const clients = new Set<ClientInfo>();
+
+    for (const borrowerClientSet of borrowerClients.values()) {
+      for (const clientInfo of borrowerClientSet) {
+        clients.add(clientInfo);
+      }
+    }
+
+    for (const clientInfo of adminClients) {
+      clients.add(clientInfo);
+    }
+
+    const shutdownPayload =
+      `event: shutdown\n` + `data: ${JSON.stringify({ type: 'shutdown', message })}\n\n`;
+
+    for (const clientInfo of clients) {
+      try {
+        clientInfo.res.write(shutdownPayload);
+      } catch (err) {
+        logger.withContext().error('SSE shutdown write error', {
+          userKey: clientInfo.userKey,
+          err,
+        });
+      }
+
+      try {
+        clientInfo.res.end();
+      } catch (err) {
+        logger.withContext().error('SSE shutdown close error', {
+          userKey: clientInfo.userKey,
+          err,
+        });
+      }
+    }
+
+    borrowerClients.clear();
+    adminClients.clear();
+    userClients.clear();
+  }
+
+  reset(): void {
+    this.stopHeartbeat();
+    borrowerClients.clear();
+    adminClients.clear();
+    userClients.clear();
+  }
+}
+
+export const eventStreamService = new EventStreamService();

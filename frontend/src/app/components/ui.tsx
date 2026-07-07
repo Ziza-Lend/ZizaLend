@@ -1,0 +1,1 @@
+export const COPY_FEEDBACK_RESET_MS = 2000;
