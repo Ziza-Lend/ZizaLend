@@ -10,7 +10,7 @@ type PageMetadataInput = {
 const LOCALES = ["en", "es", "tl"] as const;
 const DEFAULT_SITE_URL = "https://ZizaLend.com";
 const SITE_NAME = "ZizaLend";
-const OG_IMAGE_PATH = "/og-image.png";
+const OG_IMAGE_PATH = "/og-image.svg";
 
 export function getSiteUrl() {
   const configuredUrl = process.env.NEXT_PUBLIC_APP_URL ?? DEFAULT_SITE_URL;

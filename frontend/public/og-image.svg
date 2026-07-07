@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" rx="48" fill="#07111f"/>
+  <rect x="56" y="56" width="1088" height="518" rx="36" fill="url(#bg)"/>
+  <circle cx="930" cy="212" r="140" fill="#12f2c4" opacity="0.2"/>
+  <circle cx="930" cy="212" r="76" fill="#12f2c4" opacity="0.25"/>
+  <rect x="120" y="176" width="280" height="280" rx="36" fill="#101a2d" stroke="#12f2c4" stroke-width="8"/>
+  <path d="M200 360c34-70 84-108 138-108 66 0 110 48 130 120" fill="none" stroke="#12f2c4" stroke-width="18" stroke-linecap="round"/>
+  <path d="M214 288h150" stroke="#f7fbff" stroke-width="18" stroke-linecap="round"/>
+  <path d="M214 330h104" stroke="#8adfd0" stroke-width="18" stroke-linecap="round"/>
+  <text x="458" y="270" fill="#f7fbff" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="64" font-weight="700">ZizaLend</text>
+  <text x="458" y="336" fill="#8adfd0" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="34" font-weight="500">Borderless lending powered by remittance history</text>
+  <rect x="458" y="380" width="270" height="58" rx="999" fill="#12f2c4"/>
+  <text x="593" y="418" fill="#07111f" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" text-anchor="middle">Open your future</text>
+  <defs>
+    <linearGradient id="bg" x1="56" y1="56" x2="1144" y2="574" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#10213b"/>
+      <stop offset="100%" stop-color="#07111f"/>
+    </linearGradient>
+  </defs>
+</svg>
