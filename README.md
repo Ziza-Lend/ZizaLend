@@ -5,11 +5,11 @@
 [![Node](https://img.shields.io/badge/Node-%3E%3D18-339933?logo=node.js)](https://nodejs.org/)
 [![Rust](https://img.shields.io/badge/Rust-1.85+-CE412B?logo=rust)](https://www.rust-lang.org/)
 
-[![CI](https://github.com/LabsCrypt/ZizaLend/actions/workflows/ci.yml/badge.svg)](https://github.com/LabsCrypt/ZizaLend/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/LabsCrypt/ZizaLend/actions/workflows/codeql.yml/badge.svg)](https://github.com/LabsCrypt/ZizaLend/actions/workflows/codeql.yml)
-[![Dependency Review](https://github.com/LabsCrypt/ZizaLend/actions/workflows/dependency-review.yml/badge.svg)](https://github.com/LabsCrypt/ZizaLend/actions/workflows/dependency-review.yml)
-[![Commit Lint](https://github.com/LabsCrypt/ZizaLend/actions/workflows/commitlint.yml/badge.svg)](https://github.com/LabsCrypt/ZizaLend/actions/workflows/commitlint.yml)
-[![Deploy Staging](https://github.com/LabsCrypt/ZizaLend/actions/workflows/deploy-staging.yml/badge.svg)](https://github.com/LabsCrypt/ZizaLend/actions/workflows/deploy-staging.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/LabsCrypt/ZizaLend/ci.yml?branch=main&label=CI&logo=github)](https://github.com/LabsCrypt/ZizaLend/actions/workflows/ci.yml)
+[![CodeQL](https://img.shields.io/github/actions/workflow/status/LabsCrypt/ZizaLend/codeql.yml?branch=main&label=CodeQL&logo=github)](https://github.com/LabsCrypt/ZizaLend/actions/workflows/codeql.yml)
+[![Dependency Review](https://img.shields.io/github/actions/workflow/status/LabsCrypt/ZizaLend/dependency-review.yml?branch=main&label=Dependency%20Review&logo=github)](https://github.com/LabsCrypt/ZizaLend/actions/workflows/dependency-review.yml)
+[![Commit Lint](https://img.shields.io/github/actions/workflow/status/LabsCrypt/ZizaLend/commitlint.yml?branch=main&label=Commit%20Lint&logo=github)](https://github.com/LabsCrypt/ZizaLend/actions/workflows/commitlint.yml)
+[![Deploy Staging](https://img.shields.io/github/actions/workflow/status/LabsCrypt/ZizaLend/deploy-staging.yml?branch=main&label=Deploy&logo=github)](https://github.com/LabsCrypt/ZizaLend/actions/workflows/deploy-staging.yml)
 
 [![Frontend: Next.js](https://img.shields.io/badge/Frontend-Next.js-black?logo=next.js)](https://nextjs.org/)
 [![Backend: Express](https://img.shields.io/badge/Backend-Express.js-white?logo=express)](https://expressjs.com/)
