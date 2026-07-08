@@ -62,5 +62,11 @@ export function buildPageMetadata({
       ],
       locale,
     },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
+    },
   };
 }
