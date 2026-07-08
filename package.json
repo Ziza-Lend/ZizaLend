@@ -1,0 +1,20 @@
+{
+  "name": "zizalend",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/types",
+    "packages/sdk"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "format": "prettier --write .",
+    "generate:types": "npm run generate -w packages/types",
+    "generate:spec": "node scripts/dump-swagger.mjs > packages/openapi.json"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -19,3 +19,8 @@ pr.md
 checks.md
 .claude
 .kiro/
+
+# Monorepo packages
+packages/*/dist/
+packages/*/node_modules/
+packages/types/src/generated.ts
