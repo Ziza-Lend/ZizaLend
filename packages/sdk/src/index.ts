@@ -1,0 +1,168 @@
+/**
+ * @zizalend/sdk
+ *
+ * Typed API client for the ZizaLend protocol.
+ *
+ * Usage:
+ * ```ts
+ * import { ZizaLend } from '@zizalend/sdk';
+ *
+ * const api = new ZizaLend({ baseUrl: 'http://localhost:3001/api/v1' });
+ *
+ * // Auth
+ * const { token } = await api.auth.authenticate(publicKey, signer);
+ *
+ * // Loans
+ * const loans = await api.loans.list();
+ *
+ * // Pool
+ * const stats = await api.pool.getStats();
+ * ```
+ */
+
+import { Client } from './client.js';
+export { Client, ApiError } from './client.js';
+export type { ClientConfig, ApiResponse } from './client.js';
+
+// ClientConfig is used as a constructor parameter type in the ZizaLend class.
+// With isolatedModules, the type-only export above doesn't create a local binding,
+// so we need an explicit type import here.
+type _ClientConfig = import('./client.js').ClientConfig;
+
+import { Auth } from './auth.js';
+export { Auth } from './auth.js';
+export type { ChallengeMessage, LoginData, VerifyData } from './auth.js';
+
+import { Health } from './health.js';
+export { Health } from './health.js';
+export type { HealthCheckResponse, DeepHealthCheckResponse, VersionResponse } from './health.js';
+
+import { User } from './user.js';
+export { User } from './user.js';
+export type { UserProfile, UpdateUserProfileInput } from './user.js';
+
+import { Loans } from './loans.js';
+export { Loans } from './loans.js';
+export type {
+  BorrowerLoan,
+  BorrowerLoansResponse,
+  LoanDetailsSummary,
+  LoanDetailsResponse,
+  UnsignedTransactionResponse,
+  RepayTransactionResponse,
+  SubmittedTransactionResponse,
+  BuildRepayTxParams,
+  BuildLoanRequestTxParams,
+  LoanConfig,
+} from './loans.js';
+
+import { Pool } from './pool.js';
+export { Pool } from './pool.js';
+export type {
+  PoolStats,
+  DepositorPortfolio,
+  SharePriceResponse,
+  BuildPoolTxParams,
+} from './pool.js';
+
+import { Scores } from './scores.js';
+export { Scores } from './scores.js';
+export type {
+  UserScore,
+  ScoreBreakdownResponse,
+  ScoreBreakdownMetrics,
+  ScoreHistoryEntry,
+  ScoreUpdateResponse,
+} from './scores.js';
+
+import { Notifications } from './notifications.js';
+export { Notifications } from './notifications.js';
+export type {
+  Notification as ZizaNotification,
+  NotificationsData,
+  NotificationPreferences,
+} from './notifications.js';
+
+import { Remittances } from './remittances.js';
+export { Remittances } from './remittances.js';
+export type {
+  Remittance,
+  RemittanceResponse,
+  CreateRemittanceInput,
+  PaginatedRemittancesResponse,
+} from './remittances.js';
+
+import { Transactions } from './transactions.js';
+export { Transactions } from './transactions.js';
+export type {
+  Transaction as ZizaTransaction,
+  TransactionsResponse,
+} from './transactions.js';
+
+import { Events } from './events.js';
+export { Events } from './events.js';
+export type {
+  LoanEventRecord,
+  PaginatedEventsResponse,
+  EventStreamStatusResponse,
+} from './events.js';
+
+import { Indexer } from './indexer.js';
+export { Indexer } from './indexer.js';
+export type {
+  IndexerStatusData,
+  WebhookSubscription,
+  CreateWebhookSubscriptionInput,
+  WebhookDelivery,
+  ReindexResult,
+  DefaultCheckRunResult,
+} from './indexer.js';
+
+import { Admin } from './admin.js';
+export { Admin } from './admin.js';
+export type { AuditLogEntry, LoanDispute } from './admin.js';
+
+import { Simulation } from './simulation.js';
+export { Simulation } from './simulation.js';
+export type { RemittanceHistoryResponse, SimulatePaymentResponse } from './simulation.js';
+
+/**
+ * ZizaLend API client — the main entry point.
+ *
+ * Provides typed access to all API modules.
+ */
+export class ZizaLend {
+  public readonly auth: Auth;
+  public readonly health: Health;
+  public readonly user: User;
+  public readonly loans: Loans;
+  public readonly pool: Pool;
+  public readonly scores: Scores;
+  public readonly notifications: Notifications;
+  public readonly remittances: Remittances;
+  public readonly transactions: Transactions;
+  public readonly events: Events;
+  public readonly indexer: Indexer;
+  public readonly admin: Admin;
+  public readonly simulation: Simulation;
+
+  constructor(config: _ClientConfig) {
+    const client = new Client(config);
+
+    this.auth = new Auth(client);
+    this.health = new Health(client);
+    this.user = new User(client);
+    this.loans = new Loans(client);
+    this.pool = new Pool(client);
+    this.scores = new Scores(client);
+    this.notifications = new Notifications(client);
+    this.remittances = new Remittances(client);
+    this.transactions = new Transactions(client);
+    this.events = new Events(client);
+    this.indexer = new Indexer(client);
+    this.admin = new Admin(client);
+    this.simulation = new Simulation(client);
+  }
+}
+
+export default ZizaLend;
