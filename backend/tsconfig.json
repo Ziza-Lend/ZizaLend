@@ -9,7 +9,7 @@
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
     "moduleResolution": "nodenext",
-    "target": "es2020",
+    "target": "es2022",
     "types": ["jest", "node"],
 
     // Other Outputs

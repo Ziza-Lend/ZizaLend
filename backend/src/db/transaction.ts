@@ -16,7 +16,7 @@ export async function withTransaction<T>(
     logger.error('Failed to acquire database client for transaction', {
       error,
     });
-    throw new Error('Database connection failed');
+    throw new Error('Database connection failed', { cause: error });
   }
 
   if (!client) {

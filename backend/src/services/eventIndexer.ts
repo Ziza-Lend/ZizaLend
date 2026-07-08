@@ -945,9 +945,9 @@ export class EventIndexer {
   private async triggerNotification(event: ContractEvent): Promise<void> {
     if (!event.address) return;
 
-    let type = '';
-    let title = '';
-    let message = '';
+    let type: string;
+    let title: string;
+    let message: string;
 
     switch (event.eventType) {
       case 'LoanApproved':

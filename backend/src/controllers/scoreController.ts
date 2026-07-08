@@ -302,7 +302,6 @@ export const getScoreBreakdown = asyncHandler(async (req: Request, res: Response
 
   // Calculate streaks from history
   let longestStreak = 0;
-  let currentStreak = 0;
   let tempStreak = 0;
 
   for (const histItem of history) {
@@ -313,7 +312,7 @@ export const getScoreBreakdown = asyncHandler(async (req: Request, res: Response
       tempStreak = 0;
     }
   }
-  currentStreak = tempStreak;
+  const currentStreak = tempStreak;
 
   const responseData = {
     userId,

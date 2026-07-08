@@ -260,7 +260,7 @@ async function postWebhook(
     });
   } catch (error) {
     if (error instanceof Error && error.name === 'AbortError') {
-      throw new Error(`Webhook request timed out after ${timeoutMs}ms`);
+      throw new Error(`Webhook request timed out after ${timeoutMs}ms`, { cause: error });
     }
     throw error;
   } finally {
@@ -358,7 +358,7 @@ export class WebhookService {
       ? crypto.createHmac('sha256', secret).update(body).digest('hex')
       : undefined;
 
-    let response: Response | null = null;
+    let response: Response | null;
 
     try {
       response = await postWebhook(callbackUrl, body, signature);
