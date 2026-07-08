@@ -8,8 +8,6 @@ use remittance_nft::{RemittanceNFT, RemittanceNFTClient};
 use soroban_sdk::testutils::Address as _;
 use soroban_sdk::{Address, Env, BytesN, Symbol, IntoVal, Val};
 use std::collections::HashMap;
-use std::panic::AssertUnwindSafe;
-
 macro_rules! rcall {
     ($env:expr, $client:expr, $func:expr, ($($arg:expr),*)) => {
         $env.try_invoke_contract::<Val, Val>(
@@ -185,7 +183,7 @@ fuzz_target!(|data: FuzzAction| {
                 &env,
                 loan_manager_client,
                 "check_default",
-                (0u32,)
+                (0u32)
             );
 
             // Invariant: a default event must not leave the score above its
@@ -207,7 +205,7 @@ fuzz_target!(|data: FuzzAction| {
                 &env,
                 loan_manager_client,
                 "is_liquidatable",
-                (user_id as u32,)
+                (user_id as u32)
             );
         }
 

@@ -77,9 +77,10 @@ fuzz_target!(|actions: std::vec::Vec<FuzzAction>| {
 
     // Deploy token (Stellar Asset Contract).
     let token_admin = Address::generate(&env);
-    let token_contract_id = env.register_stellar_asset_contract_v2(token_admin.clone());
-    let token = TokenClient::new(&env, &token_contract_id.address());
-    let stellar = StellarAssetClient::new(&env, &token_contract_id.address());
+    let token_asset = env.register_stellar_asset_contract_v2(token_admin.clone());
+    let token_address = token_asset.address();
+    let token = TokenClient::new(&env, &token_address);
+    let stellar = StellarAssetClient::new(&env, &token_address);
 
     // Deploy RemittanceNFT and LendingPool.
     let nft_admin = Address::generate(&env);
@@ -96,7 +97,7 @@ fuzz_target!(|actions: std::vec::Vec<FuzzAction>| {
     // it can apply score deltas via repayment/default flows.
     let lm_contract = env.register(LoanManager, ());
     let lm_client = LoanManagerClient::new(&env, &lm_contract);
-    lm_client.initialize(&nft_contract, &pool_contract, &token_contract_id.address(), &nft_admin);
+    lm_client.initialize(&nft_contract, &pool_contract, &token_address, &nft_admin);
     nft_client.authorize_minter(&lm_contract);
 
     // Helper: drive a deposit through `try_invoke_contract` so any token
@@ -105,7 +106,7 @@ fuzz_target!(|actions: std::vec::Vec<FuzzAction>| {
         if amount <= 0 || amount > MAX_I64 {
             return;
         }
-        mint_and_deposit(&env, &stellar, &pool_client, &token_contract_id, lender, amount);
+        mint_and_deposit(&env, &stellar, &pool_client, &token_address, lender, amount);
     };
 
     let safe_mint = |borrower: &Address, score: u32| {
@@ -127,7 +128,7 @@ fuzz_target!(|actions: std::vec::Vec<FuzzAction>| {
                     &env,
                     pool_client,
                     "withdraw",
-                    (lender, token_contract_id, shares)
+                    (lender, token_address, shares)
                 );
             }
             FuzzAction::MintNft { borrower_idx, score } => {

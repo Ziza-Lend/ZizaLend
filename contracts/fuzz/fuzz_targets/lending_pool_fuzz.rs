@@ -7,8 +7,6 @@ use soroban_sdk::testutils::Address as _;
 use soroban_sdk::token::{Client as TokenClient, StellarAssetClient};
 use soroban_sdk::{Address, Env, Symbol, IntoVal, Val};
 use std::collections::HashMap;
-use std::panic::AssertUnwindSafe;
-
 macro_rules! rcall {
     ($env:expr, $client:expr, $func:expr, ($($arg:expr),*)) => {
         $env.try_invoke_contract::<Val, Val>(

@@ -2,12 +2,10 @@
 
 use arbitrary::Arbitrary;
 use libfuzzer_sys::fuzz_target;
-use remittance_nft::{DataKey as RemittanceDataKey, RemittanceMetadata, RemittanceNFT, RemittanceNFTClient};
+use remittance_nft::{DataKey as RemittanceDataKey, RemittanceNFT, RemittanceNFTClient};
 use soroban_sdk::testutils::Address as _;
 use soroban_sdk::{Address, BytesN, Env, Symbol, IntoVal, Val};
 use std::collections::HashMap;
-use std::panic::AssertUnwindSafe;
-
 macro_rules! rcall {
     ($env:expr, $client:expr, $func:expr, ($($arg:expr),*)) => {
         $env.try_invoke_contract::<Val, Val>(
