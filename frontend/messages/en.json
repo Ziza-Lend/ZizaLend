@@ -364,5 +364,53 @@
     "targetContract": "Target contract",
     "expiresAt": "Expires at",
     "timeToExecutable": "Time to executable"
+  },
+  "wallet": {
+    "emptyState": {
+      "title": "Wallet",
+      "description": "Connect your Stellar wallet to view your balances and transaction history.",
+      "cta": "Connect wallet"
+    },
+    "connect": {
+      "title": "Connect a wallet",
+      "description": "Choose a wallet to continue. ZizaLend is non-custodial — your keys never leave your device.",
+      "freighterOptionName": "Freighter",
+      "freighterOptionDescription": "Browser extension by Stellar Development Foundation.",
+      "connecting": "Waiting for wallet confirmation…",
+      "mobileFallback": {
+        "description": "Freighter is a desktop browser extension. On mobile, you can continue with an Albedo web wallet via a deeplink to this page.",
+        "cta": "Continue with Albedo"
+      }
+    },
+    "error": {
+      "retry": "Try again",
+      "dismiss": "Dismiss",
+      "user_rejected": {
+        "title": "Connection cancelled"
+      },
+      "wallet_locked": {
+        "title": "Wallet is locked"
+      },
+      "network_down": {
+        "title": "Wallet extension unreachable"
+      },
+      "wrongNetwork": {
+        "title": "Unsupported network",
+        "description": "Your wallet is connected to {network}, which this app does not support. Switch to Public or Testnet in Freighter, then refresh.",
+        "refresh": "Refresh network"
+      },
+      "timeout": {
+        "title": "Wallet timed out"
+      },
+      "unknown": {
+        "title": "Wallet error"
+      }
+    },
+    "networkBanner": {
+      "title": "Wrong network: {network}",
+      "description": "Most actions are disabled. Switch to a supported network or disconnect.",
+      "refresh": "Refresh",
+      "disconnect": "Disconnect"
+    }
   }
 }
