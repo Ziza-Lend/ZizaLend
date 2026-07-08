@@ -49,7 +49,9 @@ interface HorizonBalance {
   asset_code?: string;
 }
 
-const WalletProviderContext = createContext<WalletProviderContextValue | null>(null);
+export const WalletProviderContext = createContext<WalletProviderContextValue | null>(null);
+
+export type { WalletProviderContextValue };
 
 const NETWORK_CHAIN_IDS: Record<string, number> = {
   PUBLIC: 1,
@@ -116,7 +118,7 @@ export function WalletProvider({ children }: WalletProviderProps) {
   const setBalances = useWalletStore((state) => state.setBalances);
   const setNetwork = useWalletStore((state) => state.setNetwork);
   const setStatus = useWalletStore((state) => state.setStatus);
-  const setError = useWalletStore((state) => state.setError);
+  const setErrorString = useWalletStore((state) => state.setErrorString);
   const setLoadingBalances = useWalletStore((state) => state.setLoadingBalances);
   const [isFreighterAvailable, setIsFreighterAvailable] = useState(false);
   const syncRef = useRef<Promise<void> | null>(null);
@@ -138,10 +140,10 @@ export function WalletProvider({ children }: WalletProviderProps) {
 
       const data = (await response.json()) as { balances?: HorizonBalance[] };
       setBalances(mapBalances(data.balances));
-      setError(null, status);
+      setErrorString(null, status);
     } catch (error) {
       setBalances([]);
-      setError(normalizeWalletError(error), status);
+      setErrorString(normalizeWalletError(error), status);
     }
   }
 
@@ -196,12 +198,12 @@ export function WalletProvider({ children }: WalletProviderProps) {
       setStatus(nextStatus);
 
       if (!walletNetwork.isSupported) {
-        setError(
+        setErrorString(
           `Unsupported wallet network: ${walletNetwork.name}. Switch to PUBLIC, TESTNET, FUTURENET, or STANDALONE.`,
           "error",
         );
       } else {
-        setError(null, "connected");
+        setErrorString(null, "connected");
       }
 
       await refreshBalances(
@@ -213,7 +215,7 @@ export function WalletProvider({ children }: WalletProviderProps) {
       .catch((error) => {
         if (interactive) {
           disconnect();
-          setError(normalizeWalletError(error), "error");
+          setErrorString(normalizeWalletError(error), "error");
           throw error;
         }
       })
@@ -227,7 +229,7 @@ export function WalletProvider({ children }: WalletProviderProps) {
 
   async function connectWallet() {
     setStatus("connecting");
-    setError(null, "connecting");
+    setErrorString(null, "connecting");
     await syncWallet(true);
   }
 

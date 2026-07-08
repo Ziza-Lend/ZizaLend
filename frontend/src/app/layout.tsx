@@ -8,6 +8,8 @@ import { Toaster } from "./components/ui/Toaster";
 import { LevelUpModal } from "./components/gamification/LevelUpModal";
 import { GlobalXPGain } from "./components/global_ui/GlobalXPGain";
 import { ErrorBoundary } from "./components/global_ui/ErrorBoundary";
+import NetworkBanner from "./components/wallet/NetworkBanner";
+import WalletConnectionModal from "./components/wallet/WalletConnectionModal";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { THEME_STORAGE_KEY } from "./lib/theme";
@@ -51,11 +53,13 @@ export default async function RootLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           <QueryProvider>
             <WalletProvider>
+              <NetworkBanner />
               <DashboardShell>
                 <ErrorBoundary scope="active page" variant="section">
                   {children}
                 </ErrorBoundary>
               </DashboardShell>
+              <WalletConnectionModal />
             </WalletProvider>
             <Toaster />
             <LevelUpModal />
