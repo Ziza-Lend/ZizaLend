@@ -20,7 +20,7 @@ We take the security of our smart contracts, backend, and frontend seriously.
 
 **Please do not report security vulnerabilities through public GitHub issues.**
 
-If you believe you have found a security vulnerability, please reach out to us via the [Contributor Telegram](https://t.me/+DOylgFv1jyJlNzM0) and request a private, encrypted contact channel for full disclosure. 
+If you believe you have found a security vulnerability, please report it privately via [GitHub Security Advisories](https://github.com/Ziza-Lend/ZizaLend/security/advisories/new) or open a [GitHub issue](https://github.com/Ziza-Lend/ZizaLend/issues/new) with the details. 
 
 ### What to include
 

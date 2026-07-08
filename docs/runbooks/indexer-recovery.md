@@ -166,11 +166,9 @@ Use this after a hotfix deployment to clear the quarantine backlog.
 
 ---
 
-## 6. Escalation Contacts
+## 6. Escalation
 
-For incidents that cannot be resolved with the steps above, escalate via the [contributor Telegram group](https://t.me/+DOylgFv1jyJlNzM0).
-
-When escalating, include:
+For incidents that cannot be resolved with the steps above, open a [GitHub issue](https://github.com/Ziza-Lend/ZizaLend/issues/new) with the following details:
 
 - Ledger range of the gap
 - Indexer status JSON output

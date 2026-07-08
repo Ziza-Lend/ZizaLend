@@ -1,8 +1,5 @@
 blank_issues_enabled: false
 contact_links:
-  - name: ZizaLend Telegram
-    url: https://t.me/+DOylgFv1jyJlNzM0
-    about: Please ask and answer questions here.
   - name: Contributing Guidelines
     url: https://github.com/Ziza-Lend/ZizaLend/blob/main/CONTRIBUTING.md
     about: Learn how to contribute to the project.
