@@ -1887,3 +1887,80 @@ fn test_score_history_max_50_entries() {
         .unwrap();
     assert_eq!(last_entry.ledger, 60);
 }
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Audit-prep access-control tests: authorized minters and admin must remain
+// confined to their explicit roles; no path should let a minter mint over
+// a burned account, nor let a minter act as an admin via a happy-path
+// shortcut.
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+/// Authorization boundary: an authorized minter can mint for a fresh user
+/// but MUST NOT be able to mint over a previously burned account.  Recovery
+/// is gated explicitly to `admin_remint`, which requires admin-auth and a
+/// prior `approve_remint`.
+///
+/// This test pairs with `test_approve_remint_allows_authorized_minter_remint`
+/// above — together they pin down the auth boundary that would otherwise be
+/// exploitable by a compromised minter key.
+#[test]
+fn test_authorized_minter_cannot_resurrect_burned_account() {
+    let env = Env::default();
+    env.mock_all_auths();
+
+    let admin = Address::generate(&env);
+    let minter = Address::generate(&env);
+    let user = Address::generate(&env);
+
+    let contract_id = env.register(RemittanceNFT, ());
+    let client = RemittanceNFTClient::new(&env, &contract_id);
+    client.initialize(&admin);
+    client.authorize_minter(&minter);
+
+    // Initial mint by admin via the minter path.
+    client.mint(
+        &user,
+        &500,
+        &create_test_hash(&env, 110),
+        &create_test_uri(&env),
+        &Some(minter.clone()),
+    );
+
+    // Burn via the minter path — burns preserve the same authorization
+    // surface as mints in this contract.
+    client.burn(&user, &Some(minter.clone()));
+
+    // Attempt to resurrect without admin approval: must reject.
+    let result = client.try_mint(
+        &user,
+        &650,
+        &create_test_hash(&env, 111),
+        &create_test_uri(&env),
+        &Some(minter.clone()),
+    );
+    assert_eq!(result, Err(Ok(NftError::BurnedRequiresApproval)));
+    assert!(client.get_metadata(&user).is_none());
+
+    // Provide admin approval and verify the minter still cannot drive the
+    // recovery — `advertized_admin_remint` is admin-only.
+    client.approve_remint(&user);
+    let result = client.try_mint(
+        &user,
+        &650,
+        &create_test_hash(&env, 112),
+        &create_test_uri(&env),
+        &Some(minter.clone()),
+    );
+    assert_eq!(result, Err(Ok(NftError::BurnedRequiresApproval)));
+
+    // Admin can now perform the recovery, but with the new score capped at
+    // MAX_SCORE regardless of what the minter attempted.
+    client.admin_remint(
+        &user,
+        &900,
+        &create_test_hash(&env, 113),
+        &create_test_uri(&env),
+    );
+    let meta = client.get_metadata(&user).unwrap();
+    assert_eq!(meta.score, RemittanceNFT::MAX_SCORE);
+}
