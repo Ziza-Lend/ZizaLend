@@ -39,9 +39,7 @@ describe("Input", () => {
   });
 
   it("prefers error over helper text when both are provided", () => {
-    render(
-      <Input label="Name" error="This is required" helperText="Enter your full name" />,
-    );
+    render(<Input label="Name" error="This is required" helperText="Enter your full name" />);
     expect(screen.getByRole("alert")).toHaveTextContent("This is required");
     expect(screen.queryByText("Enter your full name")).not.toBeInTheDocument();
   });

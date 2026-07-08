@@ -3,6 +3,19 @@
 version = 4
 
 [[package]]
+name = "ZizaLend-fuzz"
+version = "0.0.0"
+dependencies = [
+ "arbitrary",
+ "lending_pool",
+ "libfuzzer-sys",
+ "loan_manager",
+ "multisig_governance",
+ "remittance_nft",
+ "soroban-sdk",
+]
+
+[[package]]
 name = "ahash"
 version = "0.8.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1025,19 +1038,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 2.0.117",
-]
-
-[[package]]
-name = "zizalend-fuzz"
-version = "0.0.0"
-dependencies = [
- "arbitrary",
- "lending_pool",
- "libfuzzer-sys",
- "loan_manager",
- "multisig_governance",
- "remittance_nft",
- "soroban-sdk",
 ]
 
 [[package]]

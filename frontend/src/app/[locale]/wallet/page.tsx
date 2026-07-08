@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
   Wallet,
@@ -25,6 +26,7 @@ import {
   selectWalletNetwork,
   selectIsWalletConnected,
 } from "../../stores/useWalletStore";
+import { useConnectModalStore } from "../../stores/useConnectModalStore";
 import Link from "next/link";
 import { QRCodeSVG } from "qrcode.react";
 import { COPY_FEEDBACK_RESET_MS } from "../../components/ui";
@@ -163,17 +165,26 @@ function QRDisplay({ address }: { address: string }) {
 // ─── Connect wallet prompt ─────────────────────────────────────────────────────
 
 function ConnectWalletPrompt() {
+  const t = useTranslations("wallet.emptyState");
+  const openModal = useConnectModalStore((s) => s.open);
+
   return (
     <main className="flex min-h-[60vh] flex-col items-center justify-center gap-6 p-8">
       <div className="rounded-2xl bg-zinc-50 p-6 dark:bg-zinc-900">
         <Wallet className="h-12 w-12 text-indigo-600 dark:text-indigo-400" />
       </div>
       <div className="text-center">
-        <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">Wallet</h1>
-        <p className="mt-2 max-w-md text-zinc-500 dark:text-zinc-400">
-          Connect your Stellar wallet to view your balances and transaction history.
-        </p>
+        <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">{t("title")}</h1>
+        <p className="mt-2 max-w-md text-zinc-500 dark:text-zinc-400">{t("description")}</p>
       </div>
+      <button
+        type="button"
+        onClick={openModal}
+        data-testid="wallet-page-connect-cta"
+        className="inline-flex items-center justify-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-zinc-950"
+      >
+        {t("cta")}
+      </button>
     </main>
   );
 }

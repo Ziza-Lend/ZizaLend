@@ -137,7 +137,7 @@ describe("useWalletStore", () => {
   });
 
   it("setError stores error and sets status to error", () => {
-    useWalletStore.getState().setError("User rejected connection");
+    useWalletStore.getState().setErrorString("User rejected connection");
 
     const { error, status } = useWalletStore.getState();
     expect(error).toBe("User rejected connection");

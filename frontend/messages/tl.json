@@ -364,5 +364,53 @@
     "targetContract": "Target na kontrata",
     "expiresAt": "Mawawalan ng bisa",
     "timeToExecutable": "Oras hanggang sa maipatupad"
+  },
+  "wallet": {
+    "emptyState": {
+      "title": "Wallet",
+      "description": "Ikonekta ang iyong Stellar wallet upang makita ang iyong mga balanse at kasaysayan ng transaksyon.",
+      "cta": "Ikonekta ang wallet"
+    },
+    "connect": {
+      "title": "Magkonekta ng wallet",
+      "description": "Pumili ng wallet upang magpatuloy. Ang ZizaLend ay non-custodial — ang iyong mga susi ay hindi kailanman umaalis sa iyong device.",
+      "freighterOptionName": "Freighter",
+      "freighterOptionDescription": "Browser extension ng Stellar Development Foundation.",
+      "connecting": "Naghihintay ng kumpirmasyon ng wallet…",
+      "mobileFallback": {
+        "description": "Ang Freighter ay desktop browser extension. Sa mobile, maaari kang magpatuloy gamit ang Albedo web wallet sa pamamagitan ng deeplink sa page na ito.",
+        "cta": "Magpatuloy gamit ang Albedo"
+      }
+    },
+    "error": {
+      "retry": "Subukan muli",
+      "dismiss": "Itago",
+      "user_rejected": {
+        "title": "Kinansela ang koneksyon"
+      },
+      "wallet_locked": {
+        "title": "Naka-lock ang wallet"
+      },
+      "network_down": {
+        "title": "Hindi maabot ang wallet extension"
+      },
+      "wrongNetwork": {
+        "title": "Hindi suportadong network",
+        "description": "Nakakonekta ang iyong wallet sa {network}, na hindi suportado ng app na ito. Lumipat sa Public o Testnet sa Freighter, pagkatapos i-refresh.",
+        "refresh": "I-refresh ang network"
+      },
+      "timeout": {
+        "title": "Na-timeout ang wallet"
+      },
+      "unknown": {
+        "title": "Error sa wallet"
+      }
+    },
+    "networkBanner": {
+      "title": "Maling network: {network}",
+      "description": " Karamihan sa mga aksyon ay naka-disable. Lumipat sa suportadong network o idiskonekta.",
+      "refresh": "I-refresh",
+      "disconnect": "Idiskonekta"
+    }
   }
 }

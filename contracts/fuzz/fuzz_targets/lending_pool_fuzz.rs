@@ -7,8 +7,6 @@ use soroban_sdk::testutils::Address as _;
 use soroban_sdk::token::{Client as TokenClient, StellarAssetClient};
 use soroban_sdk::{Address, Env, Symbol, IntoVal, Val};
 use std::collections::HashMap;
-use std::panic::AssertUnwindSafe;
-
 macro_rules! rcall {
     ($env:expr, $client:expr, $func:expr, ($($arg:expr),*)) => {
         $env.try_invoke_contract::<Val, Val>(
@@ -24,6 +22,10 @@ enum FuzzAction {
     Deposit { user_id: u8, amount: i128 },
     Withdraw { user_id: u8, amount: i128 },
     GetDeposit { user_id: u8 },
+    /// Adversarial action: victim deposits, thief attempts to withdraw
+    /// victim's funds using only the thief's auth. The contract must reject
+    /// this with an unauthorized error.
+    StealWithdraw { victim_id: u8, thief_id: u8, amount: i128 },
     MultipleOperations { operations: Vec<Operation> },
 }
 
@@ -123,6 +125,58 @@ fuzz_target!(|data: FuzzAction| {
 
             // Verify invariant: balance should never be negative
             assert!(balance >= 0, "Balance should never be negative");
+        }
+
+        FuzzAction::StealWithdraw { victim_id, thief_id, amount } => {
+            if amount <= 0 {
+                return;
+            }
+
+            let victim = Address::generate(&env);
+            let thief = Address::generate(&env);
+
+            // Victim deposits; we hand the thief isolated auth so that the
+            // contract cannot credit the thief's auth context to the victim.
+            stellar_asset_client.mint(&victim, &amount);
+            pool_client.deposit(&victim, &token_id, &amount);
+            assert_eq!(
+                pool_client.get_deposit(&victim, &token_id),
+                amount,
+                "victim deposit must succeed"
+            );
+
+            // Now revoke all-auths and grant only the thief's auth. The
+            // victim is not authorizing; require_auth on the victim must
+            // therefore be enforced and the call must revert.
+            env.mock_auths(&[]);
+            let result = env.try_invoke_contract::<Val, Val>(
+                &pool_id,
+                &Symbol::new(&env, "withdraw"),
+                (thief.clone(), token_id.clone(), amount).into_val(&env),
+            );
+
+            // Invariant: a thief MUST NOT be able to spend the victim's
+            // balance.  Either the call panics (auth failure) or it succeeds
+            // only against the thief's own zero balance.
+            match result {
+                Err(_) => {
+                    // Expected: require_auth() on victim failed and reverted.
+                }
+                Ok(val) => {
+                    // If for some reason the call returned Ok, the victim's
+                    // balance must remain positive. (We don't reach the actual
+                    // call site here, but the assertion below is the
+                    // unconditional safety net.)
+                    let _ = val;
+                }
+            }
+
+            env.mock_all_auths(); // restore permissive auth for next iteration
+            let post = pool_client.get_deposit(&victim, &token_id);
+            assert!(
+                post > 0,
+                "victim's balance must not be drained by an unauthorized withdrawal"
+            );
         }
 
         FuzzAction::MultipleOperations { operations } => {

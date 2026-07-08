@@ -2,12 +2,10 @@
 
 use arbitrary::Arbitrary;
 use libfuzzer_sys::fuzz_target;
-use remittance_nft::{DataKey as RemittanceDataKey, RemittanceMetadata, RemittanceNFT, RemittanceNFTClient};
+use remittance_nft::{DataKey as RemittanceDataKey, RemittanceNFT, RemittanceNFTClient};
 use soroban_sdk::testutils::Address as _;
 use soroban_sdk::{Address, BytesN, Env, Symbol, IntoVal, Val};
 use std::collections::HashMap;
-use std::panic::AssertUnwindSafe;
-
 macro_rules! rcall {
     ($env:expr, $client:expr, $func:expr, ($($arg:expr),*)) => {
         $env.try_invoke_contract::<Val, Val>(
@@ -163,8 +161,12 @@ fuzz_target!(|data: FuzzAction| {
                     );
                 }
 
-                // Verify invariant: score should never be negative
+                // Verify invariants: score must stay in [0, MAX_SCORE].
                 assert!(score_after >= 0, "Score should never be negative");
+                assert!(
+                    score_after <= remittance_nft::RemittanceNFT::MAX_SCORE,
+                    "Score must not exceed MAX_SCORE"
+                );
             }
         }
 

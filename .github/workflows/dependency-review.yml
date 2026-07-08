@@ -1,0 +1,26 @@
+name: Dependency Review
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  dependency-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
+          comment-summary-in-pr: always
+          deny-licenses: |
+            AGPL-1.0, AGPL-3.0, BSD-4-Clause, CC-BY-NC-1.0, CC-BY-NC-2.0,
+            CC-BY-NC-2.5, CC-BY-NC-3.0, CC-BY-NC-4.0, OSL-1.0, OSL-1.1,
+            OSL-2.0, OSL-2.1, OSL-3.0, SSPL-1.0

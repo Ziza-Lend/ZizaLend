@@ -1,6 +1,16 @@
 # ZizaLend
 
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript)](https://www.typescriptlang.org/)
+[![Node](https://img.shields.io/badge/Node-%3E%3D18-339933?logo=node.js)](https://nodejs.org/)
+[![Rust](https://img.shields.io/badge/Rust-1.85+-CE412B?logo=rust)](https://www.rust-lang.org/)
+
+[![CI](https://img.shields.io/github/actions/workflow/status/Ziza-Lend/ZizaLend/ci.yml?branch=main&label=CI&logo=github)](https://github.com/Ziza-Lend/ZizaLend/actions/workflows/ci.yml)
+[![CodeQL](https://img.shields.io/github/actions/workflow/status/Ziza-Lend/ZizaLend/codeql.yml?branch=main&label=CodeQL&logo=github)](https://github.com/Ziza-Lend/ZizaLend/actions/workflows/codeql.yml)
+[![Dependency Review](https://img.shields.io/github/actions/workflow/status/Ziza-Lend/ZizaLend/dependency-review.yml?branch=main&label=Dependency%20Review&logo=github)](https://github.com/Ziza-Lend/ZizaLend/actions/workflows/dependency-review.yml)
+[![Commit Lint](https://img.shields.io/github/actions/workflow/status/Ziza-Lend/ZizaLend/commitlint.yml?branch=main&label=Commit%20Lint&logo=github)](https://github.com/Ziza-Lend/ZizaLend/actions/workflows/commitlint.yml)
+[![Deploy Staging](https://img.shields.io/github/actions/workflow/status/Ziza-Lend/ZizaLend/deploy-staging.yml?branch=main&label=Deploy&logo=github)](https://github.com/Ziza-Lend/ZizaLend/actions/workflows/deploy-staging.yml)
+
 [![Frontend: Next.js](https://img.shields.io/badge/Frontend-Next.js-black?logo=next.js)](https://nextjs.org/)
 [![Backend: Express](https://img.shields.io/badge/Backend-Express.js-white?logo=express)](https://expressjs.com/)
 [![Smart Contracts: Soroban](https://img.shields.io/badge/Smart_Contracts-Soroban-orange)](https://soroban.stellar.org/)
@@ -78,8 +88,7 @@ Both endpoints are gated to non-production environments (`NODE_ENV !== "producti
 ### Quick Start with Docker (Recommended)
 
 1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/LabsCrypt/ZizaLend.git
+   ```bash    git clone https://github.com/Ziza-Lend/ZizaLend.git
    cd ZizaLend
    ```
 

@@ -25,7 +25,9 @@ describe("Skeleton", () => {
 describe("SkeletonText", () => {
   it("renders a single line by default", () => {
     render(<SkeletonText />);
-    const lines = screen.getByText((_, element) => element?.tagName === "DIV" && !!element?.className?.includes("space-y-2"));
+    const lines = screen.getByText(
+      (_, element) => element?.tagName === "DIV" && !!element?.className?.includes("space-y-2"),
+    );
     expect(lines.children).toHaveLength(1);
   });
 

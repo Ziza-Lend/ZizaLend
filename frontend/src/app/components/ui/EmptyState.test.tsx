@@ -4,7 +4,12 @@ import { Info } from "lucide-react";
 
 // Mock next/link
 jest.mock("next/link", () => {
-  return ({ children, href, className, ...props }: React.ComponentProps<"a"> & { href: string }) => (
+  return ({
+    children,
+    href,
+    className,
+    ...props
+  }: React.ComponentProps<"a"> & { href: string }) => (
     <a href={href} className={className} {...props}>
       {children}
     </a>

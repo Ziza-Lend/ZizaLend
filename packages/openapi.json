@@ -1,0 +1,1802 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "ZizaLend API",
+    "version": "1.0.0",
+    "description": "Backend API for ZizaLend lending, scoring, remittance, and indexer flows."
+  },
+  "servers": [
+    { "url": "/api", "description": "Legacy API base path" },
+    { "url": "/api/v1", "description": "Versioned API base path" }
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": { "type": "apiKey", "in": "header", "name": "x-api-key" },
+      "BearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" }
+    },
+    "schemas": {
+      "ValidationError": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string", "example": "body.publicKey" },
+          "message": { "type": "string", "example": "Public key is required" }
+        },
+        "required": ["path", "message"]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean", "example": false },
+          "message": { "type": "string" },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string", "example": "VALIDATION_ERROR" },
+              "message": { "type": "string" },
+              "field": { "type": "string" },
+              "details": { "type": "object" }
+            },
+            "required": ["code", "message"]
+          }
+        },
+        "required": ["success", "error"]
+      },
+      "SimpleSuccessResponse": {
+        "type": "object",
+        "properties": { "success": { "type": "boolean", "example": true } },
+        "required": ["success"]
+      },
+      "SuccessMessageResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean", "example": true },
+          "message": { "type": "string" }
+        },
+        "required": ["success", "message"]
+      },
+      "ChallengeMessage": {
+        "type": "object",
+        "properties": {
+          "message": { "type": "string" },
+          "nonce": { "type": "string" },
+          "timestamp": { "type": "integer" },
+          "expiresIn": { "type": "integer" }
+        },
+        "required": ["message", "nonce", "timestamp", "expiresIn"]
+      },
+      "AuthChallengeResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": { "$ref": "#/components/schemas/ChallengeMessage" }
+        },
+        "required": ["success", "data"]
+      },
+      "AuthLoginData": {
+        "type": "object",
+        "properties": {
+          "token": { "type": "string" },
+          "publicKey": { "type": "string" }
+        },
+        "required": ["token", "publicKey"]
+      },
+      "AuthLoginResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": { "$ref": "#/components/schemas/AuthLoginData" }
+        },
+        "required": ["success", "data"]
+      },
+      "AuthVerifyData": {
+        "type": "object",
+        "properties": {
+          "publicKey": { "type": "string", "nullable": true },
+          "role": { "type": "string", "enum": ["admin", "borrower", "lender"], "nullable": true },
+          "scopes": { "type": "array", "items": { "type": "string" } },
+          "valid": { "type": "boolean" }
+        },
+        "required": ["valid"]
+      },
+      "AuthVerifyResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": { "$ref": "#/components/schemas/AuthVerifyData" }
+        },
+        "required": ["success", "data"]
+      },
+      "BorrowerLoan": {
+        "type": "object",
+        "properties": {
+          "loanId": { "type": "integer" },
+          "principal": { "type": "number" },
+          "accruedInterest": { "type": "number" },
+          "totalRepaid": { "type": "number" },
+          "totalOwed": { "type": "number" },
+          "nextPaymentDeadline": { "type": "string", "format": "date-time" },
+          "status": { "type": "string", "enum": ["active", "repaid", "defaulted"] },
+          "borrower": { "type": "string" },
+          "approvedAt": { "type": "string", "format": "date-time", "nullable": true }
+        },
+        "required": ["loanId", "principal", "accruedInterest", "totalRepaid", "totalOwed", "nextPaymentDeadline", "status", "borrower"]
+      },
+      "BorrowerLoansResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "borrower": { "type": "string" },
+          "loans": { "type": "array", "items": { "$ref": "#/components/schemas/BorrowerLoan" } }
+        },
+        "required": ["success", "borrower", "loans"]
+      },
+      "LoanSummaryEvent": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string" },
+          "amount": { "type": "string", "nullable": true },
+          "timestamp": { "type": "string", "format": "date-time", "nullable": true },
+          "tx": { "type": "string", "nullable": true }
+        },
+        "required": ["type"]
+      },
+      "LoanDetailsSummary": {
+        "type": "object",
+        "properties": {
+          "principal": { "type": "number" },
+          "accruedInterest": { "type": "number" },
+          "totalRepaid": { "type": "number" },
+          "totalOwed": { "type": "number" },
+          "interestRate": { "type": "number" },
+          "termLedgers": { "type": "integer" },
+          "elapsedLedgers": { "type": "integer" },
+          "status": { "type": "string", "enum": ["active", "repaid", "defaulted"] },
+          "requestedAt": { "type": "string", "format": "date-time", "nullable": true },
+          "approvedAt": { "type": "string", "format": "date-time", "nullable": true },
+          "events": { "type": "array", "items": { "$ref": "#/components/schemas/LoanSummaryEvent" } }
+        },
+        "required": ["principal", "accruedInterest", "totalRepaid", "totalOwed", "interestRate", "termLedgers", "elapsedLedgers", "status", "events"]
+      },
+      "LoanDetailsResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "loanId": { "type": "string" },
+          "summary": { "$ref": "#/components/schemas/LoanDetailsSummary" }
+        },
+        "required": ["success", "loanId", "summary"]
+      },
+      "UnsignedTransactionResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "unsignedTxXdr": { "type": "string" },
+          "networkPassphrase": { "type": "string" }
+        },
+        "required": ["success", "unsignedTxXdr", "networkPassphrase"]
+      },
+      "RepayTransactionResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "loanId": { "type": "integer" },
+          "unsignedTxXdr": { "type": "string" },
+          "networkPassphrase": { "type": "string" }
+        },
+        "required": ["success", "loanId", "unsignedTxXdr", "networkPassphrase"]
+      },
+      "SubmittedTransactionResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "txHash": { "type": "string" },
+          "status": { "type": "string" },
+          "resultXdr": { "type": "string" }
+        },
+        "required": ["success", "txHash", "status"]
+      },
+      "PoolStats": {
+        "type": "object",
+        "properties": {
+          "totalDeposits": { "type": "number" },
+          "totalOutstanding": { "type": "number" },
+          "utilizationRate": { "type": "number" },
+          "apy": { "type": "number" },
+          "activeLoansCount": { "type": "integer" }
+        },
+        "required": ["totalDeposits", "totalOutstanding", "utilizationRate", "apy", "activeLoansCount"]
+      },
+      "PoolStatsResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": { "$ref": "#/components/schemas/PoolStats" }
+        },
+        "required": ["success", "data"]
+      },
+      "DepositorPortfolio": {
+        "type": "object",
+        "properties": {
+          "address": { "type": "string" },
+          "depositAmount": { "type": "number" },
+          "sharePercent": { "type": "number" },
+          "estimatedYield": { "type": "number" },
+          "apy": { "type": "number" },
+          "firstDepositAt": { "type": "string", "format": "date-time", "nullable": true }
+        },
+        "required": ["address", "depositAmount", "sharePercent", "estimatedYield", "apy"]
+      },
+      "DepositorPortfolioResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": { "$ref": "#/components/schemas/DepositorPortfolio" }
+        },
+        "required": ["success", "data"]
+      },
+      "SharePriceResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "token": { "type": "string" },
+              "price": { "type": "number" },
+              "cached": { "type": "boolean" }
+            }
+          }
+        },
+        "required": ["success", "data"]
+      },
+      "UserScore": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "userId": { "type": "string" },
+          "score": { "type": "integer" },
+          "band": { "type": "string", "enum": ["Excellent", "Good", "Fair", "Poor"] }
+        },
+        "required": ["success", "userId", "score", "band"]
+      },
+      "ScoreBreakdownMetrics": {
+        "type": "object",
+        "properties": {
+          "totalLoans": { "type": "integer" },
+          "repaidOnTime": { "type": "integer" },
+          "repaidLate": { "type": "integer" },
+          "defaulted": { "type": "integer" },
+          "totalRepaid": { "type": "number" },
+          "averageRepaymentTime": { "type": "string" },
+          "longestStreak": { "type": "integer" },
+          "currentStreak": { "type": "integer" }
+        },
+        "required": ["totalLoans", "repaidOnTime", "repaidLate", "defaulted", "totalRepaid", "averageRepaymentTime", "longestStreak", "currentStreak"]
+      },
+      "ScoreHistoryEntry": {
+        "type": "object",
+        "properties": {
+          "date": { "type": "string", "nullable": true },
+          "score": { "type": "integer" },
+          "event": { "type": "string" }
+        },
+        "required": ["date", "score", "event"]
+      },
+      "ScoreBreakdownResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "userId": { "type": "string" },
+          "score": { "type": "integer" },
+          "band": { "type": "string", "enum": ["Excellent", "Good", "Fair", "Poor"] },
+          "breakdown": { "$ref": "#/components/schemas/ScoreBreakdownMetrics" },
+          "history": { "type": "array", "items": { "$ref": "#/components/schemas/ScoreHistoryEntry" } }
+        },
+        "required": ["success", "userId", "score", "band", "breakdown", "history"]
+      },
+      "ScoreUpdateResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "userId": { "type": "string" },
+          "repaymentAmount": { "type": "number" },
+          "onTime": { "type": "boolean" },
+          "oldScore": { "type": "integer" },
+          "delta": { "type": "integer" },
+          "newScore": { "type": "integer" },
+          "band": { "type": "string", "enum": ["Excellent", "Good", "Fair", "Poor"] }
+        },
+        "required": ["success", "userId", "repaymentAmount", "onTime", "oldScore", "delta", "newScore", "band"]
+      },
+      "Notification": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "userId": { "type": "string" },
+          "type": { "type": "string", "enum": ["loan_approved", "repayment_due", "repayment_confirmed", "loan_defaulted", "loan_liquidated", "score_changed"] },
+          "title": { "type": "string" },
+          "message": { "type": "string" },
+          "loanId": { "type": "integer" },
+          "actionUrl": { "type": "string", "nullable": true },
+          "read": { "type": "boolean" },
+          "status": { "type": "string", "enum": ["unread", "read", "archived"] },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["id", "userId", "type", "title", "message", "read", "createdAt"]
+      },
+      "NotificationsData": {
+        "type": "object",
+        "properties": {
+          "notifications": { "type": "array", "items": { "$ref": "#/components/schemas/Notification" } },
+          "unreadCount": { "type": "integer" }
+        },
+        "required": ["notifications", "unreadCount"]
+      },
+      "NotificationsResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": { "$ref": "#/components/schemas/NotificationsData" }
+        },
+        "required": ["success", "data"]
+      },
+      "NotificationPreferences": {
+        "type": "object",
+        "properties": {
+          "emailEnabled": { "type": "boolean" },
+          "smsEnabled": { "type": "boolean" },
+          "phone": { "type": "string", "nullable": true },
+          "perTypeOverrides": { "type": "object", "additionalProperties": { "type": "boolean" } },
+          "digestFrequency": { "type": "string", "enum": ["off", "daily", "weekly"] }
+        },
+        "required": ["emailEnabled", "smsEnabled", "phone", "perTypeOverrides"]
+      },
+      "UpdateNotificationPreferencesInput": {
+        "type": "object",
+        "properties": {
+          "emailEnabled": { "type": "boolean" },
+          "smsEnabled": { "type": "boolean" },
+          "phone": { "type": "string", "nullable": true }
+        },
+        "required": ["emailEnabled", "smsEnabled"]
+      },
+      "Remittance": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "senderAddress": { "type": "string" },
+          "recipientAddress": { "type": "string" },
+          "amount": { "type": "string" },
+          "token": { "type": "string" },
+          "status": { "type": "string" },
+          "txHash": { "type": "string", "nullable": true },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["id", "senderAddress", "recipientAddress", "amount", "token", "status", "createdAt"]
+      },
+      "CreateRemittanceInput": {
+        "type": "object",
+        "properties": {
+          "recipientAddress": { "type": "string" },
+          "amount": { "type": "string" },
+          "token": { "type": "string" }
+        },
+        "required": ["recipientAddress", "amount", "token"]
+      },
+      "RemittanceResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": { "$ref": "#/components/schemas/Remittance" },
+          "unsignedTxXdr": { "type": "string" },
+          "networkPassphrase": { "type": "string" }
+        },
+        "required": ["success"]
+      },
+      "PaginatedRemittancesResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": { "type": "array", "items": { "$ref": "#/components/schemas/Remittance" } },
+          "page_info": {
+            "type": "object",
+            "properties": {
+              "limit": { "type": "integer" },
+              "next_cursor": { "type": "string", "nullable": true },
+              "has_previous": { "type": "boolean" }
+            }
+          }
+        },
+        "required": ["success", "data", "page_info"]
+      },
+      "Transaction": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "type": { "type": "string" },
+          "amount": { "type": "string" },
+          "status": { "type": "string" },
+          "txHash": { "type": "string", "nullable": true },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["id", "type", "amount", "status", "createdAt"]
+      },
+      "TransactionsResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": { "type": "array", "items": { "$ref": "#/components/schemas/Transaction" } },
+          "page_info": {
+            "type": "object",
+            "properties": {
+              "limit": { "type": "integer" },
+              "next_cursor": { "type": "string", "nullable": true }
+            }
+          }
+        },
+        "required": ["success", "data"]
+      },
+      "UserProfile": {
+        "type": "object",
+        "properties": {
+          "publicKey": { "type": "string" },
+          "displayName": { "type": "string", "nullable": true },
+          "email": { "type": "string", "nullable": true },
+          "phone": { "type": "string", "nullable": true },
+          "locale": { "type": "string", "nullable": true },
+          "avatarUrl": { "type": "string", "nullable": true },
+          "role": { "type": "string", "enum": ["admin", "borrower", "lender"] },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["publicKey", "role", "createdAt"]
+      },
+      "UpdateUserProfileInput": {
+        "type": "object",
+        "properties": {
+          "displayName": { "type": "string", "nullable": true },
+          "email": { "type": "string", "nullable": true },
+          "phone": { "type": "string", "nullable": true },
+          "locale": { "type": "string", "nullable": true },
+          "avatarUrl": { "type": "string", "nullable": true }
+        }
+      },
+      "UserProfileResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": { "$ref": "#/components/schemas/UserProfile" }
+        },
+        "required": ["success", "data"]
+      },
+      "LoanEventRecord": {
+        "type": "object",
+        "properties": {
+          "eventId": { "type": "string" },
+          "eventType": { "type": "string" },
+          "loanId": { "type": "integer" },
+          "address": { "type": "string" },
+          "amount": { "type": "string" },
+          "ledger": { "type": "integer" },
+          "ledgerClosedAt": { "type": "string", "format": "date-time" },
+          "txHash": { "type": "string" },
+          "contractId": { "type": "string" },
+          "interestRateBps": { "type": "integer" },
+          "termLedgers": { "type": "integer" },
+          "topics": { "type": "array", "items": { "type": "string" } },
+          "value": { "type": "string" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["eventId", "eventType", "ledger", "ledgerClosedAt", "txHash"]
+      },
+      "PaginatedEventsResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": { "type": "object", "properties": {
+            "events": { "type": "array", "items": { "$ref": "#/components/schemas/LoanEventRecord" } },
+            "pagination": {
+              "type": "object",
+              "properties": {
+                "limit": { "type": "integer" },
+                "next_cursor": { "type": "string", "nullable": true },
+                "has_next": { "type": "boolean" }
+              }
+            }
+          }}
+        },
+        "required": ["success", "data"]
+      },
+      "IndexerStatusData": {
+        "type": "object",
+        "properties": {
+          "lastIndexedLedger": { "type": "integer" },
+          "lastIndexedCursor": { "type": "string", "nullable": true },
+          "lastUpdated": { "type": "string", "format": "date-time" },
+          "totalEvents": { "type": "integer" },
+          "eventsByType": { "type": "object", "additionalProperties": { "type": "integer" } }
+        },
+        "required": ["lastIndexedLedger", "lastIndexedCursor", "lastUpdated", "totalEvents", "eventsByType"]
+      },
+      "IndexerStatusResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": { "$ref": "#/components/schemas/IndexerStatusData" }
+        },
+        "required": ["success", "data"]
+      },
+      "EventConnectionCounts": {
+        "type": "object",
+        "properties": {
+          "borrower": { "type": "integer" },
+          "admin": { "type": "integer" },
+          "total": { "type": "integer" }
+        },
+        "required": ["borrower", "admin", "total"]
+      },
+      "EventStreamStatusResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": { "$ref": "#/components/schemas/EventConnectionCounts" }
+        },
+        "required": ["success", "data"]
+      },
+      "WebhookSubscription": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "callbackUrl": { "type": "string", "format": "uri" },
+          "eventTypes": { "type": "array", "items": { "type": "string" } },
+          "secret": { "type": "string" },
+          "isActive": { "type": "boolean" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["id", "callbackUrl", "eventTypes", "isActive", "createdAt", "updatedAt"]
+      },
+      "CreateWebhookSubscriptionInput": {
+        "type": "object",
+        "properties": {
+          "callbackUrl": { "type": "string", "format": "uri" },
+          "eventTypes": { "type": "array", "items": { "type": "string" } },
+          "secret": { "type": "string" }
+        },
+        "required": ["callbackUrl", "eventTypes"]
+      },
+      "WebhookSubscriptionListResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "subscriptions": { "type": "array", "items": { "$ref": "#/components/schemas/WebhookSubscription" } }
+            }
+          }
+        },
+        "required": ["success", "data"]
+      },
+      "WebhookDelivery": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "subscriptionId": { "type": "integer" },
+          "eventId": { "type": "string" },
+          "eventType": { "type": "string" },
+          "attemptCount": { "type": "integer" },
+          "lastStatusCode": { "type": "integer" },
+          "lastError": { "type": "string" },
+          "deliveredAt": { "type": "string", "format": "date-time", "nullable": true },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["id", "subscriptionId", "eventId", "eventType", "attemptCount", "createdAt", "updatedAt"]
+      },
+      "WebhookDeliveriesResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": { "type": "object", "properties": {
+            "subscriptionId": { "type": "integer" },
+            "deliveries": { "type": "array", "items": { "$ref": "#/components/schemas/WebhookDelivery" } }
+          }}
+        },
+        "required": ["success", "data"]
+      },
+      "ReindexResult": {
+        "type": "object",
+        "properties": {
+          "fromLedger": { "type": "integer" },
+          "toLedger": { "type": "integer" },
+          "fetchedEvents": { "type": "integer" },
+          "insertedEvents": { "type": "integer" },
+          "lastProcessedLedger": { "type": "integer" }
+        },
+        "required": ["fromLedger", "toLedger", "fetchedEvents", "insertedEvents", "lastProcessedLedger"]
+      },
+      "ReindexResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": { "$ref": "#/components/schemas/ReindexResult" }
+        },
+        "required": ["success", "data"]
+      },
+      "DefaultCheckRunResult": {
+        "type": "object",
+        "properties": {
+          "runId": { "type": "string" },
+          "currentLedger": { "type": "integer" },
+          "termLedgers": { "type": "integer" },
+          "overdueCount": { "type": "integer" },
+          "loansChecked": { "type": "integer" },
+          "successfulSubmissions": { "type": "integer" },
+          "failedSubmissions": { "type": "integer" },
+          "batches": { "type": "array", "items": { "type": "object" } }
+        },
+        "required": ["runId", "currentLedger", "termLedgers", "overdueCount", "batches"]
+      },
+      "DefaultCheckResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": { "$ref": "#/components/schemas/DefaultCheckRunResult" }
+        },
+        "required": ["success", "data"]
+      },
+      "HealthCheckResponse": {
+        "type": "object",
+        "properties": {
+          "status": { "type": "string", "enum": ["ok", "degraded", "down"] },
+          "checks": {
+            "type": "object",
+            "properties": {
+              "database": { "type": "string", "enum": ["ok", "error"] },
+              "redis": { "type": "string", "enum": ["ok", "error"] },
+              "soroban_rpc": { "type": "string", "enum": ["ok", "error"] }
+            }
+          },
+          "uptime": { "type": "number" },
+          "timestamp": { "type": "integer" }
+        },
+        "required": ["status", "checks", "uptime", "timestamp"]
+      },
+      "DeepHealthCheckResponse": {
+        "type": "object",
+        "properties": {
+          "status": { "type": "string", "enum": ["ok", "degraded", "down"] },
+          "checks": {
+            "type": "object",
+            "properties": {
+              "db": { "type": "string", "enum": ["ok", "down"] },
+              "redis": { "type": "string", "enum": ["ok", "down"] },
+              "stellarRpc": { "type": "string", "enum": ["ok", "down"] },
+              "indexer": {
+                "type": "object",
+                "properties": {
+                  "status": { "type": "string", "enum": ["ok", "degraded", "down"] },
+                  "lagLedgers": { "type": "integer", "nullable": true }
+                }
+              }
+            }
+          }
+        },
+        "required": ["status", "checks"]
+      },
+      "VersionResponse": {
+        "type": "object",
+        "properties": {
+          "gitSha": { "type": "string" },
+          "builtAt": { "type": "string" },
+          "nodeVersion": { "type": "string" },
+          "contracts": {
+            "type": "object",
+            "properties": {
+              "loanManager": { "type": "string" },
+              "lendingPool": { "type": "string" },
+              "remittanceNft": { "type": "string" },
+              "multisigGovernance": { "type": "string" }
+            }
+          }
+        },
+        "required": ["gitSha", "builtAt", "nodeVersion", "contracts"]
+      },
+      "AuditLogEntry": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "actor": { "type": "string" },
+          "action": { "type": "string" },
+          "target": { "type": "string" },
+          "payload": { "type": "object" },
+          "ipAddress": { "type": "string", "nullable": true },
+          "status": { "type": "integer" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["id", "actor", "action", "status", "createdAt"]
+      },
+      "LoanDispute": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "loanId": { "type": "integer" },
+          "borrower": { "type": "string" },
+          "reason": { "type": "string" },
+          "status": { "type": "string", "enum": ["pending", "resolved", "rejected"] },
+          "resolution": { "type": "string", "nullable": true },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "resolvedAt": { "type": "string", "format": "date-time", "nullable": true }
+        },
+        "required": ["id", "loanId", "borrower", "reason", "status", "createdAt"]
+      }
+    }
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": ["Health"],
+        "summary": "Basic health check",
+        "operationId": "healthCheck",
+        "responses": {
+          "200": { "description": "Service healthy", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/HealthCheckResponse" } } } },
+          "503": { "description": "Service degraded" }
+        }
+      }
+    },
+    "/health/deep": {
+      "get": {
+        "tags": ["Health"],
+        "summary": "Deep health check with dependency status",
+        "operationId": "deepHealthCheck",
+        "responses": {
+          "200": { "description": "All dependencies healthy", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/DeepHealthCheckResponse" } } } },
+          "503": { "description": "One or more dependencies down" }
+        }
+      }
+    },
+    "/version": {
+      "get": {
+        "tags": ["Health"],
+        "summary": "Get build version and contract IDs",
+        "operationId": "getVersion",
+        "responses": {
+          "200": { "description": "Version info", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/VersionResponse" } } } }
+        }
+      }
+    },
+    "/auth/challenge": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Request a challenge message for wallet authentication",
+        "operationId": "requestChallenge",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["publicKey"],
+                "properties": { "publicKey": { "type": "string", "description": "Stellar public key (G...)" } }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Challenge message", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AuthChallengeResponse" } } } }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Authenticate with signed challenge",
+        "operationId": "login",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["publicKey", "message", "signature"],
+                "properties": {
+                  "publicKey": { "type": "string" },
+                  "message": { "type": "string" },
+                  "signature": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "JWT token", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AuthLoginResponse" } } } }
+        }
+      }
+    },
+    "/auth/verify": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Verify current JWT token",
+        "operationId": "verifyToken",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Token is valid", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AuthVerifyResponse" } } } }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Logout and revoke current token",
+        "operationId": "logout",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Logged out", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SimpleSuccessResponse" } } } }
+        }
+      }
+    },
+    "/user/profile": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get authenticated user's profile",
+        "operationId": "getUserProfile",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "User profile", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UserProfileResponse" } } } }
+        }
+      },
+      "patch": {
+        "tags": ["User"],
+        "summary": "Update authenticated user's profile",
+        "operationId": "updateUserProfile",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UpdateUserProfileInput" } } }
+        },
+        "responses": {
+          "200": { "description": "Updated profile", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UserProfileResponse" } } } }
+        }
+      }
+    },
+    "/loans": {
+      "get": {
+        "tags": ["Loans"],
+        "summary": "Get loans for the authenticated user",
+        "operationId": "getBorrowerLoans",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "status", "in": "query", "schema": { "type": "string", "enum": ["active", "repaid", "defaulted", "pending"] } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "maximum": 100 } },
+          { "name": "cursor", "in": "query", "schema": { "type": "string" } },
+          { "name": "from", "in": "query", "schema": { "type": "string", "format": "date" } },
+          { "name": "to", "in": "query", "schema": { "type": "string", "format": "date" } }
+        ],
+        "responses": {
+          "200": { "description": "List of loans", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/BorrowerLoansResponse" } } } }
+        }
+      }
+    },
+    "/loans/{loanId}": {
+      "get": {
+        "tags": ["Loans"],
+        "summary": "Get loan details",
+        "operationId": "getLoanDetails",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "loanId", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Loan details", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/LoanDetailsResponse" } } } }
+        }
+      }
+    },
+    "/loans/config": {
+      "get": {
+        "tags": ["Loans"],
+        "summary": "Get loan configuration parameters",
+        "operationId": "getLoanConfig",
+        "responses": {
+          "200": { "description": "Loan configuration" }
+        }
+      }
+    },
+    "/loans/request": {
+      "post": {
+        "tags": ["Loans"],
+        "summary": "Build an unsigned loan request transaction",
+        "operationId": "buildLoanRequestTx",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["borrowerPublicKey", "amount"],
+                "properties": {
+                  "borrowerPublicKey": { "type": "string" },
+                  "amount": { "type": "string" },
+                  "collateralToken": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Unsigned transaction XDR", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UnsignedTransactionResponse" } } } }
+        }
+      }
+    },
+    "/loans/{loanId}/repay": {
+      "post": {
+        "tags": ["Loans"],
+        "summary": "Build an unsigned repayment transaction",
+        "operationId": "buildRepayTx",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "loanId", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["borrowerPublicKey", "amount"],
+                "properties": {
+                  "borrowerPublicKey": { "type": "string" },
+                  "amount": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Unsigned repayment transaction", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RepayTransactionResponse" } } } }
+        }
+      }
+    },
+    "/loans/{loanId}/submit": {
+      "post": {
+        "tags": ["Loans"],
+        "summary": "Submit a signed loan transaction",
+        "operationId": "submitLoanTransaction",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "loanId", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["signedTxXdr"],
+                "properties": { "signedTxXdr": { "type": "string" } }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Submitted transaction", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SubmittedTransactionResponse" } } } }
+        }
+      }
+    },
+    "/loans/{loanId}/cancel": {
+      "post": {
+        "tags": ["Loans"],
+        "summary": "Build cancel loan transaction",
+        "operationId": "buildCancelLoanTx",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "loanId", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Unsigned cancel transaction" }
+        }
+      }
+    },
+    "/loans/{loanId}/reject": {
+      "post": {
+        "tags": ["Loans"],
+        "summary": "Build reject loan transaction",
+        "operationId": "buildRejectLoanTx",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "loanId", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Unsigned reject transaction" }
+        }
+      }
+    },
+    "/loans/{loanId}/refinance": {
+      "post": {
+        "tags": ["Loans"],
+        "summary": "Build refinance loan transaction",
+        "operationId": "buildRefinanceTx",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "loanId", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": { "application/json": { "schema": {
+            "type": "object",
+            "properties": { "newAmount": { "type": "string" }, "newTermLedgers": { "type": "integer" } }
+          } } }
+        },
+        "responses": {
+          "200": { "description": "Unsigned refinance transaction" }
+        }
+      }
+    },
+    "/loans/{loanId}/extend": {
+      "post": {
+        "tags": ["Loans"],
+        "summary": "Build extend loan transaction",
+        "operationId": "buildExtendTx",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "loanId", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Unsigned extend transaction" }
+        }
+      }
+    },
+    "/loans/{loanId}/amortization": {
+      "get": {
+        "tags": ["Loans"],
+        "summary": "Get loan amortization schedule",
+        "operationId": "getLoanAmortizationSchedule",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "loanId", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Amortization schedule" }
+        }
+      }
+    },
+    "/loans/{loanId}/collateral/deposit": {
+      "post": {
+        "tags": ["Loans"],
+        "summary": "Build deposit collateral transaction",
+        "operationId": "buildDepositCollateralTx",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "loanId", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Unsigned deposit transaction" }
+        }
+      }
+    },
+    "/loans/{loanId}/collateral/release": {
+      "post": {
+        "tags": ["Loans"],
+        "summary": "Build release collateral transaction",
+        "operationId": "buildReleaseCollateralTx",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "loanId", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Unsigned release transaction" }
+        }
+      }
+    },
+    "/loans/{loanId}/liquidate": {
+      "post": {
+        "tags": ["Loans"],
+        "summary": "Build liquidate loan transaction",
+        "operationId": "buildLiquidateTx",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "loanId", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Unsigned liquidate transaction" }
+        }
+      }
+    },
+    "/loans/{loanId}/contest-default": {
+      "post": {
+        "tags": ["Loans"],
+        "summary": "Contest a default notification",
+        "operationId": "contestDefault",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "loanId", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": { "reason": { "type": "string" } }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Default contested" }
+        }
+      }
+    },
+    "/loans/{loanId}/mark-defaulted": {
+      "post": {
+        "tags": ["Loans"],
+        "summary": "Mark loan as defaulted (admin)",
+        "operationId": "markLoanDefaulted",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "loanId", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Loan marked as defaulted" }
+        }
+      }
+    },
+    "/pool/stats": {
+      "get": {
+        "tags": ["Pool"],
+        "summary": "Get lending pool statistics",
+        "operationId": "getPoolStats",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Pool statistics", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/PoolStatsResponse" } } } }
+        }
+      }
+    },
+    "/pool/portfolio": {
+      "get": {
+        "tags": ["Pool"],
+        "summary": "Get depositor portfolio",
+        "operationId": "getDepositorPortfolio",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Depositor portfolio", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/DepositorPortfolioResponse" } } } }
+        }
+      }
+    },
+    "/pool/share-price": {
+      "get": {
+        "tags": ["Pool"],
+        "summary": "Get pool share price for a token",
+        "operationId": "getSharePrice",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "token", "in": "query", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Share price", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SharePriceResponse" } } } }
+        }
+      }
+    },
+    "/pool/yield-history": {
+      "get": {
+        "tags": ["Pool"],
+        "summary": "Get depositor yield history",
+        "operationId": "getYieldHistory",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "token", "in": "query", "schema": { "type": "string" } },
+          { "name": "days", "in": "query", "schema": { "type": "integer", "default": 30 } }
+        ],
+        "responses": {
+          "200": { "description": "Yield history" }
+        }
+      }
+    },
+    "/pool/deposit": {
+      "post": {
+        "tags": ["Pool"],
+        "summary": "Build deposit transaction",
+        "operationId": "buildDepositTx",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["depositorPublicKey", "token", "amount"],
+                "properties": {
+                  "depositorPublicKey": { "type": "string" },
+                  "token": { "type": "string" },
+                  "amount": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Unsigned deposit transaction", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UnsignedTransactionResponse" } } } }
+        }
+      }
+    },
+    "/pool/withdraw": {
+      "post": {
+        "tags": ["Pool"],
+        "summary": "Build withdraw transaction",
+        "operationId": "buildWithdrawTx",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["depositorPublicKey", "token", "amount"],
+                "properties": {
+                  "depositorPublicKey": { "type": "string" },
+                  "token": { "type": "string" },
+                  "amount": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Unsigned withdraw transaction", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UnsignedTransactionResponse" } } } }
+        }
+      }
+    },
+    "/pool/emergency-withdraw": {
+      "post": {
+        "tags": ["Pool"],
+        "summary": "Build emergency withdraw transaction",
+        "operationId": "buildEmergencyWithdrawTx",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Unsigned emergency withdraw transaction" }
+        }
+      }
+    },
+    "/pool/submit": {
+      "post": {
+        "tags": ["Pool"],
+        "summary": "Submit a signed pool transaction",
+        "operationId": "submitPoolTransaction",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["signedTxXdr"],
+                "properties": { "signedTxXdr": { "type": "string" } }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Submitted transaction", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SubmittedTransactionResponse" } } } }
+        }
+      }
+    },
+    "/score/{userId}": {
+      "get": {
+        "tags": ["Score"],
+        "summary": "Get credit score for a user",
+        "operationId": "getUserScore",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "userId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Credit score", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UserScore" } } } }
+        }
+      }
+    },
+    "/score/{userId}/breakdown": {
+      "get": {
+        "tags": ["Score"],
+        "summary": "Get detailed score breakdown and history",
+        "operationId": "getScoreBreakdown",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "userId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Score breakdown", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ScoreBreakdownResponse" } } } }
+        }
+      }
+    },
+    "/score/{userId}/history": {
+      "get": {
+        "tags": ["Score"],
+        "summary": "Get score history timeline",
+        "operationId": "getScoreHistory",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "userId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Score history" }
+        }
+      }
+    },
+    "/score/update": {
+      "post": {
+        "tags": ["Score"],
+        "summary": "Update a user's credit score (internal)",
+        "operationId": "updateScore",
+        "security": [{ "ApiKeyAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["userId", "repaymentAmount", "onTime"],
+                "properties": {
+                  "userId": { "type": "string" },
+                  "repaymentAmount": { "type": "number" },
+                  "onTime": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Score updated", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ScoreUpdateResponse" } } } }
+        }
+      }
+    },
+    "/notifications": {
+      "get": {
+        "tags": ["Notifications"],
+        "summary": "Get notifications for the authenticated user",
+        "operationId": "getNotifications",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "type", "in": "query", "schema": { "type": "string" } },
+          { "name": "status", "in": "query", "schema": { "type": "string", "enum": ["unread", "read", "archived"] } },
+          { "name": "from", "in": "query", "schema": { "type": "string", "format": "date-time" } },
+          { "name": "to", "in": "query", "schema": { "type": "string", "format": "date-time" } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "maximum": 100 } }
+        ],
+        "responses": {
+          "200": { "description": "Notifications list", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/NotificationsResponse" } } } }
+        }
+      }
+    },
+    "/notifications/stream": {
+      "get": {
+        "tags": ["Notifications"],
+        "summary": "SSE stream for real-time notifications",
+        "operationId": "streamNotifications",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "SSE event stream", "content": { "text/event-stream": { "schema": { "type": "string" } } } }
+        }
+      }
+    },
+    "/notifications/mark-read": {
+      "post": {
+        "tags": ["Notifications"],
+        "summary": "Mark notifications as read",
+        "operationId": "markNotificationsRead",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["ids"],
+                "properties": { "ids": { "type": "array", "items": { "type": "integer" } } }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Notifications marked read", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SimpleSuccessResponse" } } } }
+        }
+      }
+    },
+    "/notifications/mark-all-read": {
+      "post": {
+        "tags": ["Notifications"],
+        "summary": "Mark all notifications as read",
+        "operationId": "markAllNotificationsRead",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "All notifications marked read", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SimpleSuccessResponse" } } } }
+        }
+      }
+    },
+    "/notifications/preferences": {
+      "get": {
+        "tags": ["Notifications"],
+        "summary": "Get notification preferences",
+        "operationId": "getNotificationPreferences",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Notification preferences", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/NotificationPreferences" } } } }
+        }
+      },
+      "put": {
+        "tags": ["Notifications"],
+        "summary": "Update notification preferences",
+        "operationId": "updateNotificationPreferences",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateNotificationPreferencesInput" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Updated preferences", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/NotificationPreferences" } } } }
+        }
+      }
+    },
+    "/remittances": {
+      "get": {
+        "tags": ["Remittances"],
+        "summary": "Get remittances for the authenticated user",
+        "operationId": "getRemittances",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "maximum": 100 } },
+          { "name": "cursor", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Paginated remittances", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/PaginatedRemittancesResponse" } } } }
+        }
+      },
+      "post": {
+        "tags": ["Remittances"],
+        "summary": "Create a new remittance (build transaction)",
+        "operationId": "createRemittance",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/CreateRemittanceInput" } }
+          }
+        },
+        "responses": {
+          "200": { "description": "Remittance created", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RemittanceResponse" } } } }
+        }
+      }
+    },
+    "/remittances/{id}": {
+      "get": {
+        "tags": ["Remittances"],
+        "summary": "Get a specific remittance",
+        "operationId": "getRemittance",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Remittance details", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RemittanceResponse" } } } }
+        }
+      }
+    },
+    "/remittances/{id}/submit": {
+      "post": {
+        "tags": ["Remittances"],
+        "summary": "Submit a signed remittance transaction",
+        "operationId": "submitRemittanceTransaction",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["signedTxXdr"],
+                "properties": { "signedTxXdr": { "type": "string" } }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Transaction submitted", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SubmittedTransactionResponse" } } } }
+        }
+      }
+    },
+    "/transactions/me": {
+      "get": {
+        "tags": ["Transactions"],
+        "summary": "Get authenticated user's transactions",
+        "operationId": "listMyTransactions",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "maximum": 100 } },
+          { "name": "cursor", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Transactions list", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/TransactionsResponse" } } } }
+        }
+      }
+    },
+    "/events/stream": {
+      "get": {
+        "tags": ["Events"],
+        "summary": "SSE stream for real-time loan events",
+        "operationId": "streamEvents",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "borrower", "in": "query", "schema": { "type": "string" }, "description": "Filter events for a specific borrower" },
+          { "name": "lastEventId", "in": "query", "schema": { "type": "string" }, "description": "Replay events after this ID" }
+        ],
+        "responses": {
+          "200": { "description": "SSE event stream" }
+        }
+      }
+    },
+    "/events/status": {
+      "get": {
+        "tags": ["Events"],
+        "summary": "Get SSE connection counts (admin)",
+        "operationId": "getEventStreamStatus",
+        "security": [{ "ApiKeyAuth": [] }],
+        "responses": {
+          "200": { "description": "Connection counts", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/EventStreamStatusResponse" } } } }
+        }
+      }
+    },
+    "/indexer/status": {
+      "get": {
+        "tags": ["Indexer"],
+        "summary": "Get event indexer status",
+        "operationId": "getIndexerStatus",
+        "responses": {
+          "200": { "description": "Indexer status", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/IndexerStatusResponse" } } } }
+        }
+      }
+    },
+    "/indexer/events/borrower/{borrower}": {
+      "get": {
+        "tags": ["Indexer"],
+        "summary": "Get events for a specific borrower",
+        "operationId": "getBorrowerEvents",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "borrower", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "maximum": 100 } },
+          { "name": "cursor", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Paginated events", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/PaginatedEventsResponse" } } } }
+        }
+      }
+    },
+    "/indexer/events/loan/{loanId}": {
+      "get": {
+        "tags": ["Indexer"],
+        "summary": "Get events for a specific loan",
+        "operationId": "getLoanEvents",
+        "parameters": [
+          { "name": "loanId", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Loan events" }
+        }
+      }
+    },
+    "/indexer/events/recent": {
+      "get": {
+        "tags": ["Indexer"],
+        "summary": "Get recent events (admin)",
+        "operationId": "getRecentEvents",
+        "security": [{ "ApiKeyAuth": [] }],
+        "parameters": [
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "maximum": 100 } },
+          { "name": "eventType", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Recent events" }
+        }
+      }
+    },
+    "/indexer/reindex": {
+      "post": {
+        "tags": ["Indexer"],
+        "summary": "Reindex a ledger range (admin)",
+        "operationId": "reindexLedgerRange",
+        "security": [{ "ApiKeyAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["fromLedger", "toLedger"],
+                "properties": {
+                  "fromLedger": { "type": "integer" },
+                  "toLedger": { "type": "integer" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Reindex result", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ReindexResponse" } } } }
+        }
+      }
+    },
+    "/indexer/default-check": {
+      "post": {
+        "tags": ["Indexer"],
+        "summary": "Run default check on overdue loans (admin)",
+        "operationId": "runDefaultCheck",
+        "security": [{ "ApiKeyAuth": [] }],
+        "responses": {
+          "200": { "description": "Default check result", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/DefaultCheckResponse" } } } }
+        }
+      }
+    },
+    "/indexer/webhooks": {
+      "get": {
+        "tags": ["Indexer"],
+        "summary": "List webhook subscriptions (admin)",
+        "operationId": "listWebhookSubscriptions",
+        "security": [{ "ApiKeyAuth": [] }],
+        "responses": {
+          "200": { "description": "Webhook subscriptions", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/WebhookSubscriptionListResponse" } } } }
+        }
+      },
+      "post": {
+        "tags": ["Indexer"],
+        "summary": "Create webhook subscription (admin)",
+        "operationId": "createWebhookSubscription",
+        "security": [{ "ApiKeyAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/CreateWebhookSubscriptionInput" } }
+          }
+        },
+        "responses": {
+          "200": { "description": "Webhook created" }
+        }
+      }
+    },
+    "/indexer/webhooks/{id}": {
+      "delete": {
+        "tags": ["Indexer"],
+        "summary": "Delete webhook subscription (admin)",
+        "operationId": "deleteWebhookSubscription",
+        "security": [{ "ApiKeyAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Webhook deleted", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SuccessMessageResponse" } } } }
+        }
+      }
+    },
+    "/indexer/webhooks/{id}/deliveries": {
+      "get": {
+        "tags": ["Indexer"],
+        "summary": "Get webhook delivery history (admin)",
+        "operationId": "getWebhookDeliveries",
+        "security": [{ "ApiKeyAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Delivery history", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/WebhookDeliveriesResponse" } } } }
+        }
+      }
+    },
+    "/admin/audit-logs": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "List audit logs (admin)",
+        "operationId": "listAuditLogs",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "limit", "in": "query", "schema": { "type": "integer" } },
+          { "name": "cursor", "in": "query", "schema": { "type": "string" } },
+          { "name": "actor", "in": "query", "schema": { "type": "string" } },
+          { "name": "action", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Audit logs" }
+        }
+      }
+    },
+    "/admin/loan-disputes": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "List loan disputes (admin)",
+        "operationId": "listLoanDisputes",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Loan disputes list" }
+        }
+      }
+    },
+    "/admin/loan-disputes/{disputeId}": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "Get loan dispute details",
+        "operationId": "getLoanDispute",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "disputeId", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Dispute details" }
+        }
+      }
+    },
+    "/admin/governance/pending": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "Get pending governance proposals",
+        "operationId": "getPendingGovernance",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Pending proposals" }
+        }
+      }
+    },
+    "/simulate/remittance-history": {
+      "get": {
+        "tags": ["Simulation"],
+        "summary": "Get simulated remittance history for a user",
+        "operationId": "getRemittanceHistory",
+        "parameters": [
+          { "name": "userId", "in": "query", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Remittance history" }
+        }
+      }
+    },
+    "/simulate/payment": {
+      "post": {
+        "tags": ["Simulation"],
+        "summary": "Simulate a payment and score impact",
+        "operationId": "simulatePayment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": { "type": "string" },
+                  "amount": { "type": "number" },
+                  "onTime": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Simulation result" }
+        }
+      }
+    }
+  },
+  "tags": [
+    { "name": "Health", "description": "Health check and version endpoints" },
+    { "name": "Auth", "description": "Wallet-based authentication" },
+    { "name": "User", "description": "User profile management" },
+    { "name": "Loans", "description": "Loan lifecycle management" },
+    { "name": "Pool", "description": "Lending pool operations" },
+    { "name": "Score", "description": "Credit score operations" },
+    { "name": "Notifications", "description": "User notifications" },
+    { "name": "Remittances", "description": "Remittance operations" },
+    { "name": "Transactions", "description": "Transaction history" },
+    { "name": "Events", "description": "Real-time event streaming" },
+    { "name": "Indexer", "description": "Event indexer and webhook management" },
+    { "name": "Admin", "description": "Administrative operations" },
+    { "name": "Simulation", "description": "Simulation endpoints" }
+  ]
+}

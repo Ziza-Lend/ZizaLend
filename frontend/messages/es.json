@@ -364,5 +364,53 @@
     "targetContract": "Contrato objetivo",
     "expiresAt": "Expira",
     "timeToExecutable": "Tiempo hasta ejecutable"
+  },
+  "wallet": {
+    "emptyState": {
+      "title": "Billetera",
+      "description": "Conecta tu billetera Stellar para ver tus balances e historial de transacciones.",
+      "cta": "Conectar billetera"
+    },
+    "connect": {
+      "title": "Conectar una billetera",
+      "description": "Elige una billetera para continuar. ZizaLend no es custodial: tus llaves nunca salen de tu dispositivo.",
+      "freighterOptionName": "Freighter",
+      "freighterOptionDescription": "Extensión de navegador de la Stellar Development Foundation.",
+      "connecting": "Esperando confirmación de la billetera…",
+      "mobileFallback": {
+        "description": "Freighter es una extensión de navegador de escritorio. En móvil puedes continuar con la billetera web de Albedo mediante deeplink a esta página.",
+        "cta": "Continuar con Albedo"
+      }
+    },
+    "error": {
+      "retry": "Reintentar",
+      "dismiss": "Descartar",
+      "user_rejected": {
+        "title": "Conexión cancelada"
+      },
+      "wallet_locked": {
+        "title": "La billetera está bloqueada"
+      },
+      "network_down": {
+        "title": "Extensión de billetera inaccesible"
+      },
+      "wrongNetwork": {
+        "title": "Red no soportada",
+        "description": "Tu billetera está conectada a {network}, que esta app no soporta. Cambia a Public o Testnet en Freighter y actualiza.",
+        "refresh": "Actualizar red"
+      },
+      "timeout": {
+        "title": "Tiempo de espera agotado"
+      },
+      "unknown": {
+        "title": "Error de billetera"
+      }
+    },
+    "networkBanner": {
+      "title": "Red incorrecta: {network}",
+      "description": "La mayoría de acciones están deshabilitadas. Cambia a una red soportada o desconecta.",
+      "refresh": "Actualizar",
+      "disconnect": "Desconectar"
+    }
   }
 }

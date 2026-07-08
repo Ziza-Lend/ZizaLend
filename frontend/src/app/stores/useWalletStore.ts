@@ -21,6 +21,26 @@ import { createJSONStorage, devtools, persist } from "zustand/middleware";
 
 export type WalletStatus = "disconnected" | "connecting" | "connected" | "error";
 
+/**
+ * Categorised wallet error taxonomy. Used by the wallet connection modal to
+ * drive recovery UX (specific CTA, copy tone) instead of a flat error string.
+ */
+export type WalletErrorKind =
+  "user_rejected" | "wallet_locked" | "network_down" | "wrong_network" | "timeout" | "unknown";
+
+export interface WalletError {
+  kind: WalletErrorKind;
+  /** Human-readable message suitable for direct display. */
+  message: string;
+}
+
+/**
+ * Explicit connection lifecycle phase. Backed by the same status field
+ * (status is the wire-facing string; phase is the orchestrator-facing enum).
+ */
+export type ConnectionPhase =
+  "disconnected" | "detecting" | "connecting" | "wrong_network" | "signing" | "connected" | "error";
+
 export interface TokenBalance {
   symbol: string;
   /** Human-readable amount, e.g. "1.234" */
@@ -37,8 +57,10 @@ export interface WalletNetwork {
 }
 
 interface WalletState {
-  /** Wallet connection status */
+  /** Wallet connection status (wire-facing string, kept for back-compat) */
   status: WalletStatus;
+  /** Orchestrator-facing lifecycle phase. */
+  phase: ConnectionPhase;
   /** Connected wallet address (checksummed) — null when disconnected */
   address: string | null;
   /** Current network info */
@@ -47,7 +69,13 @@ interface WalletState {
   balances: TokenBalance[];
   /** True while fetching/refreshing balances */
   isLoadingBalances: boolean;
-  /** Human-readable error message */
+  /**
+   * Categorised wallet error for rich UX (UserRejected vs WrongNetwork vs …).
+   * May be null even when `error` is non-null; the orchestrator sets the
+   * kind on known failure paths and leaves it null otherwise.
+   */
+  lastError: WalletError | null;
+  /** Human-readable error message (derived convenience for display). */
   error: string | null;
   /** Whether the app should try to restore the wallet on refresh */
   shouldAutoReconnect: boolean;
@@ -63,7 +91,26 @@ interface WalletActions {
   /** Update network when the user switches chains */
   setNetwork: (network: WalletNetwork) => void;
   setStatus: (status: WalletStatus) => void;
-  setError: (error: string | null, status?: WalletStatus) => void;
+  /** Set the orchestrator-facing phase explicitly. */
+  setPhase: (phase: ConnectionPhase) => void;
+  /**
+   * Set the categorised error. Passing `null` clears it. The optional `status`
+   * keeps the legacy wire-facing status in sync.
+   */
+  /**
+   * Set an uncategorised, free-text error message. Use this when the failure
+   * path can't / shouldn't classify the kind (network blips, raw API errors).
+   * Passing `null` clears the error. The optional `status` keeps the legacy
+   * wire-facing status in sync.
+   */
+  setErrorString: (message: string | null, status?: WalletStatus) => void;
+  /**
+   * Set a categorised error. Use this when the failure path can classify the
+   * kind (user rejected, wallet locked, network unreachable, wrong network,
+   * timeout, or unknown). Passing `null` clears the error. The optional
+   * `status` keeps the legacy wire-facing status in sync.
+   */
+  setCategorisedError: (error: WalletError | null, status?: WalletStatus) => void;
   setLoadingBalances: (loading: boolean) => void;
 }
 
@@ -71,12 +118,14 @@ export type WalletStore = WalletState & WalletActions;
 
 // ─── Initial state ────────────────────────────────────────────────────────────
 
-const initialState: WalletState = {
+export const initialState: WalletState = {
   status: "disconnected",
+  phase: "disconnected",
   address: null,
   network: null,
   balances: [],
   isLoadingBalances: false,
+  lastError: null,
   error: null,
   shouldAutoReconnect: false,
 };
@@ -118,17 +167,66 @@ export const useWalletStore = create<WalletStore>()(
 
         setStatus: (status) => set({ status }, false, "wallet/setStatus"),
 
-        setError: (error, status = "error") =>
-          set({ error, status, isLoadingBalances: false }, false, "wallet/setError"),
+        setPhase: (phase) => set({ phase }, false, "wallet/setPhase"),
+
+        setErrorString: (message, status) => {
+          const nextStatus: WalletStatus = status ?? (message ? "error" : "disconnected");
+          set(
+            {
+              error: message,
+              lastError: message ? { kind: "unknown", message } : null,
+              status: nextStatus,
+              isLoadingBalances: false,
+            },
+            false,
+            "wallet/setErrorString",
+          );
+        },
+
+        setCategorisedError: (error, status) => {
+          const nextStatus: WalletStatus = status ?? (error ? "error" : "disconnected");
+          set(
+            {
+              error: error?.message ?? null,
+              lastError: error,
+              status: nextStatus,
+              isLoadingBalances: false,
+            },
+            false,
+            "wallet/setCategorisedError",
+          );
+        },
 
         setLoadingBalances: (isLoadingBalances) =>
           set({ isLoadingBalances }, false, "wallet/setLoadingBalances"),
       }),
       {
         name: "ZizaLend-wallet",
+        version: 2,
         storage: createJSONStorage(() => localStorage),
+        // v1 -> v2 migration: existing persisted state has no `phase` or
+        // `lastError` field. Backfill from the legacy `status` field so a
+        // returning user lands on a sensible phase.
+        migrate: (persisted, version) => {
+          const p = (persisted ?? {}) as Partial<WalletState>;
+          const phase: ConnectionPhase =
+            p.status === "connected"
+              ? "connected"
+              : p.status === "connecting"
+                ? "connecting"
+                : p.status === "error"
+                  ? "error"
+                  : "disconnected";
+          return {
+            ...initialState,
+            ...p,
+            phase,
+            lastError: null,
+          } as WalletState;
+        },
         partialize: (state) => ({
           status: state.status,
+          phase: state.phase,
           address: state.address,
           network: state.network,
           balances: state.balances,
@@ -149,3 +247,7 @@ export const selectWalletNetwork = (state: WalletStore) => state.network;
 export const selectWalletBalances = (state: WalletStore) => state.balances;
 export const selectWalletError = (state: WalletStore) => state.error;
 export const selectWalletShouldAutoReconnect = (state: WalletStore) => state.shouldAutoReconnect;
+export const selectWalletPhase = (state: WalletStore) => state.phase;
+export const selectWalletLastError = (state: WalletStore) => state.lastError;
+export const selectIsWrongNetwork = (state: WalletStore) =>
+  !!state.address && !!state.network && !state.network.isSupported;

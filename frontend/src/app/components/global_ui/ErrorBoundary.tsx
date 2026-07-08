@@ -22,7 +22,7 @@ interface ErrorFallbackProps {
   variant?: "page" | "section";
 }
 
-const REPORT_ISSUE_URL = "https://github.com/LabsCrypt/ZizaLend/issues/new";
+const REPORT_ISSUE_URL = "https://github.com/Ziza-Lend/ZizaLend/issues/new";
 
 export function ErrorFallback({
   error,
