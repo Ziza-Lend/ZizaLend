@@ -163,8 +163,12 @@ fuzz_target!(|data: FuzzAction| {
                     );
                 }
 
-                // Verify invariant: score should never be negative
+                // Verify invariants: score must stay in [0, MAX_SCORE].
                 assert!(score_after >= 0, "Score should never be negative");
+                assert!(
+                    score_after <= remittance_nft::RemittanceNFT::MAX_SCORE,
+                    "Score must not exceed MAX_SCORE"
+                );
             }
         }
 
