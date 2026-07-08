@@ -1,10 +1,10 @@
-import cron from 'node-cron';
+import cron, { type ScheduledTask } from 'node-cron';
 import { query } from '../db/connection.js';
 import { notificationService } from '../services/notificationService.js';
 import { jobMetricsService } from '../services/jobMetricsService.js';
 import logger from '../utils/logger.js';
 
-let scheduledTask: cron.ScheduledTask | null = null;
+let scheduledTask: ScheduledTask | null = null;
 let inFlight = false;
 
 /**

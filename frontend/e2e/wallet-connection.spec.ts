@@ -47,9 +47,7 @@ test.describe("Wallet connection — disconnected", () => {
     await seedDisconnected(page);
   });
 
-  test("CTA button on /wallet opens the connect modal", async ({ page }: {
-    page: Page;
-  }) => {
+  test("CTA button on /wallet opens the connect modal", async ({ page }: { page: Page }) => {
     await page.goto("/en/wallet");
 
     const cta = page.getByTestId("wallet-page-connect-cta");
@@ -64,9 +62,7 @@ test.describe("Wallet connection — disconnected", () => {
     await expect(dialog.getByRole("button", { name: /Freighter/ })).toBeVisible();
   });
 
-  test("Closing the modal returns to the wallet page", async ({ page }: {
-    page: Page;
-  }) => {
+  test("Closing the modal returns to the wallet page", async ({ page }: { page: Page }) => {
     await page.goto("/en/wallet");
     await page.getByTestId("wallet-page-connect-cta").click();
 
@@ -96,7 +92,9 @@ test.describe("Wallet connection — wrong network banner", () => {
     });
   });
 
-  test("Persistent banner renders the wrong-network CTAs on every page", async ({ page }: {
+  test("Persistent banner renders the wrong-network CTAs on every page", async ({
+    page,
+  }: {
     page: Page;
   }) => {
     await page.goto("/en");

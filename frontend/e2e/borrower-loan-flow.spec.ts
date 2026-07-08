@@ -96,9 +96,7 @@ test.describe.skip("Borrower Loan Request Flow", () => {
     await page.goto("/en");
 
     // Verify wallet is connected via mocked localStorage
-    const walletPersist = await page.evaluate(() =>
-      window.localStorage.getItem("ZizaLend-wallet"),
-    );
+    const walletPersist = await page.evaluate(() => window.localStorage.getItem("ZizaLend-wallet"));
     const parsed = JSON.parse(walletPersist || "{}");
 
     expect(parsed.state?.status).toBe("connected");

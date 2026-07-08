@@ -85,6 +85,12 @@ This document lists every environment variable used by the ZizaLend platform. Ea
 | `SENTRY_AUTH_TOKEN`                | —   | ✓       | ✓    | —                                         | Sentry auth token for source maps                      | `frontend/next.config.ts`                   |
 | `NODE_ENV`                         | ✓   | ✓       | ✓    | `development`                             | Node environment (`development`, `test`, `production`) | `next.config.ts`                            |
 | `NEXT_PUBLIC_STELLAR_EXPLORER_URL` | ✓   | ✓       | ✓    | `https://stellar.expert/explorer/testnet` | Stellar explorer base URL for transaction links        | `frontend/src/components/ui/TxHashLink.tsx` |
+| `NEXT_PUBLIC_HORIZON_URL`         | ✓   | ✓       | ✓    | `https://horizon-testnet.stellar.org`     | Stellar Horizon URL for wallet/account lookups        | `frontend/src/app/[locale]/wallet/page.tsx` |
+| `NEXT_PUBLIC_STELLAR_RPC_URL`     | ✓   | ✓       | ✓    | `https://soroban-testnet.stellar.org`     | Soroban RPC endpoint for contract interaction         | `frontend/src/app/hooks/useApi.ts`          |
+| `NEXT_PUBLIC_STELLAR_NETWORK_PASSPHRASE` | ✓ | ✓       | ✓    | `Test SDF Network ; September 2015`       | Stellar network passphrase for transaction signing    | `frontend/src/app/hooks/useApi.ts`          |
+| `NEXT_PUBLIC_MANAGER_CONTRACT_ID`  | ✓   | ✓       | ✓    | —                                         | Loan manager contract ID for Soroban calls            | `frontend/src/app/hooks/useApi.ts`          |
+| `NEXT_PUBLIC_LOAN_MANAGER_CONTRACT_ID` | ✓ | ✓     | ✓    | —                                         | Alias for NEXT_PUBLIC_MANAGER_CONTRACT_ID             | `frontend/src/app/hooks/useApi.ts`          |
+| `NEXT_PUBLIC_NFT_CONTRACT_ID`      | ✓   | ✓       | ✓    | —                                         | Remittance NFT contract ID                            | `frontend/src/app/hooks/useApi.ts`          |
 
 ---
 
