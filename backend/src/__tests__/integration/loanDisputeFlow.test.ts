@@ -2,6 +2,7 @@ process.env.JWT_SECRET = 'test-secret';
 process.env.INTERNAL_API_KEY = 'test-api-key';
 process.env.NODE_ENV = 'test';
 
+import type { Express } from 'express';
 import { jest } from '@jest/globals';
 
 const mockQuery = jest.fn<(...args: unknown[]) => Promise<unknown>>();
@@ -26,7 +27,7 @@ jest.unstable_mockModule('../../services/notificationService.js', () => ({
 
 let request: typeof import('supertest');
 let jwt: typeof import('jsonwebtoken');
-let app: any;
+let app: Express.Application;
 
 const TEST_PUBLIC_KEY = 'GAAZI4TCR3TY5OJHCTJC2A4QSY6CJWJH5IAJTGKIN2ER7LBNVKOCCWN';
 const ADMIN_API_KEY = 'test-api-key';

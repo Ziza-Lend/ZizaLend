@@ -297,7 +297,7 @@ npm run dev
 | `npm run build` | Compile TypeScript to dist/ |
 | `npm start` | Run production build |
 | `npm test` | Run 322+ tests across 51 test suites |
-| `npm run lint` | ESLint check (0 errors, 24 warnings) |
+| `npm run lint` | ESLint check (0 errors, 0 warnings) |
 | `npm run typecheck` | TypeScript type checking |
 | `npm run format` | Prettier formatting |
 | `npm run migrate:up` | Apply database migrations |

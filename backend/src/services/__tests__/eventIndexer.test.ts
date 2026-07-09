@@ -24,8 +24,7 @@ let mockNotificationCreate: jest.Mock;
 type TxCallback = (client: MockClient) => Promise<unknown>;
 
 interface MockClient {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  query: jest.Mock<any>;
+  query: jest.Mock<(...args: unknown[]) => Promise<unknown>>;
 }
 
 // --------------------------------------------------------------------------
@@ -186,9 +185,10 @@ function makeRawLoanLiquidatedEvent(id = 'liq-001'): Record<string, unknown> {
 
 /** Run the withTransaction callback immediately using the provided mock client. */
 function stubWithTransaction(mockClient: MockClient): void {
-  (mockWithTransaction as jest.Mock<any>).mockImplementation(async (fn: TxCallback) =>
-    fn(mockClient),
-  );
+  (mockWithTransaction as jest.Mock<(...args: unknown[]) => Promise<unknown>>).mockImplementation(async (...args: unknown[]) => {
+    const fn = args[0] as TxCallback;
+    return fn(mockClient);
+  });
 }
 
 // --------------------------------------------------------------------------
@@ -334,7 +334,7 @@ beforeEach(() => {
     repaymentDelta: 10,
     defaultPenalty: 20,
   });
-  (mockUpdateUserScoresBulk as jest.Mock<any>).mockResolvedValue(undefined);
+  (mockUpdateUserScoresBulk as jest.Mock<() => Promise<void>>).mockResolvedValue(undefined);
 });
 
 afterEach(() => {
@@ -355,7 +355,7 @@ function makeIndexer() {
 describe('EventIndexer – transaction atomicity via ingestRawEvents', () => {
   it('happy path: event insert succeeds and score update is called with the pinned client', async () => {
     const mockClient: MockClient = {
-      query: jest.fn().mockResolvedValue({
+      query: jest.fn<(...args: unknown[]) => Promise<unknown>>().mockResolvedValue({
         rowCount: 1,
         rows: [{ event_id: 'event-001' }],
       } as never),
@@ -385,20 +385,21 @@ describe('EventIndexer – transaction atomicity via ingestRawEvents', () => {
 
   it('score update failure propagates — the whole operation throws', async () => {
     const mockClient: MockClient = {
-      query: jest.fn().mockResolvedValue({
+      query: jest.fn<(...args: unknown[]) => Promise<unknown>>().mockResolvedValue({
         rowCount: 1,
         rows: [{ event_id: 'event-rollback' }],
       } as never),
     };
     // withTransaction executes the callback but re-throws when it throws
-    (mockWithTransaction as jest.Mock<any>).mockImplementation(async (fn: TxCallback) => {
+    (mockWithTransaction as jest.Mock<(...args: unknown[]) => Promise<unknown>>).mockImplementation(async (...args: unknown[]) => {
+      const fn = args[0] as TxCallback;
       try {
         return await fn(mockClient);
       } catch (err) {
         throw err; // simulate rollback + re-throw
       }
     });
-    (mockUpdateUserScoresBulk as jest.Mock<any>).mockRejectedValueOnce(new Error('score db fail'));
+    (mockUpdateUserScoresBulk as jest.Mock<() => Promise<void>>).mockRejectedValueOnce(new Error('score db fail'));
 
     await expect(
       makeIndexer().ingestRawEvents([makeRawRepaidEvent('event-rollback')]) as Promise<unknown>,
@@ -412,9 +413,10 @@ describe('EventIndexer – transaction atomicity via ingestRawEvents', () => {
       code: '23505',
     });
     const mockClient: MockClient = {
-      query: jest.fn().mockRejectedValueOnce(insertError as never),
+      query: jest.fn<(...args: unknown[]) => Promise<unknown>>().mockRejectedValueOnce(insertError as never),
     };
-    (mockWithTransaction as jest.Mock<any>).mockImplementation(async (fn: TxCallback) => {
+    (mockWithTransaction as jest.Mock<(...args: unknown[]) => Promise<unknown>>).mockImplementation(async (...args: unknown[]) => {
+      const fn = args[0] as TxCallback;
       try {
         return await fn(mockClient);
       } catch (err) {
@@ -432,7 +434,7 @@ describe('EventIndexer – transaction atomicity via ingestRawEvents', () => {
 
   it('duplicate event (ON CONFLICT DO NOTHING) → rowCount=0 → no score update', async () => {
     const mockClient: MockClient = {
-      query: jest.fn().mockResolvedValue({ rowCount: 0, rows: [] } as never),
+      query: jest.fn<(...args: unknown[]) => Promise<unknown>>().mockResolvedValue({ rowCount: 0, rows: [] } as never),
     };
     stubWithTransaction(mockClient);
 
@@ -451,10 +453,10 @@ describe('EventIndexer – transaction atomicity via ingestRawEvents', () => {
 
     let callCount = 0;
     const mockClient: MockClient = {
-      query: jest.fn().mockImplementation(async () => {
+      query: jest.fn<(...args: unknown[]) => Promise<unknown>>().mockImplementation(async () => {
         callCount++;
         return { rowCount: 1, rows: [{ event_id: `evt-${callCount}` }] };
-      }) as jest.Mock,
+      }),
     };
     stubWithTransaction(mockClient);
 
@@ -471,7 +473,7 @@ describe('EventIndexer – transaction atomicity via ingestRawEvents', () => {
     const mockQuery = (await import('../../db/connection.js')).query as jest.Mock;
 
     const mockClient: MockClient = {
-      query: jest.fn().mockResolvedValue({ rowCount: 0, rows: [] } as never),
+      query: jest.fn<(...args: unknown[]) => Promise<unknown>>().mockResolvedValue({ rowCount: 0, rows: [] } as never),
     };
     stubWithTransaction(mockClient);
 
@@ -489,7 +491,9 @@ describe('EventIndexer – transaction atomicity via ingestRawEvents', () => {
     const auditInsertCalls: unknown[][] = [];
 
     const mockClient: MockClient = {
-      query: jest.fn<any>().mockImplementation(async (sql: string, params: unknown[]) => {
+      query: jest.fn<(...args: unknown[]) => Promise<unknown>>().mockImplementation(async (...args: unknown[]) => {
+        const sql = args[0] as string;
+        const params = args[1] as unknown[];
         if (sql.includes('INSERT INTO loan_events')) {
           return { rowCount: 1, rows: [{ event_id: 'apprv-001' }] };
         }
@@ -512,7 +516,7 @@ describe('EventIndexer – transaction atomicity via ingestRawEvents', () => {
     // Exactly one audit_logs INSERT must have been made
     expect(auditInsertCalls).toHaveLength(1);
 
-    const [actor, action, target, payload, ip_address, status] = auditInsertCalls[0] as [
+    const [actor, action, target, payload, , status] = auditInsertCalls[0] as [
       string,
       string,
       string,
@@ -539,7 +543,8 @@ describe('EventIndexer – transaction atomicity via ingestRawEvents', () => {
 
   it('persists admin config events into audit_logs', async () => {
     const mockClient: MockClient = {
-      query: jest.fn<any>().mockImplementation(async (sql: string) => {
+      query: jest.fn<(...args: unknown[]) => Promise<unknown>>().mockImplementation(async (...args: unknown[]) => {
+        const sql = args[0] as string;
         if (sql.includes('INSERT INTO loan_events')) {
           return { rowCount: 1, rows: [{ event_id: 'admin-evt-001' }] };
         }
@@ -563,7 +568,7 @@ describe('EventIndexer – transaction atomicity via ingestRawEvents', () => {
 
   it('LoanLiquidated: creates a loan_liquidated notification for the borrower with refund info', async () => {
     const mockClient: MockClient = {
-      query: jest.fn().mockResolvedValue({
+      query: jest.fn<(...args: unknown[]) => Promise<unknown>>().mockResolvedValue({
         rowCount: 1,
         rows: [{ event_id: 'liq-001' }],
       } as never),

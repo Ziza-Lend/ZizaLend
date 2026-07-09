@@ -15,7 +15,7 @@ export const requestLogger = (req: Request, res: Response, next: NextFunction): 
     const { statusCode } = res;
 
     const payload = {
-      requestId: (req as any).requestId, // Safely handles custom middleware assignment
+      requestId: (req as typeof req & { requestId?: string }).requestId, // Safely handles custom middleware assignment
       method,
       url: originalUrl,
       statusCode,

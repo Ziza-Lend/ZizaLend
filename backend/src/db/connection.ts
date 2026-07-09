@@ -199,8 +199,11 @@ export const closePool = async (options?: { timeoutMs?: number }) => {
 export { pool, pool as default };
 
 // Add drain method for graceful shutdown
-if (!(pool as any).drain) {
-  (pool as any).drain = async () => {
+interface PoolWithDrain {
+  drain?: () => Promise<void>;
+}
+if (!(pool as unknown as PoolWithDrain).drain) {
+  (pool as unknown as PoolWithDrain).drain = async () => {
     await pool.end();
   };
 }

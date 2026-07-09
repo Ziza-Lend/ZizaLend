@@ -52,7 +52,7 @@ export const buildCancelLoanTx = async (req: Request, res: Response, next: NextF
   try {
     const { loanId } = req.params;
 
-    const borrower = (req as any).user?.publicKey as string;
+    const borrower = (req as Request & { user?: { publicKey?: string } }).user?.publicKey as string;
 
     const result = await query('SELECT * FROM loans WHERE id = $1', [loanId]);
     const loan = result.rows[0] as Record<string, unknown> | undefined;
