@@ -94,10 +94,14 @@ const withContext = (context: LogContext = {}) => {
   if (context.loanId) baseMeta.loanId = context.loanId;
 
   return {
-    info: (message: string, meta?: unknown) => logger.info(message, { ...baseMeta, ...(meta as Record<string, unknown>) }),
-    warn: (message: string, meta?: unknown) => logger.warn(message, { ...baseMeta, ...(meta as Record<string, unknown>) }),
-    error: (message: string, meta?: unknown) => logger.error(message, { ...baseMeta, ...(meta as Record<string, unknown>) }),
-    http: (message: string, meta?: unknown) => logger.http(message, { ...baseMeta, ...(meta as Record<string, unknown>) }),
+    info: (message: string, meta?: unknown) =>
+      logger.info(message, { ...baseMeta, ...(meta as Record<string, unknown>) }),
+    warn: (message: string, meta?: unknown) =>
+      logger.warn(message, { ...baseMeta, ...(meta as Record<string, unknown>) }),
+    error: (message: string, meta?: unknown) =>
+      logger.error(message, { ...baseMeta, ...(meta as Record<string, unknown>) }),
+    http: (message: string, meta?: unknown) =>
+      logger.http(message, { ...baseMeta, ...(meta as Record<string, unknown>) }),
   };
 };
 
