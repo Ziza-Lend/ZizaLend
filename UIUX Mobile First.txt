@@ -35,4 +35,4 @@ Engagement: XP tracking for "Level 14 Archon" status.
 
 Direct Action: "Invest $100" quest to unlock specific district upgrades. worked on
 
-figma link https://www.figma.com/design/3WvDt5wvKog3b85KT09KLX/ZIZALEND?node-id=2-526&t=XfRD5blXkIb5CUg2-0
+Contact the team for the Figma Link
