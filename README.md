@@ -7,7 +7,7 @@
   [![ISC License](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
   [![CI](https://img.shields.io/github/actions/workflow/status/Ziza-Lend/ZizaLend/ci.yml?branch=main&label=CI&logo=github)](https://github.com/Ziza-Lend/ZizaLend/actions/workflows/ci.yml)
   [![CodeQL](https://img.shields.io/github/actions/workflow/status/Ziza-Lend/ZizaLend/codeql.yml?branch=main&label=CodeQL&logo=github)](https://github.com/Ziza-Lend/ZizaLend/actions/workflows/codeql.yml)
-  [![Deploy Staging](https://img.shields.io/github/actions/workflow/status/Ziza-Lend/ZizaLend/deploy-staging.yml?branch=main&label=Deploy&logo=github)](https://github.com/Ziza-Lend/ZizaLend/actions/workflows/deploy-staging.yml)
+  [![Deploy](https://img.shields.io/github/actions/workflow/status/Ziza-Lend/ZizaLend/deploy-staging.yml?branch=main&label=Deploy&logo=github)](https://github.com/Ziza-Lend/ZizaLend/actions/workflows/deploy-staging.yml)
   <br/>
   [![Next.js](https://img.shields.io/badge/Frontend-Next.js_16-black?logo=next.js)](https://nextjs.org/)
   [![Express](https://img.shields.io/badge/Backend-Express_5-white?logo=express)](https://expressjs.com/)
