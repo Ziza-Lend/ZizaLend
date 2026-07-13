@@ -9,6 +9,7 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import { Menu, Search, User, Wallet } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { ThemeToggle } from "../ui/ThemeToggle";
@@ -295,12 +296,17 @@ export function Header({ onMenuClick, className }: HeaderProps) {
             Ctrl/Cmd + K
           </span>
 
-          {isOpen && (
-            <div
-              id="header-search-results"
-              role="listbox"
-              className="absolute top-12 z-40 max-h-[26rem] w-full overflow-y-auto rounded-2xl border border-[var(--border-default)] bg-[var(--bg-surface)] p-2 shadow-xl shadow-black/30"
-            >
+          <AnimatePresence>
+            {isOpen && (
+              <motion.div
+                id="header-search-results"
+                role="listbox"
+                initial={{ opacity: 0, y: -8, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                transition={{ duration: 0.15, ease: "easeOut" }}
+                className="absolute top-12 z-40 max-h-[26rem] w-full overflow-y-auto rounded-2xl border border-[var(--border-default)] bg-[var(--bg-surface)] p-2 shadow-xl shadow-black/30 origin-top"
+              >
               {debouncedQuery.trim().length === 0 ? (
                 <p className="px-3 py-2 text-sm text-[var(--text-muted)]">
                   Type to search loans, pages, and transaction hashes.
@@ -342,8 +348,9 @@ export function Header({ onMenuClick, className }: HeaderProps) {
                   </div>
                 ))
               )}
-            </div>
-          )}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
