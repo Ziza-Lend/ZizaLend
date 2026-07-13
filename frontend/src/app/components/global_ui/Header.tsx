@@ -247,7 +247,7 @@ export function Header({ onMenuClick, className }: HeaderProps) {
   return (
     <header
       className={cn(
-        "sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-zinc-200 bg-white/80 px-4 backdrop-blur-md dark:border-zinc-800 dark:bg-zinc-950/80 sm:px-6 lg:px-8",
+        "sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-[var(--border-default)] bg-[var(--bg-primary)]/80 px-4 backdrop-blur-xl sm:px-6 lg:px-8",
         className,
       )}
     >
@@ -257,7 +257,7 @@ export function Header({ onMenuClick, className }: HeaderProps) {
           onClick={onMenuClick}
           aria-label="Open navigation menu"
           aria-haspopup="true"
-          className="p-2 text-zinc-500 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-900 lg:hidden rounded-lg"
+          className="p-2 text-[var(--text-secondary)] hover:bg-[var(--bg-surface)] lg:hidden rounded-lg"
         >
           <Menu className="h-6 w-6" aria-hidden="true" />
         </button>
@@ -289,7 +289,7 @@ export function Header({ onMenuClick, className }: HeaderProps) {
                 ? `search-result-${searchResults[activeIndex].id}`
                 : undefined
             }
-            className="block w-full rounded-full border border-zinc-200 bg-zinc-50 py-2 pl-10 pr-3 text-sm placeholder-zinc-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50 dark:placeholder-zinc-500"
+            className="block w-full rounded-full border border-[var(--border-default)] bg-[var(--bg-surface)] py-2 pl-10 pr-3 text-sm text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20"
           />
           <span className="pointer-events-none absolute inset-y-0 right-3 hidden items-center text-xs text-zinc-400 xl:flex">
             Ctrl/Cmd + K
@@ -299,20 +299,20 @@ export function Header({ onMenuClick, className }: HeaderProps) {
             <div
               id="header-search-results"
               role="listbox"
-              className="absolute top-12 z-40 max-h-[26rem] w-full overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-2 shadow-xl shadow-zinc-200/50 dark:border-zinc-800 dark:bg-zinc-950 dark:shadow-none"
+              className="absolute top-12 z-40 max-h-[26rem] w-full overflow-y-auto rounded-2xl border border-[var(--border-default)] bg-[var(--bg-surface)] p-2 shadow-xl shadow-black/30"
             >
               {debouncedQuery.trim().length === 0 ? (
-                <p className="px-3 py-2 text-sm text-zinc-500 dark:text-zinc-400">
+                <p className="px-3 py-2 text-sm text-[var(--text-muted)]">
                   Type to search loans, pages, and transaction hashes.
                 </p>
               ) : searchResults.length === 0 ? (
-                <p className="px-3 py-2 text-sm text-zinc-500 dark:text-zinc-400">
+                <p className="px-3 py-2 text-sm text-[var(--text-muted)]">
                   No results found
                 </p>
               ) : (
                 groupedResults.map((group) => (
                   <div key={group.category} className="mb-2 last:mb-0">
-                    <p className="px-3 py-2 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                    <p className="px-3 py-2 text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
                       {group.category}
                     </p>
                     {group.items.map((item) => {
@@ -330,12 +330,12 @@ export function Header({ onMenuClick, className }: HeaderProps) {
                           className={cn(
                             "flex w-full items-start justify-between rounded-xl px-3 py-2 text-left transition",
                             isActive
-                              ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300"
-                              : "text-zinc-700 hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-900",
+                              ? "bg-violet-500/10 text-violet-300"
+                              : "text-[var(--text-primary)] hover:bg-[var(--bg-surface-hover)]",
                           )}
                         >
                           <span className="text-sm font-medium">{item.title}</span>
-                          <span className="ml-3 text-xs text-zinc-500 dark:text-zinc-400">
+                          <span className="ml-3 text-xs text-[var(--text-muted)]">
                             {item.subtitle}
                           </span>
                         </button>
@@ -358,7 +358,7 @@ export function Header({ onMenuClick, className }: HeaderProps) {
           type="button"
           onClick={handleWalletToggle}
           aria-label={isConnected ? "Disconnect wallet" : "Connect wallet"}
-          className="hidden sm:flex items-center gap-2 rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 transition-all shadow-sm shadow-indigo-500/20"
+          className="hidden sm:flex items-center gap-2 rounded-full bg-violet-600 px-4 py-2 text-sm font-semibold text-white hover:bg-violet-700 transition-all shadow-[var(--shadow-glow)]"
         >
           <Wallet className="h-4 w-4" aria-hidden="true" />
           {isConnected && walletAddress ? truncateWalletAddress(walletAddress) : "Connect Wallet"}
@@ -368,12 +368,12 @@ export function Header({ onMenuClick, className }: HeaderProps) {
           type="button"
           onClick={handleWalletToggle}
           aria-label={isConnected ? "Disconnect wallet" : "Connect wallet"}
-          className="sm:hidden p-2 text-zinc-500 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-900 rounded-lg"
+          className="sm:hidden p-2 text-[var(--text-secondary)] hover:bg-[var(--bg-surface)] rounded-lg"
         >
-          <Wallet className="h-5 w-5 text-indigo-600" aria-hidden="true" />
+          <Wallet className="h-5 w-5 text-violet-400" aria-hidden="true" />
         </button>
 
-        <div className="h-8 w-px bg-zinc-200 dark:bg-zinc-800 hidden sm:block" />
+        <div className="h-8 w-px bg-[var(--border-default)] hidden sm:block" />
 
         <ThemeToggle />
 
@@ -384,13 +384,13 @@ export function Header({ onMenuClick, className }: HeaderProps) {
         <button
           type="button"
           aria-label={`Profile: ${profileLabel}`}
-          className="flex items-center gap-2 rounded-full p-1 border border-zinc-200 hover:border-zinc-300 transition-colors dark:border-zinc-800 dark:hover:border-zinc-700"
+          className="flex items-center gap-2 rounded-full p-1 border border-[var(--border-default)] hover:border-[var(--text-muted)] transition-colors"
         >
-          <div className="h-7 w-7 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
-            <User className="h-4 w-4 text-zinc-500 dark:text-zinc-400" aria-hidden="true" />
+          <div className="h-7 w-7 rounded-full bg-[var(--bg-surface-elevated)] flex items-center justify-center">
+            <User className="h-4 w-4 text-[var(--text-secondary)]" aria-hidden="true" />
           </div>
           <div className="hidden md:block pr-2">
-            <p className="text-xs font-semibold text-zinc-900 dark:text-zinc-50" aria-hidden="true">
+            <p className="text-xs font-semibold text-[var(--text-primary)]" aria-hidden="true">
               {profileLabel}
             </p>
           </div>

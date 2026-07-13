@@ -21,7 +21,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-zinc-50 dark:bg-zinc-950">
+    <div className="flex min-h-screen bg-[var(--bg-primary)]">
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 z-50 bg-white dark:bg-zinc-800 dark:text-white p-2 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none"
@@ -31,7 +31,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
       {/* Mobile Sidebar Backdrop */}
       {isSidebarOpen && (
         <div
-          className="fixed inset-0 z-40 bg-zinc-900/50 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
           aria-hidden="true"
           onClick={() => setIsSidebarOpen(false)}
         />

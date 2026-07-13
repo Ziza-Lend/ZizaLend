@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, HandCoins, PiggyBank, SendHorizontal, User, Clock } from "lucide-react";
+import { LayoutDashboard, HandCoins, PiggyBank, Swords, User, Clock } from "lucide-react";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { useLocale } from "next-intl";
@@ -12,11 +12,11 @@ function cn(...inputs: ClassValue[]) {
 }
 
 const navItems = [
-  { name: "Home", href: "/", icon: LayoutDashboard },
-  { name: "Loans", href: "/loans", icon: HandCoins },
-  { name: "Lend", href: "/lend", icon: PiggyBank },
-  { name: "Activity", href: "/activity", icon: Clock },
-  { name: "Profile", href: "/profile", icon: User },
+  { name: "Citadel", href: "/", icon: LayoutDashboard },
+  { name: "Borrow", href: "/loans", icon: HandCoins },
+  { name: "Vaults", href: "/lend", icon: PiggyBank },
+  { name: "Quests", href: "/kingdom", icon: Swords },
+  { name: "Empire", href: "/activity", icon: Clock },
 ];
 
 export function BottomNav() {
@@ -29,7 +29,7 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Mobile navigation"
-      className="fixed bottom-0 left-0 right-0 z-50 border-t border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950 lg:hidden"
+      className="fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--border-default)] bg-[var(--bg-primary)]/95 backdrop-blur-xl lg:hidden"
     >
       <div className="flex items-center justify-around px-2 py-2">
         {navItems.map((item) => {
@@ -44,13 +44,13 @@ export function BottomNav() {
               className={cn(
                 "flex flex-col items-center justify-center rounded-lg px-3 py-2 text-xs font-medium transition-colors",
                 isActive
-                  ? "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/30"
-                  : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200",
+                  ? "text-violet-400 bg-violet-500/10"
+                  : "text-[var(--text-muted)] hover:text-[var(--text-primary)]",
               )}
               aria-current={isActive ? "page" : undefined}
             >
               <item.icon
-                className={cn("h-5 w-5 mb-1", isActive && "text-indigo-600 dark:text-indigo-400")}
+                className={cn("h-5 w-5 mb-1", isActive && "text-violet-400")}
                 aria-hidden="true"
               />
               <span>{item.name}</span>
