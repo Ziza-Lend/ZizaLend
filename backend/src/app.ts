@@ -112,6 +112,24 @@ app.use(cors(corsOptions));
 app.use(compression());
 // Explicit request body size limit set to 100kb to mitigate payload-based DoS and unbounded audit log writes.
 app.use(express.json({ limit: '100kb' }));
+
+// Content-Type enforcement: reject non-JSON POST/PUT/PATCH requests early
+// to prevent confusion attacks and malformed payloads reaching route handlers.
+app.use((req: Request, res: Response, next: NextFunction) => {
+  if (['POST', 'PUT', 'PATCH'].includes(req.method)) {
+    const contentType = req.headers['content-type'] ?? '';
+    // The /submit and /build-* endpoints all send JSON. Skip enforcement
+    // for multipart or form-urlencoded content types if used in future.
+    if (!contentType.includes('application/json') && !contentType.includes('multipart/form-data')) {
+      // Allow requests with no body (e.g., POST with only path params)
+      if (req.headers['content-length'] && parseInt(req.headers['content-length'], 10) > 0) {
+        return next(AppError.badRequest('Content-Type must be application/json'));
+      }
+    }
+  }
+  next();
+});
+
 app.use(globalRateLimiter);
 app.use(requestIdMiddleware);
 app.use(requestLogger);
