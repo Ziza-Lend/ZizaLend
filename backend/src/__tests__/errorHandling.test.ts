@@ -13,7 +13,7 @@ describe('Centralized Error Handling', () => {
   /* ── 404 Not Found ────────────────────────────────────────── */
 
   describe('404 catch-all', () => {
-    it('should return 404 with structured JSON including error code', async () => {
+    it('should return 404 with structured JSON including error code and type', async () => {
       const response = await request(app).get('/nonexistent-route');
 
       expect(response.status).toBe(404);
@@ -24,6 +24,8 @@ describe('Centralized Error Handling', () => {
       expect(response.body.error).toBeDefined();
       expect(response.body.error.code).toBe('NOT_FOUND');
       expect(response.body.error.message).toMatch(/Cannot GET \/nonexistent-route/);
+      expect(response.body.error.type).toBe('NOT_FOUND');
+      expect(response.body.error).toHaveProperty('requestId');
     });
 
     it('should return 404 for unknown POST routes with error code', async () => {
@@ -32,13 +34,14 @@ describe('Centralized Error Handling', () => {
       expect(response.status).toBe(404);
       expect(response.body.success).toBe(false);
       expect(response.body.error.code).toBe('NOT_FOUND');
+      expect(response.body.error.type).toBe('NOT_FOUND');
     });
   });
 
   /* ── Validation Errors (backward compatibility) ───────────── */
 
   describe('Zod validation errors', () => {
-    it('should return 400 with validation failed message and error code', async () => {
+    it('should return 400 with validation failed message, error code, and type', async () => {
       const response = await request(app)
         .post('/api/simulate')
         .set('Authorization', authHeader)
@@ -53,8 +56,10 @@ describe('Centralized Error Handling', () => {
       expect(response.body.error).toBeDefined();
       expect(response.body.error.code).toBe('VALIDATION_ERROR');
       expect(response.body.error.message).toBe('Validation failed');
+      expect(response.body.error.type).toBe('VALIDATION');
       expect(response.body.error.details).toBeDefined();
       expect(Array.isArray(response.body.error.details)).toBe(true);
+      expect(response.body.error).toHaveProperty('requestId');
     });
 
     it('should include field and message in each validation error detail', async () => {
@@ -91,13 +96,14 @@ describe('Centralized Error Handling', () => {
       expect(response.body.success).toBe(false);
       expect(response.body.error.code).toBe('VALIDATION_ERROR');
       expect(response.body.error.message).toMatch(/payload too large/i);
+      expect(response.body.error.type).toBe('VALIDATION');
     });
   });
 
   /* ── Consistent JSON structure ────────────────────────────── */
 
   describe('Response structure consistency', () => {
-    it('should always include success and error fields in error responses', async () => {
+    it('should always include success, error type, and requestId in error responses', async () => {
       const response = await request(app).get('/does-not-exist');
 
       expect(response.body).toHaveProperty('success', false);
@@ -107,6 +113,8 @@ describe('Centralized Error Handling', () => {
       expect(response.body).toHaveProperty('error');
       expect(response.body.error).toHaveProperty('code');
       expect(response.body.error).toHaveProperty('message');
+      expect(response.body.error).toHaveProperty('type');
+      expect(response.body.error).toHaveProperty('requestId');
     });
 
     it('should not expose stack traces in production-like responses', async () => {
@@ -162,7 +170,7 @@ describe('Centralized Error Handling', () => {
   /* ── Diagnostic Routes (Integration) ───────────────────────── */
 
   describe('Specific error scenarios (Diagnostic)', () => {
-    it('should handle operational AppErrors (400 Bad Request) with error code', async () => {
+    it('should handle operational AppErrors (400) with error code and type', async () => {
       const response = await request(app).get('/test/error/operational');
 
       expect(response.status).toBe(400);
@@ -172,9 +180,11 @@ describe('Centralized Error Handling', () => {
       // New structured format
       expect(response.body.error.message).toBe('Diagnostic operational error');
       expect(response.body.error.code).toBeDefined();
+      expect(response.body.error.type).toBe('VALIDATION');
+      expect(response.body.error).toHaveProperty('requestId');
     });
 
-    it('should handle internal AppErrors (500 Internal Server Error) with error code', async () => {
+    it('should handle internal AppErrors (500) with error code and type', async () => {
       const response = await request(app).get('/test/error/internal');
 
       expect(response.status).toBe(500);
@@ -184,9 +194,10 @@ describe('Centralized Error Handling', () => {
       // New structured format
       expect(response.body.error.message).toBe('Internal server error');
       expect(response.body.error.code).toBe('INTERNAL_ERROR');
+      expect(response.body.error.type).toBe('SERVER');
     });
 
-    it('should handle unexpected exceptions (500 Internal Server Error) with error code', async () => {
+    it('should handle unexpected exceptions (500) with error code and type', async () => {
       const response = await request(app).get('/test/error/unexpected');
 
       expect(response.status).toBe(500);
@@ -196,9 +207,10 @@ describe('Centralized Error Handling', () => {
       // New structured format
       expect(response.body.error.message).toBe('Internal server error');
       expect(response.body.error.code).toBe('INTERNAL_ERROR');
+      expect(response.body.error.type).toBe('SERVER');
     });
 
-    it('should catch async exceptions via asyncHandler middleware with error code', async () => {
+    it('should catch async exceptions via asyncHandler with error code and type', async () => {
       const response = await request(app).get('/test/error/async');
 
       expect(response.status).toBe(500);
@@ -208,23 +220,24 @@ describe('Centralized Error Handling', () => {
       // New structured format
       expect(response.body.error.message).toBe('Internal server error');
       expect(response.body.error.code).toBe('INTERNAL_ERROR');
+      expect(response.body.error.type).toBe('SERVER');
     });
   });
 
   /* ── Authentication Error Codes ───────────────────────────── */
 
   describe('Authentication error codes', () => {
-    it('should return VALIDATION_ERROR error code for missing public key (Zod validation)', async () => {
-      // Zod validation runs before controller logic
+    it('should return VALIDATION_ERROR with type for missing public key', async () => {
       const response = await request(app).post('/api/auth/challenge').send({});
 
       expect(response.status).toBe(400);
       expect(response.body.error.code).toBe('VALIDATION_ERROR');
+      expect(response.body.error.type).toBe('VALIDATION');
       expect(response.body.error.details[0]?.field).toBe('publicKey');
+      expect(response.body.error).toHaveProperty('requestId');
     });
 
     it('should return INVALID_PUBLIC_KEY error code for invalid key format', async () => {
-      // Controller logic runs after Zod validation passes
       const response = await request(app)
         .post('/api/auth/challenge')
         .send({ publicKey: 'invalid' });
@@ -232,16 +245,17 @@ describe('Centralized Error Handling', () => {
       expect(response.status).toBe(400);
       expect(response.body.error.code).toBe('INVALID_PUBLIC_KEY');
       expect(response.body.error.field).toBe('publicKey');
+      expect(response.body.error.type).toBe('VALIDATION');
     });
 
-    it('should return VALIDATION_ERROR error code for missing signature in login (Zod validation)', async () => {
-      // Zod validation runs before controller logic
+    it('should return VALIDATION_ERROR with type for missing signature in login', async () => {
       const response = await request(app)
         .post('/api/auth/login')
         .send({ publicKey: 'GXXX', message: 'test' });
 
       expect(response.status).toBe(400);
       expect(response.body.error.code).toBe('VALIDATION_ERROR');
+      expect(response.body.error.type).toBe('VALIDATION');
       expect(response.body.error.details[0]?.field).toBe('signature');
     });
   });
