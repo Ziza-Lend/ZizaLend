@@ -47,15 +47,15 @@ export function PaginationControls({
 
   return (
     <div
-      className={`flex flex-col gap-3 border-t border-zinc-200 pt-4 dark:border-zinc-800 sm:flex-row sm:items-center sm:justify-between ${className}`.trim()}
+      className={`flex flex-col gap-3 border-t border-[var(--border-default)] pt-4 sm:flex-row sm:items-center sm:justify-between ${className}`.trim()}
     >
-      <div className="text-sm text-zinc-500 dark:text-zinc-400">{summary}</div>
+      <div className="text-sm text-[var(--text-secondary)]">{summary}</div>
 
       <div className="flex flex-wrap items-center gap-2">
         <button
           onClick={onPrevious}
           disabled={!hasPrevious}
-          className="rounded-full border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-900"
+          className="rounded-full border border-[var(--border-default)] px-4 py-2 text-sm font-medium text-[var(--text-secondary)] transition hover:bg-[var(--bg-surface-hover)] disabled:cursor-not-allowed disabled:opacity-50"
         >
           Previous
         </button>
@@ -64,22 +64,21 @@ export function PaginationControls({
           <>
             <button
               onClick={() => onPageChange(1)}
-              className="h-10 w-10 rounded-full border border-zinc-300 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-900"
+              className="h-10 w-10 rounded-full border border-[var(--border-default)] text-sm font-medium text-[var(--text-secondary)] transition hover:bg-[var(--bg-surface-hover)]"
             >
               1
             </button>
-            {pages[0] > 2 && <span className="px-1 text-zinc-400">...</span>}
+            {pages[0] > 2 && <span className="px-1 text-[var(--text-muted)]">...</span>}
           </>
         )}
 
         {pages.map((page) => (
           <button
             key={page}
-            onClick={() => onPageChange(page)}
-            className={`h-10 w-10 rounded-full text-sm font-medium transition ${
+            onClick={() => onPageChange(page)}              className={`h-10 w-10 rounded-full text-sm font-medium transition ${
               currentPage === page
-                ? "bg-indigo-600 text-white"
-                : "border border-zinc-300 text-zinc-700 hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-900"
+                ? "bg-violet-600 text-white"
+                : "border border-[var(--border-default)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)]"
             }`}
             aria-current={currentPage === page ? "page" : undefined}
           >
@@ -90,11 +89,11 @@ export function PaginationControls({
         {pages[pages.length - 1] < totalPages && (
           <>
             {pages[pages.length - 1] < totalPages - 1 && (
-              <span className="px-1 text-zinc-400">...</span>
+              <span className="px-1 text-[var(--text-muted)]">...</span>
             )}
             <button
               onClick={() => onPageChange(totalPages)}
-              className="h-10 w-10 rounded-full border border-zinc-300 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-900"
+              className="h-10 w-10 rounded-full border border-[var(--border-default)] text-sm font-medium text-[var(--text-secondary)] transition hover:bg-[var(--bg-surface-hover)]"
             >
               {totalPages}
             </button>
@@ -104,7 +103,7 @@ export function PaginationControls({
         <button
           onClick={onNext}
           disabled={!hasNext}
-          className="rounded-full border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-900"
+          className="rounded-full border border-[var(--border-default)] px-4 py-2 text-sm font-medium text-[var(--text-secondary)] transition hover:bg-[var(--bg-surface-hover)] disabled:cursor-not-allowed disabled:opacity-50"
         >
           Next
         </button>

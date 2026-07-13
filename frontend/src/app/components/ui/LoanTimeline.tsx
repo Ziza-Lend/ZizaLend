@@ -21,7 +21,7 @@ const EVENT_LABELS: Record<string, string> = {
 
 export function LoanTimeline({ events }: LoanTimelineProps) {
   if (events.length === 0) {
-    return <p className="text-sm text-zinc-500 dark:text-zinc-400">No events yet.</p>;
+    return <p className="text-sm text-[var(--text-secondary)]">No events yet.</p>;
   }
 
   return (
@@ -32,23 +32,23 @@ export function LoanTimeline({ events }: LoanTimelineProps) {
           <li key={`${event.type}-${event.timestamp}-${index}`} className="flex gap-3">
             {/* Timeline spine */}
             <div className="flex flex-col items-center">
-              <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-indigo-600 ring-2 ring-white dark:ring-zinc-950" />
-              {!isLast && <span className="mt-1 flex-1 w-px bg-zinc-200 dark:bg-zinc-800" />}
+              <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-violet-500 ring-2 ring-[var(--bg-primary)]" />
+              {!isLast && <span className="mt-1 flex-1 w-px bg-[var(--border-default)]" />}
             </div>
 
             {/* Event card */}
             <div className={`pb-4 w-full ${isLast ? "pb-0" : ""}`}>
-              <div className="rounded-xl border border-zinc-200 p-3 dark:border-zinc-800">
+              <div className="rounded-xl border border-[var(--border-default)] p-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
+                  <p className="text-sm font-semibold text-[var(--text-primary)]">
                     {EVENT_LABELS[event.type] ?? event.type}
                   </p>
-                  <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                  <p className="text-xs text-[var(--text-muted)]">
                     {new Date(event.timestamp).toLocaleString()}
                   </p>
                 </div>
                 {Number(event.amount) > 0 && (
-                  <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                  <p className="mt-1 text-sm text-[var(--text-secondary)]">
                     Amount: {formatCurrency(Number(event.amount))}
                   </p>
                 )}

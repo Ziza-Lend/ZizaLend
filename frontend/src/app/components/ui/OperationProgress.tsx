@@ -23,7 +23,7 @@ const statusColors: Record<TransactionStatus, { border: string; bg: string; text
   pending: { border: "border-amber-200", bg: "bg-amber-50", text: "text-amber-900" },
   signing: { border: "border-amber-200", bg: "bg-amber-50", text: "text-amber-900" },
   submitted: { border: "border-blue-200", bg: "bg-blue-50", text: "text-blue-900" },
-  confirming: { border: "border-indigo-200", bg: "bg-indigo-50", text: "text-indigo-900" },
+  confirming: { border: "border-violet-500/30", bg: "bg-violet-500/10", text: "text-violet-300" },
   confirmed: { border: "border-green-200", bg: "bg-green-50", text: "text-green-900" },
   failed: { border: "border-red-200", bg: "bg-red-50", text: "text-red-900" },
 };
@@ -33,7 +33,7 @@ const statusIcons: Record<TransactionStatus, React.ReactNode> = {
   pending: <Loader2 aria-hidden="true" className="h-5 w-5 animate-spin text-amber-500" />,
   signing: <Loader2 aria-hidden="true" className="h-5 w-5 animate-spin text-amber-500" />,
   submitted: <Send aria-hidden="true" className="h-5 w-5 text-blue-500" />,
-  confirming: <Loader aria-hidden="true" className="h-5 w-5 animate-spin text-indigo-500" />,
+  confirming: <Loader aria-hidden="true" className="h-5 w-5 animate-spin text-violet-400" />,
   confirmed: <CheckCircle2 aria-hidden="true" className="h-5 w-5 text-green-500" />,
   failed: <AlertCircle aria-hidden="true" className="h-5 w-5 text-red-500" />,
 };
@@ -67,7 +67,7 @@ export function OperationProgress({ transaction, type = "generic" }: OperationPr
         "rounded-lg border p-4 space-y-2",
         colors.border,
         colors.bg,
-        "dark:border-zinc-700 dark:bg-zinc-900/50",
+        "dark:border-[var(--border-default)] dark:bg-[var(--bg-surface)]",
       )}
     >
       <div className="flex items-center justify-between gap-2">
@@ -75,7 +75,7 @@ export function OperationProgress({ transaction, type = "generic" }: OperationPr
           {statusIcons[status]}
           <div className="flex items-center gap-1">
             {getTypeIcon()}
-            <span className={clsx("font-medium text-sm", colors.text, "dark:text-zinc-200")}>
+            <span className={clsx("font-medium text-sm", colors.text, "dark:text-[var(--text-primary)]")}>
               {message}
             </span>
           </div>
@@ -111,7 +111,7 @@ export function OperationProgress({ transaction, type = "generic" }: OperationPr
               "h-full transition-all duration-300 ease-out",
               status === "signing" && "bg-amber-500",
               status === "submitted" && "bg-blue-500",
-              status === "confirming" && "bg-indigo-500",
+              status === "confirming" && "bg-violet-500",
             )}
             style={{ width: `${progress}%` }}
           />

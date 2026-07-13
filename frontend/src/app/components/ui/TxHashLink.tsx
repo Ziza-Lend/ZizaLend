@@ -27,7 +27,7 @@ export function TxHashLink({ txHash, chars = 8, className = "" }: TxHashLinkProp
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 font-mono text-xs text-zinc-600 dark:text-zinc-400 ${className}`}
+      className={`inline-flex items-center gap-1.5 font-mono text-xs text-[var(--text-secondary)] ${className}`}
       title={txHash}
     >
       <span>{truncateHash(txHash, chars)}</span>
@@ -36,7 +36,7 @@ export function TxHashLink({ txHash, chars = 8, className = "" }: TxHashLinkProp
         type="button"
         onClick={handleCopy}
         aria-label="Copy transaction hash"
-        className="rounded p-0.5 transition hover:text-zinc-900 dark:hover:text-zinc-100"
+        className="rounded p-0.5 transition hover:text-[var(--text-primary)]"
       >
         {copied ? (
           <Check className="h-3.5 w-3.5 text-green-500" />
@@ -50,7 +50,7 @@ export function TxHashLink({ txHash, chars = 8, className = "" }: TxHashLinkProp
         target="_blank"
         rel="noreferrer"
         aria-label="View on Stellar Explorer"
-        className="rounded p-0.5 transition hover:text-indigo-600 dark:hover:text-indigo-400"
+        className="rounded p-0.5 transition hover:text-violet-400"
       >
         <ExternalLink className="h-3.5 w-3.5" />
       </a>

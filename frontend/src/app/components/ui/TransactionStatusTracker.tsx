@@ -99,7 +99,7 @@ export function TransactionStatusTracker({
               href={`https://stellar.expert/explorer/testnet/tx/${txHash}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block text-xs text-indigo-600 underline underline-offset-2"
+              className="inline-block text-xs text-violet-400 underline underline-offset-2"
             >
               View on-chain transaction
             </a>

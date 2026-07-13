@@ -27,20 +27,20 @@ export function EmptyState({
   className,
 }: EmptyStateProps) {
   const actionClasses =
-    "mt-6 inline-flex items-center gap-2 rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-500";
+    "mt-6 inline-flex items-center gap-2 rounded-full bg-violet-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-violet-500 shadow-[var(--shadow-glow)]";
 
   return (
     <div
       className={cn(
-        "rounded-2xl border border-dashed border-zinc-300 px-6 py-10 text-center dark:border-zinc-700",
+        "rounded-2xl border border-dashed border-[var(--border-default)] px-6 py-10 text-center",
         className,
       )}
     >
-      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-300">
+      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-violet-500/10 text-violet-400">
         <Icon className="h-8 w-8" />
       </div>
-      <p className="mt-5 text-base font-semibold text-zinc-900 dark:text-zinc-50">{title}</p>
-      <p className="mx-auto mt-2 max-w-md text-sm text-zinc-500 dark:text-zinc-400">
+      <p className="mt-5 text-base font-semibold text-[var(--text-primary)]">{title}</p>
+      <p className="mx-auto mt-2 max-w-md text-sm text-[var(--text-secondary)]">
         {description}
       </p>
       {actionLabel && actionHref ? (
