@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://img.shields.io/badge/ZizaLend-DeFi%20Lending-7C3AED?style=for-the-badge&logo=stellar&labelColor=0D0D12" alt="ZizaLend" />
+  <img src="https://img.shields.io/badge/Zizalend-DeFi%20Lending-7C3AED?style=for-the-badge&logo=stellar&labelColor=0D0D12" alt="Zizalend" />
   <br/><br/>
 
   **Turn remittance history into credit history**  
@@ -40,7 +40,7 @@
 
 ## 🌍 Overview
 
-ZizaLend is a **decentralized lending protocol** on the Stellar network that transforms remittance history into credit history. Migrant workers — who are often invisible to traditional credit bureaus — can prove their financial reliability through consistent cross-border transfers, mint their creditworthiness as an NFT, and access fair loans from decentralized lending pools. Lenders earn transparent yield by providing liquidity to these pools.
+Zizalend is a **decentralized lending protocol** on the Stellar network that transforms remittance history into credit history. Migrant workers — who are often invisible to traditional credit bureaus — can prove their financial reliability through consistent cross-border transfers, mint their creditworthiness as an NFT, and access fair loans from decentralized lending pools. Lenders earn transparent yield by providing liquidity to these pools.
 
 ```mermaid
 flowchart LR
@@ -560,5 +560,5 @@ This project is licensed under the ISC License. See the [LICENSE](LICENSE) file 
 <div align="center">
   Built on <a href="https://stellar.org">Stellar</a> • Powered by <a href="https://soroban.stellar.org">Soroban</a>
   <br/><br/>
-  <sub>ZizaLend — Turning remittances into financial inclusion</sub>
+  <sub>Zizalend — Turning remittances into financial inclusion</sub>
 </div>
