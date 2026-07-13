@@ -98,9 +98,19 @@ jobs:
           limit-severities-for-sarif: 'true'
           trivyignores: '.trivyignore'
 
+      - name: Check if backend SARIF exists
+        id: check-backend-sarif
+        if: always()
+        run: |
+          if [ -f trivy-results.sarif ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
-        if: always()
+        if: always() && steps.check-backend-sarif.outputs.exists == 'true'
         with:
           sarif_file: 'trivy-results.sarif'
 
@@ -124,9 +134,19 @@ jobs:
           limit-severities-for-sarif: 'true'
           trivyignores: '.trivyignore'
 
+      - name: Check if frontend SARIF exists
+        id: check-frontend-sarif
+        if: always()
+        run: |
+          if [ -f frontend-trivy-results.sarif ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Upload frontend Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
-        if: always()
+        if: always() && steps.check-frontend-sarif.outputs.exists == 'true'
         with:
           sarif_file: 'frontend-trivy-results.sarif'
 
