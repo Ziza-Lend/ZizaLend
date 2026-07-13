@@ -90,11 +90,11 @@ export function LoansPageClient() {
     <section className="space-y-6">
       <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-indigo-600">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-violet-400">
             {t("borrowerPortal")}
           </p>
-          <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-50">{t("title")}</h1>
-          <p className="mt-2 max-w-2xl text-sm text-zinc-500 dark:text-zinc-400">
+          <h1 className="text-3xl font-bold text-[var(--text-primary)]">{t("title")}</h1>
+          <p className="mt-2 max-w-2xl text-sm text-[var(--text-secondary)]">
             {t("description")}
           </p>
         </div>
@@ -117,15 +117,15 @@ export function LoansPageClient() {
           ].map((item) => (
             <article
               key={item.label}
-              className="rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm shadow-zinc-200/50 dark:border-zinc-800 dark:bg-zinc-950 dark:shadow-none"
+              className="rounded-3xl border border-[var(--border-default)] bg-[var(--bg-surface)] p-5"
             >
               <div className="flex items-center gap-3">
-                <div className="rounded-2xl bg-indigo-50 p-3 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-300">
+                <div className="rounded-2xl bg-violet-500/10 p-3 text-violet-400">
                   <item.icon className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="text-sm text-zinc-500 dark:text-zinc-400">{item.label}</p>
-                  <p className="text-xl font-semibold text-zinc-900 dark:text-zinc-50">
+                  <p className="text-sm text-[var(--text-secondary)]">{item.label}</p>
+                  <p className="text-xl font-semibold text-[var(--text-primary)]">
                     {item.value}
                   </p>
                 </div>
@@ -136,7 +136,7 @@ export function LoansPageClient() {
       </ErrorBoundary>
 
       <ErrorBoundary scope="loan list" variant="section">
-        <div className="space-y-4 rounded-3xl border border-zinc-200 bg-white p-4 shadow-sm shadow-zinc-200/50 dark:border-zinc-800 dark:bg-zinc-950 dark:shadow-none">
+        <div className="space-y-4 rounded-3xl border border-[var(--border-default)] bg-[var(--bg-surface)] p-4">
           <div className="flex flex-wrap gap-2">
             {[
               { key: "all", label: t("tabs.all") },
@@ -153,8 +153,8 @@ export function LoansPageClient() {
                 }}
                 className={`rounded-full px-4 py-2 text-sm font-medium transition ${
                   activeTab === tab.key
-                    ? "bg-indigo-600 text-white"
-                    : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                    ? "bg-violet-600 text-white"
+                    : "bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)]"
                 }`}
               >
                 {tab.label}
@@ -176,13 +176,13 @@ export function LoansPageClient() {
               {displayedLoans.map((loan) => (
                 <article
                   key={loan.id}
-                  className="flex flex-col gap-4 rounded-2xl border border-zinc-200 p-4 dark:border-zinc-800 md:flex-row md:items-center md:justify-between"
+                  className="flex flex-col gap-4 rounded-2xl border border-[var(--border-default)] p-4 md:flex-row md:items-center md:justify-between"
                 >
                   <div>
-                    <p className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+                    <p className="text-lg font-semibold text-[var(--text-primary)]">
                       {t("loanNumber", { id: loan.id })}
                     </p>
-                    <p className="text-sm text-zinc-500 dark:text-zinc-400">{loan.borrower}</p>
+                    <p className="text-sm text-[var(--text-secondary)]">{loan.borrower}</p>
                   </div>
                   <div className="flex flex-wrap items-center gap-3 text-sm">
                     <LoanStatusBadge status={loan.displayStatus} />
@@ -195,7 +195,7 @@ export function LoansPageClient() {
                   </div>
                   <Link
                     href={`/${locale}/loans/${loan.id}`}
-                    className="inline-flex items-center gap-2 rounded-full bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-zinc-700 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
+                    className="inline-flex items-center gap-2 rounded-full bg-violet-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-violet-500"
                   >
                     {t("viewDetails")}
                     <ArrowRight className="h-4 w-4" />

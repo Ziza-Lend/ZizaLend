@@ -181,11 +181,11 @@ export function LendPageClient() {
     <main className="space-y-6">
       <header className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-indigo-600">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-violet-400">
             Lender Portal
           </p>
-          <h1 className="mt-2 text-3xl font-bold text-zinc-900 dark:text-zinc-50">Lend</h1>
-          <p className="mt-2 max-w-2xl text-sm text-zinc-500 dark:text-zinc-400">
+          <h1 className="mt-2 text-3xl font-bold text-[var(--text-primary)]">Lend</h1>
+          <p className="mt-2 max-w-2xl text-sm text-[var(--text-secondary)]">
             Track pool performance, manage deposits, and monitor yield growth.
           </p>
         </div>
@@ -259,7 +259,7 @@ export function LendPageClient() {
               className="rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm shadow-zinc-200/50 dark:border-zinc-800 dark:bg-zinc-950 dark:shadow-none"
             >
               <div className="flex items-center gap-3">
-                <div className="rounded-2xl bg-indigo-50 p-3 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-300">
+                <div className="rounded-2xl bg-violet-500/10 p-3 text-violet-400">
                   <item.icon className="h-5 w-5" />
                 </div>
                 <div>
@@ -272,7 +272,7 @@ export function LendPageClient() {
                   {isLoading ? (
                     <Skeleton className="mt-1 h-7 w-24" />
                   ) : (
-                    <p className="text-xl font-semibold text-zinc-900 dark:text-zinc-50">
+                    <p className="text-xl font-semibold text-[var(--text-primary)]">
                       {item.value}
                     </p>
                   )}
@@ -356,8 +356,8 @@ export function LendPageClient() {
                       }
                     }}
                     aria-invalid={depositPrecisionError ? true : undefined}
-                    className={`w-full rounded-xl border bg-zinc-50 px-3 py-2 text-sm outline-none focus:border-indigo-500 dark:border-zinc-800 dark:bg-zinc-900 ${
-                      depositPrecisionError ? "border-red-500" : "border-zinc-200"
+                    className={`w-full rounded-xl border bg-[var(--bg-surface)] px-3 py-2 text-sm text-[var(--text-primary)] outline-none focus:border-violet-500 ${
+                      depositPrecisionError ? "border-red-500" : "border-[var(--border-default)]"
                     }`}
                   />
                   <p
@@ -374,7 +374,7 @@ export function LendPageClient() {
                   <button
                     type="submit"
                     disabled={depositOp.isLoading || !!depositPrecisionError}
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-60"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-violet-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-violet-500 disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     <ArrowUpRight className="h-4 w-4" />
                     {depositOp.isLoading ? "Depositing..." : "Deposit"}

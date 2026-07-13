@@ -15,8 +15,8 @@ export default function AnalyticsPage() {
   return (
     <main className="min-h-screen p-8 lg:p-12 max-w-7xl mx-auto space-y-8">
       <header>
-        <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-50">Analytics Dashboard</h1>
-        <p className="text-zinc-500 dark:text-zinc-400 mt-2">
+        <h1 className="text-3xl font-bold text-[var(--text-primary)]">Analytics Dashboard</h1>
+        <p className="text-[var(--text-secondary)] mt-2">
           Visualize your financial performance with interactive charts
         </p>
       </header>
@@ -28,8 +28,8 @@ export default function AnalyticsPage() {
             onClick={() => setView(v)}
             className={`px-5 py-2 rounded-full text-sm font-semibold capitalize transition-all ${
               view === v
-                ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/30"
-                : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                ? "bg-violet-600 text-white shadow-[var(--shadow-glow)]"
+                : "bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)]"
             }`}
             aria-pressed={view === v}
           >

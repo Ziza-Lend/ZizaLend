@@ -170,18 +170,18 @@ function ConnectWalletPrompt() {
 
   return (
     <main className="flex min-h-[60vh] flex-col items-center justify-center gap-6 p-8">
-      <div className="rounded-2xl bg-zinc-50 p-6 dark:bg-zinc-900">
-        <Wallet className="h-12 w-12 text-indigo-600 dark:text-indigo-400" />
+      <div className="rounded-2xl bg-[var(--bg-surface)] p-6">
+        <Wallet className="h-12 w-12 text-violet-400" />
       </div>
       <div className="text-center">
-        <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">{t("title")}</h1>
-        <p className="mt-2 max-w-md text-zinc-500 dark:text-zinc-400">{t("description")}</p>
+        <h1 className="text-2xl font-bold text-[var(--text-primary)]">{t("title")}</h1>
+        <p className="mt-2 max-w-md text-[var(--text-secondary)]">{t("description")}</p>
       </div>
       <button
         type="button"
         onClick={openModal}
         data-testid="wallet-page-connect-cta"
-        className="inline-flex items-center justify-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-zinc-950"
+        className="inline-flex items-center justify-center gap-2 rounded-lg bg-violet-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-violet-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[var(--bg-primary)]"
       >
         {t("cta")}
       </button>
@@ -247,8 +247,8 @@ function BalancesCard({ address, horizonUrl }: { address: string; horizonUrl: st
             {balances.map((b, i) => (
               <div key={i} className="flex items-center justify-between py-3">
                 <div className="flex items-center gap-3">
-                  <div className="h-9 w-9 rounded-full bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center">
-                    <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400">
+                  <div className="h-9 w-9 rounded-full bg-violet-500/10 flex items-center justify-center">
+                    <span className="text-xs font-bold text-violet-400">
                       {assetLabel(b).slice(0, 3)}
                     </span>
                   </div>
@@ -396,14 +396,14 @@ function TransactionHistoryCard({
                       {isInflow(p) ? (
                         <ArrowDownLeft className="h-4 w-4 text-green-600 dark:text-green-400" />
                       ) : (
-                        <ArrowUpRight className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
+                        <ArrowUpRight className="h-4 w-4 text-violet-400" />
                       )}
                     </div>
                     <div className="min-w-0">
-                      <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-50 truncate capitalize">
+                      <p className="text-sm font-semibold text-[var(--text-primary)] truncate capitalize">
                         {paymentLabel(p)}
                       </p>
-                      <p className="text-xs text-zinc-500 dark:text-zinc-400 font-mono truncate">
+                      <p className="text-xs text-[var(--text-muted)] font-mono truncate">
                         {counterparty(p)}
                       </p>
                     </div>
@@ -428,7 +428,7 @@ function TransactionHistoryCard({
                       href={`${explorerBase}/tx/${p.transaction_hash}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-1 text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                      className="p-1 text-[var(--text-muted)] hover:text-violet-400 transition-colors"
                       title="View on Stellar Explorer"
                     >
                       <ExternalLink className="h-3.5 w-3.5" />
@@ -491,8 +491,8 @@ export default function WalletPage() {
   return (
     <main className="space-y-8 min-h-screen p-8 lg:p-12 max-w-5xl mx-auto">
       <header>
-        <p className="text-sm font-semibold uppercase tracking-widest text-indigo-600">My Wallet</p>
-        <h1 className="mt-1 text-3xl font-bold text-zinc-900 dark:text-zinc-50">Wallet</h1>
+        <p className="text-sm font-semibold uppercase tracking-widest text-violet-400">My Wallet</p>
+        <h1 className="mt-1 text-3xl font-bold text-[var(--text-primary)]">Wallet</h1>
       </header>
 
       {/* Address card */}
@@ -553,8 +553,8 @@ export default function WalletPage() {
               {
                 href: "/lend",
                 icon: ArrowDownLeft,
-                iconClass: "text-indigo-600 dark:text-indigo-400",
-                bg: "bg-indigo-50 dark:bg-indigo-500/10",
+                iconClass: "text-violet-400",
+                bg: "bg-violet-500/10",
                 title: "Deposit to Pool",
                 desc: "Earn yield by supplying liquidity",
               },

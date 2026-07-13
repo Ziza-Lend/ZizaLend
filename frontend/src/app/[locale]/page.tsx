@@ -87,24 +87,22 @@ function RepaymentReminderBanner({
 
   return (
     <div
-      role="alert"
-      className="flex items-start justify-between gap-4 rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 dark:border-amber-500/30 dark:bg-amber-950/30"
+      role="alert"          className="flex items-start justify-between gap-4 rounded-xl border border-amber-500/20 bg-amber-500/10 px-5 py-4"
     >
       <div className="flex items-start gap-3">
         <Clock
-          className="mt-0.5 h-5 w-5 shrink-0 text-amber-600 dark:text-amber-400"
+          className="mt-0.5 h-5 w-5 shrink-0 text-amber-400"
           aria-hidden="true"
         />
         <div>
-          <p className="text-sm font-semibold text-amber-900 dark:text-amber-200">
+          <p className="text-sm font-semibold text-amber-200">
             {t("reminder.due", { hours: hoursLeft, loanId: mostUrgent.id })}
-            {urgentLoans.length > 1 && (
-              <span className="ml-2 inline-flex items-center rounded-full bg-amber-200 px-2 py-0.5 text-xs font-bold text-amber-800 dark:bg-amber-500/30 dark:text-amber-300">
+            {urgentLoans.length > 1 && (                <span className="ml-2 inline-flex items-center rounded-full bg-amber-500/20 px-2 py-0.5 text-xs font-bold text-amber-300">
                 +{urgentLoans.length - 1} more
               </span>
             )}
           </p>
-          <p className="mt-0.5 text-xs text-amber-700 dark:text-amber-400">
+          <p className="mt-0.5 text-xs text-amber-300">
             Amount due:{" "}
             {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(
               mostUrgent.amount,
@@ -121,15 +119,13 @@ function RepaymentReminderBanner({
       </div>
       <div className="flex items-center gap-2 shrink-0">
         <button
-          onClick={() => router.push(`/repay/${mostUrgent.id}`)}
-          className="rounded-lg bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-700 transition-colors"
+          onClick={() => router.push(`/repay/${mostUrgent.id}`)}            className="rounded-lg bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-700 transition-colors"
         >
           {t("reminder.repayNow")}
         </button>
         <button
           onClick={onDismiss}
-          aria-label={t("reminder.dismiss")}
-          className="rounded p-1 text-amber-600 hover:bg-amber-100 dark:hover:bg-amber-500/20 transition-colors"
+          aria-label={t("reminder.dismiss")}            className="rounded p-1 text-amber-400 hover:bg-amber-500/10 transition-colors"
         >
           ✕
         </button>
@@ -243,10 +239,10 @@ export default function Home() {
     return (
       <main className="space-y-8 min-h-screen p-8 lg:p-12 max-w-7xl mx-auto animate-in fade-in duration-500">
         <header>
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
+          <h1 className="text-2xl font-bold text-[var(--text-primary)]">
             {t("disconnected.heading")}
           </h1>
-          <p className="text-zinc-500 dark:text-zinc-400">{t("disconnected.subheading")}</p>
+          <p className="text-[var(--text-secondary)]">{t("disconnected.subheading")}</p>
         </header>
 
         <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 opacity-50 grayscale-[0.5]">
@@ -260,29 +256,29 @@ export default function Home() {
           ).map((label, i) => (
             <div
               key={i}
-              className="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950"
+              className="rounded-xl border border-[var(--border-default)] bg-[var(--bg-surface)] p-6"
             >
-              <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">{label}</p>
-              <h3 className="text-2xl font-bold text-zinc-300 dark:text-zinc-700">$0.00</h3>
+              <p className="text-sm font-medium text-[var(--text-muted)]">{label}</p>
+              <h3 className="text-2xl font-bold text-[var(--text-muted)]/30">$0.00</h3>
             </div>
           ))}
         </section>
 
-        <div className="rounded-2xl bg-zinc-50 p-12 text-center dark:bg-zinc-900/50 border border-dashed border-zinc-200 dark:border-zinc-800">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 dark:bg-indigo-500/10 mb-6">
-            <WalletCards className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
+        <div className="rounded-2xl bg-[var(--bg-surface)] p-12 text-center border border-dashed border-[var(--border-default)]">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-violet-500/10 mb-6">
+            <WalletCards className="h-8 w-8 text-violet-400" />
           </div>
-          <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-50">
+          <h2 className="text-xl font-bold text-[var(--text-primary)]">
             {t("disconnected.walletNotConnected")}
           </h2>
-          <p className="mt-2 text-zinc-500 dark:text-zinc-400 max-w-sm mx-auto">
+          <p className="mt-2 text-[var(--text-secondary)] max-w-sm mx-auto">
             {t("disconnected.connectPrompt")}
           </p>
           <button
             onClick={() => {
               void connectWallet();
             }}
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-500/20"
+            className="mt-6 inline-flex items-center gap-2 rounded-full bg-violet-600 px-6 py-3 text-sm font-semibold text-white hover:bg-violet-700 transition-all shadow-[var(--shadow-glow)]"
           >
             {t("disconnected.connectButton")}
           </button>
@@ -303,10 +299,10 @@ export default function Home() {
       aria-labelledby="dashboard-title"
     >
       <header>
-        <h1 id="dashboard-title" className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
+        <h1 id="dashboard-title" className="text-2xl font-bold text-[var(--text-primary)]">
           {t("title", { address: shortAddress })}
         </h1>
-        <p className="text-zinc-500 dark:text-zinc-400">{t("description")}</p>
+        <p className="text-[var(--text-secondary)]">{t("description")}</p>
       </header>
 
       {!dismissed && urgentLoans.length > 0 && (
@@ -352,18 +348,18 @@ export default function Home() {
             return (
               <article
                 key={i}
-                className="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950"
+                className="rounded-xl border border-[var(--border-default)] bg-[var(--bg-surface)] p-6"
               >
                 <div className="flex items-center justify-between">
-                  <div className="rounded-lg bg-zinc-50 p-2 dark:bg-zinc-900" aria-hidden="true">
-                    <Icon className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+                  <div className="rounded-lg bg-[var(--bg-surface)] p-2" aria-hidden="true">
+                    <Icon className="h-5 w-5 text-violet-400" />
                   </div>
                   {stat.change && (
                     <span
                       className={`text-xs font-medium px-2 py-0.5 rounded-full ${
                         stat.trend === "up"
-                          ? "bg-green-50 text-green-700 dark:bg-green-500/10 dark:text-green-400"
-                          : "bg-zinc-50 text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400"
+                          ? "bg-green-500/10 text-green-400"
+                          : "bg-[var(--bg-surface-elevated)] text-[var(--text-muted)]"
                       }`}
                       aria-label={`Change: ${stat.change}`}
                     >
@@ -372,7 +368,7 @@ export default function Home() {
                   )}
                 </div>
                 <div className="mt-4">
-                  <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
+                  <p className="text-sm font-medium text-[var(--text-muted)]">
                     <span className="inline-flex items-center gap-1">
                       {stat.label}
                       {stat.label.toLowerCase().includes("apy") ? (
@@ -383,7 +379,7 @@ export default function Home() {
                       ) : null}
                     </span>
                   </p>
-                  <h3 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
+                  <h3 className="text-2xl font-bold text-[var(--text-primary)]">
                     {stat.value}
                   </h3>
                 </div>
@@ -399,22 +395,22 @@ export default function Home() {
             <div className="flex items-center justify-between">
               <h2
                 id="activity-heading"
-                className="text-lg font-bold text-zinc-900 dark:text-zinc-50 flex items-center gap-2"
+                className="text-lg font-bold text-[var(--text-primary)] flex items-center gap-2"
               >
-                <Clock className="h-5 w-5 text-zinc-400" aria-hidden="true" />
+                <Clock className="h-5 w-5 text-[var(--text-muted)]" aria-hidden="true" />
                 {t("activity.title")}
               </h2>
               <button
                 onClick={() => router.push("/activity")}
-                className="text-sm font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 rounded px-2 py-1"
+                className="text-sm font-medium text-violet-400 hover:text-violet-300 focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 rounded px-2 py-1"
                 aria-label="View all recent activity"
               >
                 {t("activity.viewAll")}
               </button>
             </div>
 
-            <div className="rounded-xl border border-zinc-200 bg-white overflow-hidden dark:border-zinc-800 dark:bg-zinc-950">
-              <div className="divide-y divide-zinc-200 dark:divide-zinc-800">
+            <div className="rounded-xl border border-[var(--border-default)] bg-[var(--bg-surface)] overflow-hidden">
+              <div className="divide-y divide-[var(--border-default)]">
                 {recentActivity.length === 0 ? (
                   <EmptyState
                     icon={Clock}
@@ -425,14 +421,14 @@ export default function Home() {
                   recentActivity.map((item, i) => (
                     <div
                       key={i}
-                      className="flex items-center justify-between p-4 hover:bg-zinc-50 dark:hover:bg-zinc-900/50 transition-colors"
+                      className="flex items-center justify-between p-4 hover:bg-[var(--bg-surface-hover)] transition-colors"
                     >
                       <div className="flex items-center gap-4">
                         <div
                           className={`h-10 w-10 rounded-full flex items-center justify-center ${
                             item.status === "completed" || item.status === "repaid"
-                              ? "bg-green-50 dark:bg-green-500/10"
-                              : "bg-indigo-50 dark:bg-indigo-500/10"
+                              ? "bg-green-500/10"
+                              : "bg-violet-500/10"
                           }`}
                           aria-hidden="true"
                         >
@@ -443,17 +439,17 @@ export default function Home() {
                           )}
                         </div>
                         <div>
-                          <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
+                          <p className="text-sm font-semibold text-[var(--text-primary)]">
                             {item.type}
                           </p>
-                          <p className="text-xs text-zinc-500 dark:text-zinc-400">{item.desc}</p>
+                          <p className="text-xs text-[var(--text-muted)]">{item.desc}</p>
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm font-bold text-zinc-900 dark:text-zinc-50">
+                        <p className="text-sm font-bold text-[var(--text-primary)]">
                           {item.amount}
                         </p>
-                        <p className="text-xs text-zinc-500 dark:text-zinc-400">{item.time}</p>
+                        <p className="text-xs text-[var(--text-muted)]">{item.time}</p>
                       </div>
                     </div>
                   ))
@@ -467,7 +463,7 @@ export default function Home() {
           <aside aria-labelledby="quick-actions-heading" className="space-y-4">
             <h2
               id="quick-actions-heading"
-              className="text-lg font-bold text-zinc-900 dark:text-zinc-50"
+              className="text-lg font-bold text-[var(--text-primary)]"
             >
               {t("quickActions.title")}
             </h2>
@@ -476,20 +472,20 @@ export default function Home() {
                 {
                   title: t("quickActions.applyLoan"),
                   desc: t("quickActions.applyLoanDesc"),
-                  color: "bg-indigo-600",
+                  color: "bg-violet-600",
                   href: "/loans",
                 },
                 {
                   title: t("quickActions.sendRemittance"),
                   desc: t("quickActions.sendRemittanceDesc"),
-                  color: "bg-zinc-900",
+                  color: "bg-[var(--bg-surface)]",
                   href: "/send-remittance",
                 },
               ].map((action, i) => (
                 <button
                   key={i}
                   onClick={() => router.push(action.href)}
-                  className={`w-full text-left p-4 rounded-xl ${action.color} text-white hover:opacity-90 transition-opacity shadow-lg shadow-indigo-500/10 focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2`}
+                  className={`w-full text-left p-4 rounded-xl ${action.color} text-white hover:opacity-90 transition-opacity focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2`}
                 >
                   <div className="flex items-center justify-between mb-1">
                     <span className="font-bold">{action.title}</span>
@@ -502,7 +498,7 @@ export default function Home() {
 
             {/* Credit Score Gauge */}
             <section
-              className="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950"
+              className="rounded-xl border border-[var(--border-default)] bg-[var(--bg-surface)] p-6"
               aria-label={t("creditScore.label")}
             >
               <div className="mb-3 flex items-center justify-between">
@@ -523,17 +519,17 @@ export default function Home() {
             </section>
 
             <section
-              className="rounded-xl bg-indigo-50 p-6 dark:bg-indigo-950/30 space-y-4"
+              className="rounded-xl bg-violet-500/5 p-6 border border-violet-500/10 space-y-4"
               aria-labelledby="outreach-heading"
             >
-              <h3 id="outreach-heading" className="font-bold text-indigo-900 dark:text-indigo-300">
+              <h3 id="outreach-heading" className="font-bold text-violet-300">
                 {t("outreach.title")}
               </h3>
-              <p className="text-sm text-indigo-700 dark:text-indigo-400 leading-relaxed">
+              <p className="text-sm text-violet-300/80 leading-relaxed">
                 {t("outreach.description")}
               </p>
               <button
-                className="text-sm font-bold text-indigo-600 dark:text-indigo-400 flex items-center gap-1 focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-1 rounded"
+                className="text-sm font-bold text-violet-400 flex items-center gap-1 focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-1 rounded"
                 aria-label="Explore micro-loan opportunities"
               >
                 {t("outreach.explore")}

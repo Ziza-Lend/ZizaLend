@@ -84,26 +84,26 @@ export default function WalletConnectionModal() {
             }}
             disabled={!wallet.isFreighterAvailable && !isMobile}
             aria-label={t("connect.freighterOptionName")}
-            className="group flex w-full items-center justify-between gap-4 rounded-xl border border-zinc-200 bg-white p-4 text-left transition hover:border-indigo-400 hover:bg-indigo-50/60 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:border-indigo-500 dark:hover:bg-indigo-500/10"
+            className="group flex w-full items-center justify-between gap-4 rounded-xl border border-[var(--border-default)] bg-[var(--bg-surface)] p-4 text-left transition hover:border-violet-500/50 hover:bg-violet-500/5 disabled:cursor-not-allowed disabled:opacity-60"
           >
             <span className="flex items-center gap-3">
-              <span className="grid h-10 w-10 place-items-center rounded-full bg-indigo-50 dark:bg-indigo-500/10">
+              <span className="grid h-10 w-10 place-items-center rounded-full bg-violet-500/10">
                 <Wallet
-                  className="h-5 w-5 text-indigo-600 dark:text-indigo-400"
+                  className="h-5 w-5 text-violet-400"
                   aria-hidden="true"
                 />
               </span>
               <span className="flex flex-col">
-                <span className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
+                <span className="text-sm font-semibold text-[var(--text-primary)]">
                   {t("connect.freighterOptionName")}
                 </span>
-                <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                <span className="text-xs text-[var(--text-secondary)]">
                   {t("connect.freighterOptionDescription")}
                 </span>
               </span>
             </span>
             <ChevronRight
-              className="h-4 w-4 text-zinc-400 transition group-hover:translate-x-0.5 group-hover:text-indigo-600 dark:group-hover:text-indigo-400"
+              className="h-4 w-4 text-[var(--text-muted)] transition group-hover:translate-x-0.5 group-hover:text-violet-400"
               aria-hidden="true"
             />
           </button>
@@ -119,7 +119,7 @@ export default function WalletConnectionModal() {
             <button
               type="button"
               onClick={onContinueOnMobile}
-              className="flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-indigo-500"
+              className="flex w-full items-center justify-center gap-2 rounded-lg bg-violet-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-violet-500"
             >
               {t("connect.mobileFallback.cta")}
             </button>
@@ -130,7 +130,7 @@ export default function WalletConnectionModal() {
         {showConnecting && (
           <div className="flex flex-col items-center gap-3 py-6 text-zinc-500 dark:text-zinc-400">
             <span
-              className="h-6 w-6 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent"
+              className="h-6 w-6 animate-spin rounded-full border-2 border-violet-500 border-t-transparent"
               aria-hidden="true"
             />
             <p className="text-sm">{t("connect.connecting")}</p>
