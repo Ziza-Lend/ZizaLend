@@ -332,47 +332,47 @@ export function Header({ onMenuClick, className }: HeaderProps) {
                 transition={{ duration: 0.15, ease: "easeOut" }}
                 className="absolute top-12 z-40 max-h-[26rem] w-full overflow-y-auto rounded-2xl border border-[var(--border-default)] bg-[var(--bg-surface)] p-2 shadow-xl shadow-black/30 origin-top"
               >
-              {debouncedQuery.trim().length === 0 ? (
-                <p className="px-3 py-2 text-sm text-[var(--text-muted)]">
-                  Type to search loans, pages, and transaction hashes.
-                </p>
-              ) : searchResults.length === 0 ? (
-                <p className="px-3 py-2 text-sm text-[var(--text-muted)]">No results found</p>
-              ) : (
-                groupedResults.map((group) => (
-                  <div key={group.category} className="mb-2 last:mb-0">
-                    <p className="px-3 py-2 text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
-                      {group.category}
-                    </p>
-                    {group.items.map((item) => {
-                      const globalIndex = searchResults.findIndex(
-                        (result) => result.id === item.id,
-                      );
-                      const isActive = globalIndex === activeIndex;
-                      return (
-                        <button
-                          key={item.id}
-                          id={`search-result-${item.id}`}
-                          role="option"
-                          aria-selected={isActive}
-                          onClick={() => handleSelect(item.href)}
-                          className={cn(
-                            "flex w-full items-start justify-between rounded-xl px-3 py-2 text-left transition",
-                            isActive
-                              ? "bg-violet-500/10 text-violet-300"
-                              : "text-[var(--text-primary)] hover:bg-[var(--bg-surface-hover)]",
-                          )}
-                        >
-                          <span className="text-sm font-medium">{item.title}</span>
-                          <span className="ml-3 text-xs text-[var(--text-muted)]">
-                            {item.subtitle}
-                          </span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                ))
-              )}
+                {debouncedQuery.trim().length === 0 ? (
+                  <p className="px-3 py-2 text-sm text-[var(--text-muted)]">
+                    Type to search loans, pages, and transaction hashes.
+                  </p>
+                ) : searchResults.length === 0 ? (
+                  <p className="px-3 py-2 text-sm text-[var(--text-muted)]">No results found</p>
+                ) : (
+                  groupedResults.map((group) => (
+                    <div key={group.category} className="mb-2 last:mb-0">
+                      <p className="px-3 py-2 text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
+                        {group.category}
+                      </p>
+                      {group.items.map((item) => {
+                        const globalIndex = searchResults.findIndex(
+                          (result) => result.id === item.id,
+                        );
+                        const isActive = globalIndex === activeIndex;
+                        return (
+                          <button
+                            key={item.id}
+                            id={`search-result-${item.id}`}
+                            role="option"
+                            aria-selected={isActive}
+                            onClick={() => handleSelect(item.href)}
+                            className={cn(
+                              "flex w-full items-start justify-between rounded-xl px-3 py-2 text-left transition",
+                              isActive
+                                ? "bg-violet-500/10 text-violet-300"
+                                : "text-[var(--text-primary)] hover:bg-[var(--bg-surface-hover)]",
+                            )}
+                          >
+                            <span className="text-sm font-medium">{item.title}</span>
+                            <span className="ml-3 text-xs text-[var(--text-muted)]">
+                              {item.subtitle}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  ))
+                )}
               </motion.div>
             )}
           </AnimatePresence>
@@ -457,7 +457,10 @@ export function Header({ onMenuClick, className }: HeaderProps) {
               className="flex items-center gap-3 border-b border-[var(--border-default)] px-4 py-3"
             >
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--text-muted)]" aria-hidden="true" />
+                <Search
+                  className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--text-muted)]"
+                  aria-hidden="true"
+                />
                 <input
                   ref={mobileSearchInputRef}
                   type="search"
@@ -489,7 +492,9 @@ export function Header({ onMenuClick, className }: HeaderProps) {
                   Type to search loans, pages, and transactions
                 </p>
               ) : searchResults.length === 0 ? (
-                <p className="py-8 text-center text-sm text-[var(--text-muted)]">No results found</p>
+                <p className="py-8 text-center text-sm text-[var(--text-muted)]">
+                  No results found
+                </p>
               ) : (
                 <div className="space-y-1">
                   {groupedResults.map((group) => (

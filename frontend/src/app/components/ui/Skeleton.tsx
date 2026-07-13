@@ -3,8 +3,7 @@
 import { type HTMLAttributes } from "react";
 import { clsx } from "clsx";
 
-const baseClasses =
-  "rounded animate-shimmer";
+const baseClasses = "rounded animate-shimmer";
 
 export function Skeleton({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return <div aria-hidden="true" className={clsx(baseClasses, className)} {...props} />;
