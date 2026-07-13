@@ -24,8 +24,7 @@ jobs:
           node-version: 20
 
       - name: Install commitlint
-        run: |
-          npm install --save-dev @commitlint/cli @commitlint/config-conventional
+        run: npm install --no-save @commitlint/cli @commitlint/config-conventional
 
       - name: Lint PR commits
         if: github.event_name == 'pull_request'
@@ -35,7 +34,12 @@ jobs:
       - name: Lint push commits
         if: github.event_name == 'push'
         run: |
-          npx commitlint --from ${{ github.event.before }} --to ${{ github.event.after }}
+          # github.event.before is 0000... on the first push — fall back to HEAD~1
+          FROM_SHA="${{ github.event.before }}"
+          if [ "$FROM_SHA" = "0000000000000000000000000000000000000000" ]; then
+            FROM_SHA="HEAD~1"
+          fi
+          npx commitlint --from "$FROM_SHA" --to ${{ github.event.after }}
 
       - name: Validate PR title
         if: github.event_name == 'pull_request'

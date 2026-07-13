@@ -8,7 +8,7 @@
   <a href="https://github.com/Ziza-Lend/ZizaLend/actions/workflows/deploy-staging.yml"><img src="https://img.shields.io/github/actions/workflow/status/Ziza-Lend/ZizaLend/deploy-staging.yml?branch=main&label=Deploy%20Staging&logo=docker" alt="Deploy Staging" /></a>
   <a href="https://github.com/Ziza-Lend/ZizaLend/actions/workflows/codeql.yml"><img src="https://img.shields.io/github/actions/workflow/status/Ziza-Lend/ZizaLend/codeql.yml?branch=main&label=CodeQL&logo=github" alt="CodeQL" /></a>
   <br/>
-  <a href="https://github.com/Ziza-Lend/ZizaLend/actions/workflows/dependency-review.yml"><img src="https://img.shields.io/github/actions/workflow/status/Ziza-Lend/ZizaLend/dependency-review.yml?branch=main&label=Dependency%20Review&logo=github" alt="Dependency Review" /></a>
+  <a href="https://github.com/Ziza-Lend/ZizaLend/actions/workflows/dependency-review.yml"><img src="https://img.shields.io/badge/Dependency_Review-PR_Only-8A2BE2?logo=github" alt="Dependency Review" /></a>
   <a href="https://github.com/Ziza-Lend/ZizaLend/actions/workflows/commitlint.yml"><img src="https://img.shields.io/github/actions/workflow/status/Ziza-Lend/ZizaLend/commitlint.yml?branch=main&label=Commitlint&logo=conventionalcommits" alt="Commitlint" /></a>
 
   <!-- Project Meta Badges -->
