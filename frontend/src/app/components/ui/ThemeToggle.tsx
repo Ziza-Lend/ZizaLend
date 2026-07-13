@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { Sun, Moon, Monitor } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useThemeStore } from "../../stores/useThemeStore";
 
 export function ThemeToggle() {
@@ -32,12 +33,22 @@ export function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 text-[var(--text-secondary)] hover:bg-[var(--bg-surface)] rounded-lg transition-colors"
+      className="p-2 text-[var(--text-secondary)] hover:bg-[var(--bg-surface)] rounded-lg transition-colors duration-150 relative overflow-hidden"
       aria-label={`${label} active, switch to ${nextLabel} mode`}
       aria-live="polite"
       title={label}
     >
-      <Icon className="h-5 w-5" />
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={theme}
+          initial={{ rotate: -90, opacity: 0, scale: 0.5 }}
+          animate={{ rotate: 0, opacity: 1, scale: 1 }}
+          exit={{ rotate: 90, opacity: 0, scale: 0.5 }}
+          transition={{ duration: 0.25, ease: "easeInOut" }}
+        >
+          <Icon className="h-5 w-5" />
+        </motion.div>
+      </AnimatePresence>
     </button>
   );
 }
