@@ -30,14 +30,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const Component = "button";
 
     const variants = {
-      primary: "bg-violet-600 text-white hover:bg-violet-700 shadow-[var(--shadow-glow)]",
+      primary:
+        "bg-violet-600 text-white hover:bg-violet-700 active:bg-violet-800 shadow-[var(--shadow-glow)]",
       secondary:
-        "bg-[var(--bg-surface)] text-[var(--text-primary)] hover:bg-[var(--bg-surface-hover)]",
+        "bg-[var(--bg-surface)] text-[var(--text-primary)] hover:bg-[var(--bg-surface-hover)] active:bg-[var(--bg-surface-elevated)]",
       outline:
-        "border border-[var(--border-default)] bg-transparent hover:bg-[var(--bg-surface)] text-[var(--text-secondary)]",
+        "border border-[var(--border-default)] bg-transparent hover:bg-[var(--bg-surface)] active:bg-[var(--bg-surface-hover)] text-[var(--text-secondary)]",
       ghost:
-        "bg-transparent hover:bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]",
-      danger: "bg-red-600 text-white hover:bg-red-700 shadow-sm",
+        "bg-transparent hover:bg-[var(--bg-surface)] active:bg-[var(--bg-surface-hover)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]",
+      danger: "bg-red-600 text-white hover:bg-red-700 active:bg-red-800 shadow-sm",
     };
 
     const sizes = {
@@ -50,7 +51,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <Component
         className={cn(
-          "inline-flex items-center justify-center rounded-lg font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-focus-ring disabled:pointer-events-none disabled:opacity-50",
+          "inline-flex items-center justify-center rounded-lg font-medium transition-all duration-150 ease-out focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-primary)] disabled:pointer-events-none disabled:opacity-50 active:scale-[0.97]",
           variants[variant],
           sizes[size],
           className,
@@ -86,9 +87,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             <span className="sr-only">Loading...</span>
           </div>
         )}
-        {!isLoading && leftIcon && <span className="mr-2">{leftIcon}</span>}
+        {!isLoading && leftIcon && <span className="mr-2 -ml-1">{leftIcon}</span>}
         {children}
-        {!isLoading && rightIcon && <span className="ml-2">{rightIcon}</span>}
+        {!isLoading && rightIcon && <span className="ml-2 -mr-1">{rightIcon}</span>}
       </Component>
     );
   },
