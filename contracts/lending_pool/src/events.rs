@@ -59,3 +59,11 @@ pub fn admin_transferred(env: &Env, previous_admin: Address, new_admin: Address,
     let topics = (Symbol::new(env, "AdminTransferred"), via);
     env.events().publish(topics, (previous_admin, new_admin));
 }
+
+/// Emitted when the admin collects accumulated rounding dust from
+/// deposit/withdraw operations. Dust arises from integer division
+/// in share-to-asset conversion.
+pub fn dust_collected(env: &Env, amount: i128) {
+    let topics = (Symbol::new(env, "DustCollected"),);
+    env.events().publish(topics, amount);
+}

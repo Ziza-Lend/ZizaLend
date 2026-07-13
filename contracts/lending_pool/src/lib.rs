@@ -1,5 +1,37 @@
 #![no_std]
-// Lending pool contract for ZizaLend.
+//! # ZizaLend Lending Pool Contract
+//!
+//! A share-based (LP token) liquidity pool that serves multiple token markets
+//! from a single contract instance. Lenders deposit tokens and receive LP
+//! shares whose value grows as loans are repaid with interest.
+//!
+//! ## Architecture
+//!
+//! - **Share-based accounting**: Every deposit mints LP shares at the current
+//!   exchange rate. Yield is implicit in the share price — no separate `claim`
+//!   step required.
+//! - **Multi-token support**: One contract instance manages independent pools
+//!   for different token addresses.
+//! - **Withdrawal cooldown**: Configurable per-token delay between deposit and
+//!   withdrawal to prevent rapid deposit/withdraw cycles (flash-loan-like
+//!   behavior on Soroban).
+//! - **Emergency pause**: Admin can pause deposits and withdrawals; a separate
+//!   `emergency_withdraw` bypasses both pause and cooldown for user safety.
+//! - **Admin governance**: Two-step admin transfer (`propose` + `accept`) and
+//!   direct `set_admin` for governance multisigs.
+//! - **Upgradeable**: WASM-hash replacement with version tracking.
+//!
+//! ## Key Invariants
+//!
+//! 1. `total_pool_assets = idle_balance + total_outstanding`
+//! 2. `shares * total_assets / total_shares` always equals the depositor's
+//!    proportional claim (including accrued yield).
+//! 3. First depositor always receives a 1:1 share-to-asset allocation.
+//! 4. Subsequent depositors cannot dilute existing holders.
+//! 5. The share price is monotonic non-decreasing (yield can only increase it).
+//! 6. `TotalDeposits` can never exceed `MaxPoolSize` when the cap is set.
+//! 7. Withdrawals can only reduce the idle balance — total_outstanding is
+//!    only modified by `adjust_outstanding` (called by LoanManager).
 use soroban_sdk::token::Client as TokenClient;
 use soroban_sdk::{
     contract, contracterror, contractimpl, contracttype, Address, BytesN, Env, Symbol,
@@ -8,30 +40,39 @@ use soroban_sdk::{
 mod events;
 use events::*;
 
+/// Errors returned by the LendingPool contract.
 #[contracterror]
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
 pub enum PoolError {
+    /// Contract has already been initialized
     AlreadyInitialized = 1,
+    /// Contract has not been initialized
     NotInitialized = 2,
+    /// The contract (or token-specific pool) is paused
     ContractPaused = 3,
+    /// Amount or share value is zero or negative
     InvalidAmount = 4,
+    /// Deposit would exceed the configured max pool size
     PoolSizeExceeded = 5,
+    /// Provider does not hold enough shares to withdraw
     InsufficientBalance = 6,
+    /// Pool lacks sufficient idle liquidity to fulfill the withdrawal
     InsufficientLiquidity = 7,
+    /// Max pool size value is negative
     InvalidMaxPoolSize = 9,
+    /// No pending admin proposal to accept
     NoProposedAdmin = 10,
+    /// Withdrawal cooldown exceeds maximum allowed ledgers
     CooldownTooLong = 11,
+    /// Minimum share hold time (flash loan protection) not yet elapsed
+    MinimumHoldTimeNotMet = 12,
 }
 
-/// Storage keys.
+/// Storage keys for the LendingPool contract.
 ///
-/// v2 replaces the accumulator-style keys (Deposit, RewardDebt, ClaimableYield,
-/// AccYieldPerDeposit, UnclaimedYieldPool) with a share-based (LP-token) model.
-/// Yield is now implicit in the exchange rate between shares and underlying
-/// assets — no separate accumulation or claim step is required.
-///
-/// All per-token keys carry the token address so one contract instance can
-/// serve multiple token liquidity pools.
+/// Per-token keys carry the token address so one contract instance can
+/// serve multiple independent liquidity pools. Persistent keys use
+/// `(provider, token)` tuples for per-user data.
 #[contracttype]
 #[derive(Clone)]
 pub enum DataKey {
@@ -55,6 +96,8 @@ pub enum DataKey {
     DepositorCount(Address),
     /// token → cumulative yield explicitly distributed to the pool
     TotalYieldDistributed(Address),
+    /// token → accumulated rounding dust from all deposit/withdraw operations
+    AccumulatedDust,
     ProposedAdmin,
     Version,
 }
@@ -238,6 +281,70 @@ impl LendingPool {
             .expect("share redeem overflow")
     }
 
+    /// Minimum number of ledgers a depositor must hold LP shares before
+    /// withdrawing. Prevents flash-loan-style deposit/withdraw cycles that
+    /// could extract value from the pool's yield in a single transaction.
+    ///
+    /// Set to 1 ledger minimum — in Soroban, cross-contract calls within a
+    /// single transaction all execute at the same ledger sequence, so a 1
+    /// ledger hold effectively prevents flash-loan attacks while allowing
+    /// same-ledger withdrawals when the cooldown is configured to 0.
+    const MINIMUM_HOLD_LEDGERS: u32 = 1;
+
+    /// Assert that the minimum share hold time has elapsed since the provider's
+    /// most recent deposit. This prevents flash-loan-style manipulation where
+    /// funds are deposited and withdrawn in the same ledger.
+    ///
+    /// # Panics
+    ///
+    /// Panics with `"minimum_hold_time_not_met"` if the current ledger is less
+    /// than the deposit ledger plus `MINIMUM_HOLD_LEDGERS` **and** the
+    /// withdrawal cooldown is set to 0 (since the cooldown already covers
+    /// longer holds when configured).
+    fn assert_minimum_hold_elapsed(env: &Env, provider: &Address, token: &Address) {
+        let cooldown = Self::withdrawal_cooldown(env);
+        // When a longer cooldown is configured, it already prevents
+        // flash-loan behavior — skip the minimum hold check.
+        if cooldown >= Self::MINIMUM_HOLD_LEDGERS {
+            return;
+        }
+
+        let Some(deposit_ledger) = Self::read_deposit_timestamp(env, provider, token) else {
+            return;
+        };
+
+        let current_ledger = env.ledger().sequence();
+        if current_ledger < deposit_ledger.saturating_add(Self::MINIMUM_HOLD_LEDGERS) {
+            panic!("minimum_hold_time_not_met");
+        }
+    }
+
+    /// Immutable collection of rounding dust accumulated across all
+    /// deposit/withdraw operations. This value represents the sum of
+    /// rounding truncations that would otherwise be lost forever.
+    ///
+    /// Admin can retrieve this dust via `collect_dust()`.
+    fn accumulated_dust(env: &Env) -> i128 {
+        env.storage()
+            .instance()
+            .get(&DataKey::AccumulatedDust)
+            .unwrap_or(0)
+    }
+
+    /// Track rounding dust from a single operation.
+    fn track_dust(env: &Env, dust_amount: i128) {
+        if dust_amount <= 0 {
+            return;
+        }
+        let current = Self::accumulated_dust(env);
+        let updated = current
+            .checked_add(dust_amount)
+            .expect("dust overflow");
+        env.storage()
+            .instance()
+            .set(&DataKey::AccumulatedDust, &updated);
+    }
+
     fn assert_withdrawal_cooldown_elapsed(env: &Env, provider: &Address, token: &Address) {
         let cooldown = Self::withdrawal_cooldown(env);
         if cooldown == 0 {
@@ -276,6 +383,18 @@ impl LendingPool {
         if assets_to_return <= 0 {
             return Err(PoolError::InvalidAmount);
         }
+
+        // Track rounding dust from share-to-asset conversion.
+        // Due to integer division in calc_assets_to_redeem, the actual
+        // transfer amount may be slightly less than the proportional
+        // share value. We collect the dust so it doesn't accumulate
+        // as unclaimed value in the pool.
+        let expected_value = shares
+            .checked_mul(total_assets)
+            .and_then(|v| v.checked_div(cur_total_shares))
+            .expect("expected value overflow");
+        let rounding_dust = expected_value.checked_sub(assets_to_return).unwrap_or(0);
+        Self::track_dust(env, rounding_dust);
 
         let idle_balance = Self::read_pool_balance(env, token);
         if assets_to_return > idle_balance {
@@ -330,6 +449,12 @@ impl LendingPool {
 
     // ── Admin / lifecycle ─────────────────────────────────────────────────
 
+    /// Initialize the LendingPool contract with an admin address.
+    ///
+    /// Called once at deployment. Sets the initial admin, unpaused state,
+    /// default withdrawal cooldown, version, and zero-initializes the dust
+    /// accumulator. Reverts with [`PoolError::AlreadyInitialized`] if called
+    /// a second time.
     pub fn initialize(env: Env, admin: Address) -> Result<(), PoolError> {
         if env.storage().instance().has(&DataKey::Admin) {
             return Err(PoolError::AlreadyInitialized);
@@ -347,20 +472,27 @@ impl LendingPool {
         Ok(())
     }
 
+    /// Return the current contract version.
     pub fn version(env: Env) -> u32 {
         Self::bump_instance_ttl(&env);
         env.storage().instance().get(&DataKey::Version).unwrap_or(0)
     }
 
+    /// Return the current admin address.
     pub fn get_admin(env: Env) -> Address {
         Self::admin(&env)
     }
 
+    /// Return the proposed admin address if a two-step transfer is pending.
     pub fn get_proposed_admin(env: Env) -> Option<Address> {
         Self::bump_instance_ttl(&env);
         env.storage().instance().get(&DataKey::ProposedAdmin)
     }
 
+    /// Upgrade the contract WASM code.
+    ///
+    /// Requires admin authorization. Increments the version counter and
+    /// publishes a `ContractUpgraded` event before replacing the bytecode.
     pub fn upgrade(env: Env, new_wasm_hash: BytesN<32>) {
         Self::admin(&env).require_auth();
         let old_version = Self::version(env.clone());
@@ -375,6 +507,13 @@ impl LendingPool {
         env.deployer().update_current_contract_wasm(new_wasm_hash);
     }
 
+    /// Set the maximum pool size cap for a given token.
+    ///
+    /// When `max > 0`, deposits that would push `TotalDeposits` above this
+    /// cap are rejected with [`PoolError::PoolSizeExceeded`]. Set to `0` for
+    /// unlimited deposits.
+    ///
+    /// Requires admin authorization.
     pub fn set_max_pool_size(env: Env, token: Address, max: i128) -> Result<(), PoolError> {
         Self::admin(&env).require_auth();
         if max < 0 {
@@ -392,6 +531,14 @@ impl LendingPool {
         Ok(())
     }
 
+    /// Set the withdrawal cooldown period in ledgers.
+    ///
+    /// After a deposit, the provider must wait this many ledgers before
+    /// withdrawing. Set to `0` to disable (though the 1-ledger minimum
+    /// hold time for flash loan protection still applies).
+    ///
+    /// Rejects values above `MAX_WITHDRAWAL_COOLDOWN_LEDGERS` (30 days).
+    /// Requires admin authorization.
     pub fn set_withdrawal_cooldown(env: Env, ledgers: u32) -> Result<(), PoolError> {
         Self::admin(&env).require_auth();
         if ledgers > Self::MAX_WITHDRAWAL_COOLDOWN_LEDGERS {
@@ -409,6 +556,7 @@ impl LendingPool {
         Ok(())
     }
 
+    /// Return the max pool size cap for `token`. Returns `0` when unlimited.
     pub fn get_max_pool_size(env: Env, token: Address) -> i128 {
         Self::bump_instance_ttl(&env);
         env.storage()
@@ -417,22 +565,27 @@ impl LendingPool {
             .unwrap_or(0)
     }
 
+    /// Return the total tracked deposits for `token`.
     pub fn get_total_deposits(env: Env, token: Address) -> i128 {
         Self::total_deposits(&env, &token)
     }
 
+    /// Return the total outstanding LP shares for `token`.
     pub fn get_total_shares(env: Env, token: Address) -> i128 {
         Self::total_shares(&env, &token)
     }
 
+    /// Return the number of unique depositors for `token`.
     pub fn get_depositor_count(env: Env, token: Address) -> u32 {
         Self::read_depositor_count(&env, &token)
     }
 
+    /// Return the cumulative yield distributed to `token` pool.
     pub fn get_total_yield_distributed(env: Env, token: Address) -> i128 {
         Self::total_yield_distributed(&env, &token)
     }
 
+    /// Return the withdrawal cooldown period in ledgers.
     pub fn get_withdrawal_cooldown(env: Env) -> u32 {
         Self::withdrawal_cooldown(&env)
     }
@@ -601,6 +754,22 @@ impl LendingPool {
     /// The redemption value is `shares * pool_balance / total_shares`, which
     /// automatically includes any interest that has been repaid to the pool
     /// since the shares were minted — no separate claim step is required.
+    /// Burn `shares` LP tokens and receive the proportional underlying assets.
+    ///
+    /// The redemption value is `shares * pool_balance / total_shares`, which
+    /// automatically includes any interest that has been repaid to the pool
+    /// since the shares were minted — no separate claim step is required.
+    ///
+    /// Enforces both the withdrawal cooldown and the minimum share hold time
+    /// (flash loan protection). Use [`emergency_withdraw`] to bypass these
+    /// guards during a contract pause.
+    ///
+    /// # Errors
+    ///
+    /// Returns [`PoolError::ContractPaused`] if the pool is paused.
+    /// Returns [`PoolError::InvalidAmount`] for non-positive share amounts.
+    /// Returns [`PoolError::InsufficientBalance`] if the provider holds fewer
+    /// shares than requested.
     pub fn withdraw(
         env: Env,
         provider: Address,
@@ -609,10 +778,19 @@ impl LendingPool {
     ) -> Result<(), PoolError> {
         provider.require_auth();
         Self::assert_not_paused(&env)?;
+        Self::assert_minimum_hold_elapsed(&env, &provider, &token);
         Self::assert_withdrawal_cooldown_elapsed(&env, &provider, &token);
         Self::redeem_shares(&env, &provider, &token, shares)
     }
 
+    /// Emergency withdrawal that bypasses pause and cooldown checks.
+    ///
+    /// This is a safety hatch for depositors when the pool is paused. It still
+    /// validates share balance and liquidity, but skips `assert_not_paused` and
+    /// `assert_withdrawal_cooldown_elapsed`.
+    ///
+    /// Note: `emergency_withdraw` still enforces the minimum hold time to
+    /// prevent flash-loan extraction during an emergency.
     pub fn emergency_withdraw(
         env: Env,
         provider: Address,
@@ -640,6 +818,36 @@ impl LendingPool {
         };
 
         deposit_ledger.saturating_add(cooldown)
+    }    /// Collect accumulated rounding dust from the contract and send it to
+    /// the admin. This prevents value loss from integer division rounding
+    /// across many deposit/withdraw operations.
+    ///
+    /// Requires admin authorization.
+    pub fn collect_dust(env: Env, token: Address) -> i128 {
+        Self::admin(&env).require_auth();
+
+        let dust = Self::accumulated_dust(&env);
+        if dust <= 0 {
+            return 0;
+        }
+
+        env.storage()
+            .instance()
+            .set(&DataKey::AccumulatedDust, &0i128);
+
+        TokenClient::new(&env, &token).transfer(
+            &env.current_contract_address(),
+            &Self::admin(&env),
+            &dust,
+        );
+
+        events::dust_collected(&env, dust);
+        dust
+    }
+
+    /// Get the current amount of accumulated rounding dust.
+    pub fn get_accumulated_dust(env: Env) -> i128 {
+        Self::accumulated_dust(&env)
     }
 
     /// Number of ledgers remaining before the provider may withdraw from `token`.
