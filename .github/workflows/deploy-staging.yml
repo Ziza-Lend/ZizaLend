@@ -114,6 +114,7 @@ jobs:
         if: always() && steps.check-backend-sarif.outputs.exists == 'true'
         with:
           sarif_file: 'trivy-results.sarif'
+          category: backend
 
       - name: Run Trivy vulnerability scanner for frontend (HIGH - warn)
         uses: aquasecurity/trivy-action@master
@@ -155,6 +156,7 @@ jobs:
         if: always() && steps.check-frontend-sarif.outputs.exists == 'true'
         with:
           sarif_file: 'frontend-trivy-results.sarif'
+          category: frontend
 
       - name: Smoke-test the backend staging image
         run: |
