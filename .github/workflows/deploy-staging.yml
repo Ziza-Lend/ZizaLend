@@ -12,6 +12,7 @@ permissions:
 
 jobs:
   build-and-push:
+    timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -35,9 +36,9 @@ jobs:
           set -e
           for img in backend frontend; do
             REPO=ghcr.io/${{ env.OWNER_LC }}/zizalend-${img}
-            if docker pull ${REPO}:staging-latest; then
+            if timeout 30 docker pull ${REPO}:staging-latest; then
               docker tag ${REPO}:staging-latest ${REPO}:staging-previous || true
-              docker push ${REPO}:staging-previous || true
+              timeout 30 docker push ${REPO}:staging-previous || true
             fi
           done
 
@@ -154,7 +155,7 @@ jobs:
         run: |
           set -e
           REPO=ghcr.io/${{ env.OWNER_LC }}/zizalend-backend
-          docker pull "${REPO}:staging-${{ github.sha }}"
+          timeout 60 docker pull "${REPO}:staging-${{ github.sha }}"
           IMG_ID=$(docker image inspect "${REPO}:staging-${{ github.sha }}" --format '{{.Id}}')
           echo "Image pulled successfully: $IMG_ID"
           echo "Backend staging image smoke-test passed (image exists and is pullable)."

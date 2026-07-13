@@ -8,6 +8,7 @@ on:
 
 jobs:
   supply-chain-audit:
+    timeout-minutes: 3
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,7 +22,8 @@ jobs:
               exit 1
             fi
           done
-          if grep -r '"axios": "1\.14\.' --include="package-lock.json" .; then
+          LOCKFILES="backend/package-lock.json frontend/package-lock.json scripts/package-lock.json package-lock.json"
+          if grep '"axios": "1\.14\.' $LOCKFILES; then
             echo "::error::SUPPLY CHAIN ALERT: axios 1.14.x detected (compromised version)"
             exit 1
           fi
