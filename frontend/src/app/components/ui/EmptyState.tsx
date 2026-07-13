@@ -32,7 +32,7 @@ export function EmptyState({
   return (
     <div
       className={cn(
-        "rounded-2xl border border-dashed border-[var(--border-default)] px-6 py-10 text-center",
+        "rounded-2xl border border-dashed border-[var(--border-default)] px-6 py-10 text-center animate-fade-in-up",
         className,
       )}
     >
