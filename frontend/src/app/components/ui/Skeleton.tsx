@@ -3,7 +3,8 @@
 import { type HTMLAttributes } from "react";
 import { clsx } from "clsx";
 
-const baseClasses = "animate-pulse rounded bg-zinc-200 dark:bg-zinc-800";
+const baseClasses =
+  "rounded animate-shimmer";
 
 export function Skeleton({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return <div aria-hidden="true" className={clsx(baseClasses, className)} {...props} />;
@@ -28,7 +29,7 @@ export function SkeletonCard({ className }: { className?: string }) {
       role="status"
       aria-label="Loading card content"
       className={clsx(
-        "rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950",
+        "rounded-xl border border-[var(--border-default)] bg-[var(--bg-surface)] p-6",
         className,
       )}
     >

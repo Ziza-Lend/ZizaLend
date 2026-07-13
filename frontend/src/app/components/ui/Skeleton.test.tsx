@@ -12,7 +12,7 @@ describe("Skeleton", () => {
   it("renders with animation classes", () => {
     render(<Skeleton data-testid="skel" />);
     const el = screen.getByTestId("skel");
-    expect(el.className).toContain("animate-pulse");
+    expect(el.className).toContain("animate-shimmer");
     expect(el).toHaveAttribute("aria-hidden", "true");
   });
 
@@ -33,7 +33,7 @@ describe("SkeletonText", () => {
 
   it("renders the specified number of lines", () => {
     const { container } = render(<SkeletonText lines={3} />);
-    const skeletonElements = container.querySelectorAll(".animate-pulse");
+    const skeletonElements = container.querySelectorAll(".animate-shimmer");
     expect(skeletonElements).toHaveLength(3);
   });
 });
@@ -57,21 +57,21 @@ describe("SkeletonChart", () => {
 describe("SkeletonAvatar", () => {
   it("renders with medium size by default", () => {
     const { container } = render(<SkeletonAvatar />);
-    const avatar = container.querySelector(".animate-pulse");
+    const avatar = container.querySelector(".animate-shimmer");
     expect(avatar?.className).toContain("h-10");
     expect(avatar?.className).toContain("w-10");
   });
 
   it("renders with small size", () => {
     const { container } = render(<SkeletonAvatar size="sm" />);
-    const avatar = container.querySelector(".animate-pulse");
+    const avatar = container.querySelector(".animate-shimmer");
     expect(avatar?.className).toContain("h-8");
     expect(avatar?.className).toContain("w-8");
   });
 
   it("renders with large size", () => {
     const { container } = render(<SkeletonAvatar size="lg" />);
-    const avatar = container.querySelector(".animate-pulse");
+    const avatar = container.querySelector(".animate-shimmer");
     expect(avatar?.className).toContain("h-12");
     expect(avatar?.className).toContain("w-12");
   });
@@ -80,7 +80,7 @@ describe("SkeletonAvatar", () => {
 describe("SkeletonRow", () => {
   it("renders with an avatar and text lines", () => {
     const { container } = render(<SkeletonRow />);
-    const animatedElements = container.querySelectorAll(".animate-pulse");
+    const animatedElements = container.querySelectorAll(".animate-shimmer");
     // Avatar (1) + title skeleton (1) + subtitle skeleton (1) + amount skeleton (1) + label skeleton (1)
     expect(animatedElements.length).toBeGreaterThanOrEqual(5);
   });
