@@ -362,7 +362,7 @@ export class WebhookService {
           delivery.event_type as WebhookEventType,
           delivery.payload,
           delivery.attempt_count,
-        )
+        );
       }
     } catch (error) {
       logger.withContext().error('Error in webhook retry processor', { error });
