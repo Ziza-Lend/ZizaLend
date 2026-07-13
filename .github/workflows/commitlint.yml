@@ -1,6 +1,8 @@
 name: Commit Lint
 
 on:
+  push:
+    branches: [main]
   pull_request:
     branches: [main]
 
@@ -26,10 +28,17 @@ jobs:
           npm install --save-dev @commitlint/cli @commitlint/config-conventional
 
       - name: Lint PR commits
+        if: github.event_name == 'pull_request'
         run: |
           npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }}
 
+      - name: Lint push commits
+        if: github.event_name == 'push'
+        run: |
+          npx commitlint --from ${{ github.event.before }} --to ${{ github.event.after }}
+
       - name: Validate PR title
+        if: github.event_name == 'pull_request'
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
