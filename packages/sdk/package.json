@@ -2,7 +2,7 @@
   "name": "@zizalend/sdk",
   "version": "1.0.0",
   "type": "module",
-  "description": "Typed API client for the ZizaLend lending protocol",
+  "description": "Typed API client for the Zizalend lending protocol",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {

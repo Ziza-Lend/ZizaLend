@@ -31,7 +31,7 @@ describe('Auth', () => {
       mockJsonResponse(mockFetch, {
         success: true,
         data: {
-          message: 'Sign this message to authenticate with ZizaLend...',
+          message: 'Sign this message to authenticate with Zizalend...',
           nonce: 'abc123',
           timestamp: 1700000000000,
           expiresIn: 300000,

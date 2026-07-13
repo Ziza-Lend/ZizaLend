@@ -2,7 +2,7 @@
   "name": "@zizalend/types",
   "version": "1.0.0",
   "type": "module",
-  "description": "Generated TypeScript types for the ZizaLend API",
+  "description": "Generated TypeScript types for the Zizalend API",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {

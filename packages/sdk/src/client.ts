@@ -1,5 +1,5 @@
 /**
- * Core HTTP client for the ZizaLend API.
+ * Core HTTP client for the Zizalend API.
  *
  * Handles authentication, request/response serialization, error handling,
  * retry logic for transient failures, and provides a typed fetch interface.

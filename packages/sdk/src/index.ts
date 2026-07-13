@@ -1,13 +1,13 @@
 /**
  * @zizalend/sdk
  *
- * Typed API client for the ZizaLend protocol.
+ * Typed API client for the Zizalend protocol.
  *
  * Usage:
  * ```ts
- * import { ZizaLend } from '@zizalend/sdk';
+ * import { Zizalend } from '@zizalend/sdk';
  *
- * const api = new ZizaLend({ baseUrl: 'http://localhost:3001/api/v1' });
+ * const api = new Zizalend({ baseUrl: 'http://localhost:3001/api/v1' });
  *
  * // Auth
  * const { token } = await api.auth.authenticate(publicKey, signer);
@@ -24,7 +24,7 @@ import { Client } from './client.js';
 export { Client, ApiError } from './client.js';
 export type { ClientConfig, ApiResponse } from './client.js';
 
-// ClientConfig is used as a constructor parameter type in the ZizaLend class.
+// ClientConfig is used as a constructor parameter type in the Zizalend class.
 // With isolatedModules, the type-only export above doesn't create a local binding,
 // so we need an explicit type import here.
 type _ClientConfig = import('./client.js').ClientConfig;
@@ -127,11 +127,11 @@ export { Simulation } from './simulation.js';
 export type { RemittanceHistoryResponse, SimulatePaymentResponse } from './simulation.js';
 
 /**
- * ZizaLend API client — the main entry point.
+ * Zizalend API client — the main entry point.
  *
  * Provides typed access to all API modules.
  */
-export class ZizaLend {
+export class Zizalend {
   public readonly auth: Auth;
   public readonly health: Health;
   public readonly user: User;
@@ -165,4 +165,4 @@ export class ZizaLend {
   }
 }
 
-export default ZizaLend;
+export default Zizalend;
