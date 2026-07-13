@@ -122,6 +122,44 @@ interface PreparedWebhookPayload {
   payload: Record<string, unknown>;
 }
 
+/** Row shape returned by webhook_deliveries JOIN webhook_subscriptions queries. */
+interface PendingRetryRow {
+  id: number;
+  subscription_id: number;
+  callback_url: string;
+  secret: string | null;
+  event_id: string;
+  event_type: string;
+  payload: Record<string, unknown>;
+  attempt_count: number;
+}
+
+/** Row shape returned by webhook_subscriptions queries. */
+interface WebhookSubscriptionRow {
+  id: number;
+  callback_url: string;
+  event_types: string | string[];
+  secret: string | null;
+  is_active: boolean;
+  created_at: string | Date;
+  updated_at: string | Date;
+}
+
+/** Row shape returned by webhook_deliveries queries. */
+interface WebhookDeliveryRow {
+  id: number;
+  subscription_id: number;
+  event_id: string;
+  event_type: string;
+  attempt_count: number;
+  last_status_code?: number | null;
+  last_error?: string | null;
+  delivered_at?: string | Date | null;
+  created_at: string | Date;
+  updated_at: string | Date;
+  payload?: string;
+}
+
 function parsePositiveInt(value: string | undefined, fallback: number): number {
   const parsed = Number.parseInt(value ?? '', 10);
   return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
@@ -308,17 +346,7 @@ export class WebhookService {
 
       logger.withContext().info(`Processing ${result.rows.length} pending webhook retries`);
 
-      for (const row of result.rows) {
-        const delivery = row as unknown as {
-          id: number;
-          subscription_id: number;
-          callback_url: string;
-          secret: string | null;
-          event_id: string;
-          event_type: string;
-          payload: Record<string, unknown>;
-          attempt_count: number;
-        };
+      for (const delivery of result.rows as PendingRetryRow[]) {
         // Defensive circuit breaker: the SQL filter above already excludes
         // deliveries at the retry ceiling, but guard here too so a delivery
         // at MAX_RETRY_ATTEMPTS is never re-sent even if it slips through.
@@ -334,7 +362,7 @@ export class WebhookService {
           delivery.event_type as WebhookEventType,
           delivery.payload,
           delivery.attempt_count,
-        );
+        )
       }
     } catch (error) {
       logger.withContext().error('Error in webhook retry processor', { error });
@@ -476,7 +504,7 @@ export class WebhookService {
       [input.callbackUrl, JSON.stringify(input.eventTypes), input.secret ?? null],
     );
 
-    return this.mapSubscriptionRow(result.rows[0] as Record<string, unknown>);
+    return this.mapSubscriptionRow(result.rows[0] as WebhookSubscriptionRow);
   }
 
   async listSubscriptions(): Promise<WebhookSubscription[]> {
@@ -487,7 +515,7 @@ export class WebhookService {
       [],
     );
 
-    return result.rows.map((row) => this.mapSubscriptionRow(row as Record<string, unknown>));
+    return result.rows.map((row) => this.mapSubscriptionRow(row as WebhookSubscriptionRow));
   }
 
   async deleteSubscription(id: number): Promise<boolean> {
@@ -514,7 +542,7 @@ export class WebhookService {
       [subscriptionId, limit],
     );
 
-    return result.rows.map((row) => this.mapDeliveryRow(row as Record<string, unknown>));
+    return result.rows.map((row) => this.mapDeliveryRow(row as WebhookDeliveryRow));
   }
 
   async dispatch(event: IndexedLoanEvent): Promise<void> {
@@ -527,6 +555,7 @@ export class WebhookService {
 
     try {
       const preparedPayload = prepareWebhookPayload(event as unknown as Record<string, unknown>);
+
       const webhooksResult = await query(
         `SELECT id, callback_url, secret
          FROM webhook_subscriptions
@@ -536,14 +565,15 @@ export class WebhookService {
       );
 
       await Promise.all(
-        webhooksResult.rows.map((hook) =>
-          this.sendToWebhook(
-            Number((hook as { id: number }).id),
-            String((hook as { callback_url: string }).callback_url),
-            ((hook as { secret?: string | null }).secret ?? undefined) || undefined,
+        webhooksResult.rows.map((hook) => {
+          const h = hook as { id: number; callback_url: string; secret: string | null };
+          return this.sendToWebhook(
+            Number(h.id),
+            String(h.callback_url),
+            h.secret ?? undefined,
             preparedPayload,
-          ),
-        ),
+          );
+        }),
       );
     } catch (error) {
       logger.withContext().error('Error during webhook dispatch', {
@@ -662,7 +692,7 @@ export class WebhookService {
     }
   }
 
-  private mapSubscriptionRow(row: Record<string, unknown>): WebhookSubscription {
+  private mapSubscriptionRow(row: WebhookSubscriptionRow): WebhookSubscription {
     const secret = typeof row.secret === 'string' && row.secret.length > 0 ? row.secret : undefined;
 
     return {
@@ -676,7 +706,7 @@ export class WebhookService {
     };
   }
 
-  private mapDeliveryRow(row: Record<string, unknown>): WebhookDelivery {
+  private mapDeliveryRow(row: WebhookDeliveryRow): WebhookDelivery {
     const lastStatusCode =
       typeof row.last_status_code === 'number'
         ? row.last_status_code
