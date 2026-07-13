@@ -35,6 +35,14 @@ pub fn deposit_cap_updated(env: &Env, token: Address, old_cap: i128, new_cap: i1
     env.events().publish(topics, (old_cap, new_cap));
 }
 
+/// Emitted when a deposit is rejected because it would exceed the pool's
+/// configured max size cap. Allows off-chain monitors to detect when the
+/// pool is at capacity.
+pub fn deposit_cap_reached(env: &Env, provider: Address, token: Address, amount: i128, cap: i128) {
+    let topics = (Symbol::new(env, "DepositCapReached"), provider, token);
+    env.events().publish(topics, (amount, cap));
+}
+
 pub fn pool_paused(env: &Env) {
     let topics = (Symbol::new(env, "PoolPaused"),);
     env.events().publish(topics, ());

@@ -628,6 +628,7 @@ impl LendingPool {
         if max > 0 {
             let total = Self::total_deposits(&env, &token);
             if total.checked_add(amount).expect("overflow") > max {
+                events::deposit_cap_reached(&env, provider.clone(), token.clone(), amount, max);
                 return Err(PoolError::PoolSizeExceeded);
             }
         }
