@@ -27,7 +27,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="text-sm font-medium leading-none text-gray-700 dark:text-zinc-300"
+            className="text-sm font-medium leading-none text-[var(--text-secondary)]"
           >
             {label}
             {props.required && <span className="ml-1 text-red-500">*</span>}
@@ -35,7 +35,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         )}
         <div className="relative flex items-center">
           {leftIcon && (
-            <div className="absolute left-3 flex h-full items-center text-gray-400 dark:text-zinc-500">
+            <div className="absolute left-3 flex h-full items-center text-[var(--text-muted)]">
               {leftIcon}
             </div>
           )}
@@ -45,7 +45,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             aria-invalid={error ? true : undefined}
             aria-describedby={error ? errorId : helperText ? helperId : undefined}
             className={cn(
-              "flex h-10 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-500 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-950 dark:ring-offset-zinc-950 dark:placeholder:text-zinc-500 dark:text-zinc-100",
+              "flex h-10 w-full rounded-lg border border-[var(--border-default)] bg-[var(--bg-surface)] px-3 py-2 text-sm text-[var(--text-primary)] ring-offset-[var(--bg-primary)] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[var(--text-muted)] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
               leftIcon && "pl-10",
               rightIcon && "pr-10",
               error && "border-red-500 focus-visible:ring-red-500",
@@ -55,7 +55,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {...props}
           />
           {rightIcon && (
-            <div className="absolute right-3 flex h-full items-center text-gray-400 dark:text-zinc-500">
+            <div className="absolute right-3 flex h-full items-center text-[var(--text-muted)]">
               {rightIcon}
             </div>
           )}
@@ -65,7 +65,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {error}
           </p>
         ) : helperText ? (
-          <p id={helperId} className="text-xs text-gray-500 dark:text-zinc-500">
+          <p id={helperId} className="text-xs text-[var(--text-muted)]">
             {helperText}
           </p>
         ) : null}

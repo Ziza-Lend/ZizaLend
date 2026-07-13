@@ -32,7 +32,7 @@ export function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 text-zinc-500 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-900 rounded-lg transition-colors"
+      className="p-2 text-[var(--text-secondary)] hover:bg-[var(--bg-surface)] rounded-lg transition-colors"
       aria-label={`${label} active, switch to ${nextLabel} mode`}
       aria-live="polite"
       title={label}

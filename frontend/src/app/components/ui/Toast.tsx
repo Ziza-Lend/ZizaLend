@@ -26,13 +26,13 @@ export function Toaster() {
       toastOptions={{
         classNames: {
           toast:
-            "rounded-xl border border-gray-200 bg-white shadow-lg dark:border-zinc-800 dark:bg-zinc-950",
-          title: "text-sm font-medium text-gray-900 dark:text-zinc-100",
-          description: "text-sm text-gray-600 dark:text-zinc-400",
-          actionButton: "bg-blue-600 text-white hover:bg-blue-700",
+            "rounded-xl border border-[var(--border-default)] bg-[var(--bg-surface)] shadow-lg",
+          title: "text-sm font-medium text-[var(--text-primary)]",
+          description: "text-sm text-[var(--text-secondary)]",
+          actionButton: "bg-violet-600 text-white hover:bg-violet-700",
           cancelButton:
-            "bg-gray-100 text-gray-900 hover:bg-gray-200 dark:bg-zinc-800 dark:text-zinc-100",
-          closeButton: "bg-gray-100 hover:bg-gray-200 dark:bg-zinc-800 dark:hover:bg-zinc-700",
+            "bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] hover:bg-[var(--bg-surface-hover)]",
+          closeButton: "bg-[var(--bg-surface-elevated)] hover:bg-[var(--bg-surface-hover)]",
           success: "border-green-200 dark:border-green-900",
           error: "border-red-200 dark:border-red-900",
           warning: "border-yellow-200 dark:border-yellow-900",

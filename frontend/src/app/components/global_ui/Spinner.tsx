@@ -31,7 +31,7 @@ export const Spinner: FC<SpinnerProps> = ({
           style={{
             width: numericSize + "px",
             height: numericSize + "px",
-            borderColor: color || "white",
+            borderColor: color || "#7c3aed",
             borderTopColor: "transparent",
             borderStyle: "solid",
             borderWidth: "4px",
@@ -51,7 +51,7 @@ export const Spinner: FC<SpinnerProps> = ({
           style={{
             width: numericSize + "px",
             height: numericSize + "px",
-            borderColor: color || "white",
+            borderColor: color || "#7c3aed",
             borderTopColor: "transparent",
             borderStyle: "solid",
             borderWidth: "3px",
@@ -66,7 +66,7 @@ export const Spinner: FC<SpinnerProps> = ({
           style={{
             width: numericSize * 0.6 + "px",
             height: numericSize * 0.6 + "px",
-            borderColor: color || "white",
+            borderColor: color || "#7c3aed",
             borderTopColor: "transparent",
             borderStyle: "solid",
             borderWidth: "3px",

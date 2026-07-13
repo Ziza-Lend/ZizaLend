@@ -28,7 +28,7 @@ function NotificationIcon({ type }: { type: NotificationType }) {
     case "loan_approved":
       return <Check className="h-4 w-4 text-emerald-500" />;
     case "repayment_confirmed":
-      return <CheckCheck className="h-4 w-4 text-indigo-500" />;
+      return <CheckCheck className="h-4 w-4 text-violet-400" />;
     case "repayment_due":
       return <Clock className="h-4 w-4 text-amber-500" />;
     case "loan_defaulted":
@@ -45,7 +45,7 @@ function iconBg(type: NotificationType): string {
     case "loan_approved":
       return "bg-emerald-50 dark:bg-emerald-950/40";
     case "repayment_confirmed":
-      return "bg-indigo-50 dark:bg-indigo-950/40";
+      return "bg-violet-500/10";
     case "repayment_due":
       return "bg-amber-50 dark:bg-amber-950/40";
     case "loan_defaulted":
@@ -106,7 +106,7 @@ function NotificationItem({
       className={cn(
         "flex gap-3 px-4 py-3 transition-colors",
         path ? "cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800/60" : "cursor-default",
-        !notification.read && "bg-indigo-50/40 dark:bg-indigo-950/20",
+        !notification.read && "bg-violet-500/5",
       )}
       onClick={handleClick}
       onKeyDown={path ? handleKeyDown : undefined}
@@ -134,16 +134,16 @@ function NotificationItem({
           className={cn(
             "truncate text-sm",
             notification.read
-              ? "font-normal text-zinc-700 dark:text-zinc-300"
-              : "font-semibold text-zinc-900 dark:text-zinc-50",
+              ? "font-normal text-[var(--text-secondary)]"
+              : "font-semibold text-[var(--text-primary)]",
           )}
         >
           {notification.title}
         </p>
-        <p className="mt-0.5 line-clamp-2 text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="mt-0.5 line-clamp-2 text-xs text-[var(--text-muted)]">
           {notification.message}
         </p>
-        <p className="mt-1 text-xs text-zinc-400 dark:text-zinc-500">
+        <p className="mt-1 text-xs text-[var(--text-muted)]">
           {relativeTime(notification.createdAt)}
         </p>
       </div>
@@ -231,7 +231,7 @@ export function NotificationDropdown() {
         aria-label={`Notifications${unreadCount > 0 ? `, ${unreadCount} unread` : ""}`}
         aria-haspopup="true"
         aria-expanded={open}
-        className="relative p-2 text-zinc-500 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-900 rounded-lg transition-colors"
+        className="relative p-2 text-[var(--text-secondary)] hover:bg-[var(--bg-surface)] rounded-lg transition-colors"
       >
         <Bell className="h-5 w-5" />
         <AnimatePresence>
@@ -244,7 +244,7 @@ export function NotificationDropdown() {
               title={`${unreadCount} unread notification${unreadCount === 1 ? "" : "s"}`}
               className={cn(
                 "absolute top-1 right-1 flex items-center justify-center rounded-full border-2 border-white px-1 text-[9px] font-bold text-white dark:border-zinc-950",
-                unreadCount > 9 ? "h-4 min-w-4 bg-indigo-500" : "h-4 min-w-4 bg-indigo-500",
+                unreadCount > 9 ? "h-4 min-w-4 bg-violet-500" : "h-4 min-w-4 bg-violet-500",
               )}
             >
               {unreadCount > 9 ? "9+" : unreadCount}
@@ -263,13 +263,13 @@ export function NotificationDropdown() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.97 }}
             transition={{ duration: 0.15 }}
-            className="absolute right-0 top-full mt-2 w-80 sm:w-96 overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-xl dark:border-zinc-700 dark:bg-zinc-900 z-50"
+            className="absolute right-0 top-full mt-2 w-80 sm:w-96 overflow-hidden rounded-xl border border-[var(--border-default)] bg-[var(--bg-surface)] shadow-xl z-50"
             role="dialog"
             aria-label="Notifications panel"
           >
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-zinc-100 px-4 py-3 dark:border-zinc-800">
-              <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
+            <div className="flex items-center justify-between border-b border-[var(--border-default)] px-4 py-3">
+              <h2 className="text-sm font-semibold text-[var(--text-primary)]">
                 Notifications
               </h2>
               <div className="flex items-center gap-2">
@@ -277,7 +277,7 @@ export function NotificationDropdown() {
                   <button
                     onClick={handleMarkAllRead}
                     disabled={markAllRead.isPending}
-                    className="flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-indigo-600 hover:bg-indigo-50 dark:text-indigo-400 dark:hover:bg-indigo-950/40 disabled:opacity-50 transition-colors"
+                    className="flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-violet-400 hover:bg-violet-500/10 disabled:opacity-50 transition-colors"
                   >
                     <CheckCheck className="h-3 w-3" />
                     Mark all read
@@ -285,7 +285,7 @@ export function NotificationDropdown() {
                 )}
                 <button
                   onClick={() => setOpen(false)}
-                  className="rounded-md p-1 text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                  className="rounded-md p-1 text-[var(--text-muted)] hover:bg-[var(--bg-surface-hover)] transition-colors"
                   aria-label="Close notifications"
                 >
                   <X className="h-4 w-4" />
@@ -299,21 +299,21 @@ export function NotificationDropdown() {
                 <div className="flex flex-col gap-2 px-4 py-6">
                   {[1, 2, 3].map((i) => (
                     <div key={i} className="flex gap-3 animate-pulse">
-                      <div className="h-8 w-8 rounded-full bg-zinc-100 dark:bg-zinc-800" />
+                      <div className="h-8 w-8 rounded-full bg-[var(--bg-surface-elevated)]" />
                       <div className="flex-1 space-y-2">
-                        <div className="h-3 w-3/4 rounded bg-zinc-100 dark:bg-zinc-800" />
-                        <div className="h-3 w-full rounded bg-zinc-100 dark:bg-zinc-800" />
+                        <div className="h-3 w-3/4 rounded bg-[var(--bg-surface-elevated)]" />
+                        <div className="h-3 w-full rounded bg-[var(--bg-surface-elevated)]" />
                       </div>
                     </div>
                   ))}
                 </div>
               ) : notifications.length === 0 ? (
                 <div className="flex flex-col items-center gap-2 px-4 py-10 text-center">
-                  <Bell className="h-8 w-8 text-zinc-300 dark:text-zinc-600" />
-                  <p className="text-sm text-zinc-400 dark:text-zinc-500">No notifications yet</p>
+                  <Bell className="h-8 w-8 text-[var(--text-muted)]" />
+                  <p className="text-sm text-[var(--text-muted)]">No notifications yet</p>
                 </div>
               ) : (
-                <ul className="divide-y divide-zinc-100 dark:divide-zinc-800">
+                <ul className="divide-y divide-[var(--border-default)]">
                   <AnimatePresence initial={false}>
                     {notifications.map((n) => (
                       <NotificationItem
@@ -330,13 +330,13 @@ export function NotificationDropdown() {
 
             {/* Footer */}
             {notifications.length > 0 && (
-              <div className="border-t border-zinc-100 px-4 py-2 dark:border-zinc-800">
+              <div className="border-t border-[var(--border-default)] px-4 py-2">
                 <button
                   onClick={() => {
                     router.push(`/${locale}/notifications`);
                     setOpen(false);
                   }}
-                  className="w-full text-center text-xs font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 py-1 transition-colors"
+                  className="w-full text-center text-xs font-medium text-violet-400 hover:text-violet-300 py-1 transition-colors"
                 >
                   {t("viewAll")}
                 </button>
