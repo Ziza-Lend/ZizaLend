@@ -8,8 +8,8 @@ type PageMetadataInput = {
 };
 
 const LOCALES = ["en", "es", "tl"] as const;
-const DEFAULT_SITE_URL = "https://ZizaLend.com";
-const SITE_NAME = "ZizaLend";
+const DEFAULT_SITE_URL = "https://Zizalend.com";
+const SITE_NAME = "Zizalend";
 const OG_IMAGE_PATH = "/og-image.svg";
 
 export function getSiteUrl() {

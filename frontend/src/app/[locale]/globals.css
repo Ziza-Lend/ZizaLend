@@ -3,53 +3,112 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  /* WCAG AA Compliant: #171717 on #ffffff (15.9:1) */
-  --background: #ffffff;
-  --foreground: #171717;
-  --focus-ring: #4f46e5;
+  /* ── Surface Tokens ─────────────────────────────────────── */
+  --bg-primary: #0d0d12;
+  --bg-surface: #16161f;
+  --bg-surface-elevated: #1e1e2a;
+  --bg-surface-hover: #252533;
+
+  /* ── Accent Tokens ──────────────────────────────────────── */
+  --accent-primary: #7c3aed;
+  --accent-primary-hover: #6d28d9;
+  --accent-secondary: #0ecfcf;
+  --accent-secondary-hover: #0bb5b5;
+
+  /* ── Semantic Tokens ────────────────────────────────────── */
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #3b82f6;
+
+  /* ── Text Tokens ────────────────────────────────────────── */
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-inverse: #0d0d12;
+
+  /* ── Border & Ring ──────────────────────────────────────── */
+  --border-default: #2a2a3a;
+  --border-subtle: #1e1e2a;
+  --focus-ring: #7c3aed;
+
+  /* ── Shadows ────────────────────────────────────────────── */
+  --shadow-glow: 0 0 24px rgba(124, 58, 237, 0.18);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-modal: 0 8px 32px rgba(0, 0, 0, 0.6);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--bg-primary);
+  --color-foreground: var(--text-primary);
   --color-focus-ring: var(--focus-ring);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* WCAG AA Compliant: #ededed on #0a0a0a (15.5:1) */
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+  /* ── Custom Surface Colors ─────────────────────────────── */
+  --color-surface: var(--bg-surface);
+  --color-surface-elevated: var(--bg-surface-elevated);
+  --color-surface-hover: var(--bg-surface-hover);
 
-/* Class-based dark mode for manual toggle */
-.dark {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  /* ── Custom Accent Colors ───────────────────────────────── */
+  --color-accent: var(--accent-primary);
+  --color-accent-hover: var(--accent-primary-hover);
+  --color-teal: var(--accent-secondary);
+  --color-teal-hover: var(--accent-secondary-hover);
+
+  /* ── Custom Border Colors ───────────────────────────────── */
+  --color-border-default: var(--border-default);
+  --color-border-subtle: var(--border-subtle);
+
+  /* ── Custom Text Colors ─────────────────────────────────── */
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-  @apply antialiased transition-colors duration-200;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  @apply antialiased;
 }
 
-/* ── Focus Management ────────────────────────────────────────── */
-/* Ensure keyboard users have high visibility, mouse users stay clean */
+/* ── Focus Management ──────────────────────────────────────── */
 :focus-visible {
   outline: 3px solid var(--focus-ring);
   outline-offset: 2px;
+  border-radius: 4px;
 }
 
-/* Hide fallback outlines for mouse users while maintaining accessibility */
 :focus:not(:focus-visible) {
   outline: none;
 }
 
+/* ── Scrollbar Styling ─────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-default);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ── Selection ─────────────────────────────────────────────── */
+::selection {
+  background: var(--accent-primary);
+  color: white;
+}
+
+/* ── Animations ────────────────────────────────────────────── */
 @keyframes reverse-spin {
   to {
     transform: rotate(-360deg);
@@ -66,7 +125,6 @@ body {
   100% {
     transform: translateY(0);
   }
-
   40% {
     transform: translateY(-10px);
   }
@@ -74,4 +132,39 @@ body {
 
 .animate-dot-bounce {
   animation: dot-bounce 1.4s infinite ease-in-out both;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--bg-surface) 25%,
+    var(--bg-surface-elevated) 50%,
+    var(--bg-surface) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.3s ease-out;
 }

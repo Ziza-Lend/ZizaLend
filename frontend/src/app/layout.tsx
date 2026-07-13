@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./[locale]/globals.css";
 import { QueryProvider } from "./components/providers/QueryProvider";
 import { WalletProvider } from "./components/providers/WalletProvider";
@@ -15,21 +15,21 @@ import { getLocale, getMessages } from "next-intl/server";
 import { THEME_STORAGE_KEY } from "./lib/theme";
 import { getSiteUrl } from "./lib/metadata";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
   metadataBase: getSiteUrl(),
-  title: "ZizaLend - Borderless P2P Lending & Remittance",
+  title: "Zizalend — Borderless P2P Lending & Remittance",
   description:
-    "Global peer-to-peer lending and instant remittances powered by blockchain technology. Send money and grow your wealth across borders.",
+    "The premium DeFi lending protocol on Stellar. Turn remittance history into credit history with blockchain-powered micro-loans and instant cross-border transfers.",
 };
 
 export default async function RootLayout({
@@ -49,7 +49,7 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <QueryProvider>
             <WalletProvider>
