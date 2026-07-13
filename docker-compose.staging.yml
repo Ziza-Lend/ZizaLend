@@ -16,7 +16,7 @@ services:
     restart: unless-stopped
 
   backend:
-    image: ghcr.io/${OWNER}/ZizaLend-backend:${TAG:-staging-latest}
+    image: ghcr.io/${OWNER}/zizalend-backend:${TAG:-staging-latest}
     env_file:
       - ./backend/.env.staging
     environment:
@@ -30,7 +30,7 @@ services:
     restart: unless-stopped
 
   frontend:
-    image: ghcr.io/${OWNER}/ZizaLend-frontend:${TAG:-staging-latest}
+    image: ghcr.io/${OWNER}/zizalend-frontend:${TAG:-staging-latest}
     ports:
       - "3000:3000"
     environment:

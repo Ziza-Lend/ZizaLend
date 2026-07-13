@@ -34,7 +34,7 @@ jobs:
         run: |
           set -e
           for img in backend frontend; do
-            REPO=ghcr.io/${{ env.OWNER_LC }}/ZizaLend-${img}
+            REPO=ghcr.io/${{ env.OWNER_LC }}/zizalend-${img}
             if docker pull ${REPO}:staging-latest; then
               docker tag ${REPO}:staging-latest ${REPO}:staging-previous || true
               docker push ${REPO}:staging-previous || true
@@ -47,8 +47,8 @@ jobs:
           context: ./backend
           push: true
           tags: |
-            ghcr.io/${{ env.OWNER_LC }}/ZizaLend-backend:staging-${{ github.sha }}
-            ghcr.io/${{ env.OWNER_LC }}/ZizaLend-backend:staging-latest
+            ghcr.io/${{ env.OWNER_LC }}/zizalend-backend:staging-${{ github.sha }}
+            ghcr.io/${{ env.OWNER_LC }}/zizalend-backend:staging-latest
           target: production
           build-args: |
             GIT_SHA=${{ github.sha }}
@@ -60,8 +60,8 @@ jobs:
           context: ./frontend
           push: true
           tags: |
-            ghcr.io/${{ env.OWNER_LC }}/ZizaLend-frontend:staging-${{ github.sha }}
-            ghcr.io/${{ env.OWNER_LC }}/ZizaLend-frontend:staging-latest
+            ghcr.io/${{ env.OWNER_LC }}/zizalend-frontend:staging-${{ github.sha }}
+            ghcr.io/${{ env.OWNER_LC }}/zizalend-frontend:staging-latest
           target: runner
           build-args: |
             NEXT_PUBLIC_API_URL=${{ vars.NEXT_PUBLIC_API_URL }}
@@ -76,7 +76,7 @@ jobs:
       - name: Run Trivy vulnerability scanner (HIGH - warn)
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'ghcr.io/${{ env.OWNER_LC }}/ZizaLend-backend:staging-${{ github.sha }}'
+          image-ref: 'ghcr.io/${{ env.OWNER_LC }}/zizalend-backend:staging-${{ github.sha }}'
           format: 'table'
           severity: 'HIGH'
           exit-code: '0'
@@ -85,7 +85,7 @@ jobs:
       - name: Run Trivy vulnerability scanner (CRITICAL - fail)
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'ghcr.io/${{ env.OWNER_LC }}/ZizaLend-backend:staging-${{ github.sha }}'
+          image-ref: 'ghcr.io/${{ env.OWNER_LC }}/zizalend-backend:staging-${{ github.sha }}'
           format: 'sarif'
           output: 'trivy-results.sarif'
           severity: 'CRITICAL'
@@ -117,7 +117,7 @@ jobs:
       - name: Run Trivy vulnerability scanner for frontend (HIGH - warn)
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'ghcr.io/${{ env.OWNER_LC }}/ZizaLend-frontend:staging-${{ github.sha }}'
+          image-ref: 'ghcr.io/${{ env.OWNER_LC }}/zizalend-frontend:staging-${{ github.sha }}'
           format: 'table'
           severity: 'HIGH'
           exit-code: '0'
@@ -126,7 +126,7 @@ jobs:
       - name: Run Trivy vulnerability scanner for frontend (CRITICAL - fail)
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'ghcr.io/${{ env.OWNER_LC }}/ZizaLend-frontend:staging-${{ github.sha }}'
+          image-ref: 'ghcr.io/${{ env.OWNER_LC }}/zizalend-frontend:staging-${{ github.sha }}'
           format: 'sarif'
           output: 'frontend-trivy-results.sarif'
           severity: 'CRITICAL'
@@ -153,7 +153,7 @@ jobs:
       - name: Smoke-test the backend staging image
         run: |
           set -e
-          REPO=ghcr.io/${{ env.OWNER_LC }}/ZizaLend-backend
+          REPO=ghcr.io/${{ env.OWNER_LC }}/zizalend-backend
           docker pull "${REPO}:staging-${{ github.sha }}"
           IMG_ID=$(docker image inspect "${REPO}:staging-${{ github.sha }}" --format '{{.Id}}')
           echo "Image pulled successfully: $IMG_ID"
@@ -243,8 +243,8 @@ jobs:
             done
 
             echo "Health check failed, attempting rollback using rollback compose"
-            PREV_BACKEND="ghcr.io/${{ env.OWNER_LC }}/ZizaLend-backend:staging-previous"
-            PREV_FRONTEND="ghcr.io/${{ env.OWNER_LC }}/ZizaLend-frontend:staging-previous"
+            PREV_BACKEND="ghcr.io/${{ env.OWNER_LC }}/zizalend-backend:staging-previous"
+            PREV_FRONTEND="ghcr.io/${{ env.OWNER_LC }}/zizalend-frontend:staging-previous"
             docker pull $PREV_BACKEND || true
             docker pull $PREV_FRONTEND || true
             docker-compose -f docker-compose.yml -f docker-compose.staging.rollback.yml up -d --remove-orphans
