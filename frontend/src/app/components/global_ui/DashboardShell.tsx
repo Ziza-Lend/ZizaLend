@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Sidebar } from "./Sidebar";
 import { BottomNav } from "./BottomNav";
 import { Header } from "./Header";
@@ -8,6 +9,7 @@ import { Breadcrumbs } from "./Breadcrumbs";
 import { OfflineBanner } from "./OfflineBanner";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { InstallPrompt } from "./InstallPrompt";
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -28,23 +30,43 @@ export function DashboardShell({ children }: DashboardShellProps) {
       >
         Skip to main content
       </a>
-      {/* Mobile Sidebar Backdrop */}
-      {isSidebarOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
-          aria-hidden="true"
-          onClick={() => setIsSidebarOpen(false)}
-        />
-      )}
+
+      {/* Mobile Sidebar Backdrop with Framer Motion */}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.div
+            key="sidebar-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
+            aria-hidden="true"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Sidebar - Persistent on desktop, drawer on mobile */}
-      <Sidebar
-        onClose={() => setIsSidebarOpen(false)}
-        className={cn(
-          "fixed inset-y-0 left-0 z-50 transition-transform duration-300 lg:static lg:translate-x-0 hidden lg:flex",
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full",
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.aside
+            key="mobile-sidebar"
+            initial={{ x: "-100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "-100%" }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className="fixed inset-y-0 left-0 z-50 lg:hidden"
+          >
+            <Sidebar onClose={() => setIsSidebarOpen(false)} />
+          </motion.aside>
         )}
-      />
+      </AnimatePresence>
+
+      {/* Desktop sidebar - always visible */}
+      <div className="hidden lg:flex">
+        <Sidebar />
+      </div>
 
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Header */}
@@ -66,6 +88,9 @@ export function DashboardShell({ children }: DashboardShellProps) {
 
       {/* Bottom Navigation - Mobile only */}
       <BottomNav />
+
+      {/* PWA Install Prompt */}
+      <InstallPrompt />
     </div>
   );
 }
