@@ -86,6 +86,10 @@ export const createRateLimitMiddleware = (options: RateLimitMiddlewareOptions = 
           method: req.method,
         });
 
+        // Set Retry-After header per RFC 7231
+        const retryAfterSeconds = Math.ceil((result.resetTime.getTime() - Date.now()) / 1000);
+        res.setHeader('Retry-After', Math.max(1, retryAfterSeconds).toString());
+
         throw AppError.withCode(ErrorCode.RATE_LIMIT_EXCEEDED, errorMessage);
       }
 
