@@ -99,7 +99,8 @@ test.describe("Wallet connection — wrong network banner", () => {
   }) => {
     await page.goto("/en");
 
-    const banner = page.getByRole("alert");
+    // Use .first() because Next.js injects #__next-route-announcer__ (role=alert)
+    const banner = page.getByRole("alert").first();
     await expect(banner).toBeVisible();
     await expect(banner).toContainText(/UNKNOWN/);
     await expect(banner.getByRole("button", { name: /Refresh/i })).toBeVisible();
