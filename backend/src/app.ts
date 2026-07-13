@@ -117,6 +117,17 @@ app.use(requestIdMiddleware);
 app.use(requestLogger);
 app.use(metricsMiddleware);
 
+// Trailing slash normalization: strip trailing slashes from all paths
+// except the root, so /api/loans/ behaves identically to /api/loans.
+// This prevents duplicate cache entries and confusing 404 responses.
+app.use((req: Request, _res: Response, next: NextFunction) => {
+  if (req.path.length > 1 && req.path.endsWith('/')) {
+    const query = req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '';
+    req.url = req.path.slice(0, -1) + query;
+  }
+  next();
+});
+
 app.get('/', (_req: Request, res: Response) => {
   res.send('Zizalend Backend is running');
 });

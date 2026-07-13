@@ -1,14 +1,12 @@
 node_modules
-dist
 .git
 .env
 .env.*
 *.log
 .DS_Store
 coverage
-*.tsbuildinfo
+.next
+dist
 .cache
+*.tsbuildinfo
 .gitkeep
-docker-compose*.yml
-Dockerfile
-README.md
