@@ -245,6 +245,31 @@ export function Header({ onMenuClick, className }: HeaderProps) {
         ? truncateWalletAddress(walletAddress)
         : "Connect Wallet";
 
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+  const mobileSearchInputRef = useRef<HTMLInputElement>(null);
+
+  const openMobileSearch = () => {
+    setIsMobileSearchOpen(true);
+  };
+
+  const onMobileSearchAnimationComplete = () => {
+    mobileSearchInputRef.current?.focus();
+  };
+
+  const closeMobileSearch = () => {
+    setIsMobileSearchOpen(false);
+    setQuery("");
+    setDebouncedQuery("");
+    setIsOpen(false);
+  };
+
+  const handleMobileSearchKeyDown = (event: ReactKeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Escape") {
+      closeMobileSearch();
+    }
+    handleInputKeyDown(event);
+  };
+
   return (
     <header
       className={cn(
@@ -352,6 +377,16 @@ export function Header({ onMenuClick, className }: HeaderProps) {
             )}
           </AnimatePresence>
         </div>
+
+        {/* Mobile search trigger */}
+        <button
+          type="button"
+          onClick={openMobileSearch}
+          aria-label="Search"
+          className="lg:hidden p-2 text-[var(--text-secondary)] hover:bg-[var(--bg-surface)] rounded-lg"
+        >
+          <Search className="h-5 w-5" aria-hidden="true" />
+        </button>
       </div>
 
       <div className="flex items-center gap-2 sm:gap-4">
@@ -401,6 +436,103 @@ export function Header({ onMenuClick, className }: HeaderProps) {
           </div>
         </button>
       </div>
+
+      {/* Mobile Search Overlay - Full screen slide-up */}
+      <AnimatePresence>
+        {isMobileSearchOpen && (
+          <motion.div
+            key="mobile-search"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            className="fixed inset-0 z-50 bg-[var(--bg-primary)] lg:hidden"
+          >
+            <motion.div
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -20, opacity: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              onAnimationComplete={onMobileSearchAnimationComplete}
+              className="flex items-center gap-3 border-b border-[var(--border-default)] px-4 py-3"
+            >
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--text-muted)]" aria-hidden="true" />
+                <input
+                  ref={mobileSearchInputRef}
+                  type="search"
+                  value={query}
+                  onChange={(event) => {
+                    setQuery(event.target.value);
+                    setIsOpen(true);
+                    setActiveIndex(0);
+                  }}
+                  onKeyDown={handleMobileSearchKeyDown}
+                  placeholder="Search loans, pages, transactions…"
+                  aria-label="Search"
+                  className="block w-full rounded-full border border-[var(--border-default)] bg-[var(--bg-surface)] py-2.5 pl-10 pr-4 text-sm text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20"
+                />
+              </div>
+              <button
+                type="button"
+                onClick={closeMobileSearch}
+                className="shrink-0 text-sm font-medium text-violet-400 hover:text-violet-300"
+              >
+                Cancel
+              </button>
+            </motion.div>
+
+            {/* Mobile search results */}
+            <div className="overflow-y-auto px-4 py-3">
+              {query.trim().length === 0 ? (
+                <p className="py-8 text-center text-sm text-[var(--text-muted)]">
+                  Type to search loans, pages, and transactions
+                </p>
+              ) : searchResults.length === 0 ? (
+                <p className="py-8 text-center text-sm text-[var(--text-muted)]">No results found</p>
+              ) : (
+                <div className="space-y-1">
+                  {groupedResults.map((group) => (
+                    <div key={group.category} className="mb-4">
+                      <p className="mb-2 px-2 text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
+                        {group.category}
+                      </p>
+                      {group.items.map((item) => {
+                        const globalIndex = searchResults.findIndex(
+                          (result) => result.id === item.id,
+                        );
+                        const isActive = globalIndex === activeIndex;
+                        return (
+                          <button
+                            key={item.id}
+                            role="option"
+                            aria-selected={isActive}
+                            onClick={() => {
+                              handleSelect(item.href);
+                              closeMobileSearch();
+                            }}
+                            className={cn(
+                              "flex w-full items-start justify-between rounded-xl px-3 py-3 text-left transition active:scale-[0.98]",
+                              isActive
+                                ? "bg-violet-500/10 text-violet-300"
+                                : "text-[var(--text-primary)] hover:bg-[var(--bg-surface-hover)]",
+                            )}
+                          >
+                            <span className="text-sm font-medium">{item.title}</span>
+                            <span className="ml-3 text-xs text-[var(--text-muted)]">
+                              {item.subtitle}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
