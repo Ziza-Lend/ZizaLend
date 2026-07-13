@@ -373,7 +373,7 @@
     },
     "connect": {
       "title": "Connect a wallet",
-      "description": "Choose a wallet to continue. ZizaLend is non-custodial — your keys never leave your device.",
+      "description": "Choose a wallet to continue. Zizalend is non-custodial — your keys never leave your device.",
       "freighterOptionName": "Freighter",
       "freighterOptionDescription": "Browser extension by Stellar Development Foundation.",
       "connecting": "Waiting for wallet confirmation…",

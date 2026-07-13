@@ -30,7 +30,7 @@
     },
     "disconnected": {
       "heading": "Tablero",
-      "subheading": "Bienvenido a ZizaLend. Por favor conecta tu billetera para ver tu portafolio.",
+      "subheading": "Bienvenido a Zizalend. Por favor conecta tu billetera para ver tu portafolio.",
       "walletNotConnected": "Billetera no conectada",
       "connectPrompt": "Conecta tu billetera para analizar tu puntuación crediticia on-chain, gestionar posiciones activas y rastrear remesas internacionales.",
       "connectButton": "Conectar billetera"
@@ -373,7 +373,7 @@
     },
     "connect": {
       "title": "Conectar una billetera",
-      "description": "Elige una billetera para continuar. ZizaLend no es custodial: tus llaves nunca salen de tu dispositivo.",
+      "description": "Elige una billetera para continuar. Zizalend no es custodial: tus llaves nunca salen de tu dispositivo.",
       "freighterOptionName": "Freighter",
       "freighterOptionDescription": "Extensión de navegador de la Stellar Development Foundation.",
       "connecting": "Esperando confirmación de la billetera…",

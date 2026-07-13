@@ -39,7 +39,7 @@ export function generateChallenge(publicKey: string): ChallengeMessage {
   const nonce = crypto.randomBytes(32).toString('hex');
   const timestamp = Date.now();
 
-  const message = `Sign this message to authenticate with ZizaLend.\n\nNonce: ${nonce}\nTimestamp: ${timestamp}\n\nThis request will expire in 5 minutes.`;
+  const message = `Sign this message to authenticate with Zizalend.\n\nNonce: ${nonce}\nTimestamp: ${timestamp}\n\nThis request will expire in 5 minutes.`;
 
   return {
     message,

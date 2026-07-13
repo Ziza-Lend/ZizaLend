@@ -30,7 +30,7 @@
     },
     "disconnected": {
       "heading": "Dashboard",
-      "subheading": "Maligayang pagdating sa ZizaLend. Ikonekta ang iyong wallet upang makita ang iyong portfolio.",
+      "subheading": "Maligayang pagdating sa Zizalend. Ikonekta ang iyong wallet upang makita ang iyong portfolio.",
       "walletNotConnected": "Hindi Nakakonekta ang Wallet",
       "connectPrompt": "Ikonekta ang iyong wallet upang suriin ang iyong on-chain credit score, pamahalaan ang mga aktibong posisyon, at subaybayan ang mga cross-border na remittance.",
       "connectButton": "Ikonekta ang Wallet"
@@ -373,7 +373,7 @@
     },
     "connect": {
       "title": "Magkonekta ng wallet",
-      "description": "Pumili ng wallet upang magpatuloy. Ang ZizaLend ay non-custodial — ang iyong mga susi ay hindi kailanman umaalis sa iyong device.",
+      "description": "Pumili ng wallet upang magpatuloy. Ang Zizalend ay non-custodial — ang iyong mga susi ay hindi kailanman umaalis sa iyong device.",
       "freighterOptionName": "Freighter",
       "freighterOptionDescription": "Browser extension ng Stellar Development Foundation.",
       "connecting": "Naghihintay ng kumpirmasyon ng wallet…",

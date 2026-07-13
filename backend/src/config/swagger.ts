@@ -17,9 +17,9 @@ export const swaggerSpec = swaggerJSDoc({
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'ZizaLend API',
+      title: 'Zizalend API',
       version: '1.0.0',
-      description: 'Backend API for ZizaLend lending, scoring, remittance, and indexer flows.',
+      description: 'Backend API for Zizalend lending, scoring, remittance, and indexer flows.',
     },
     servers: [
       {

@@ -118,7 +118,7 @@ app.use(requestLogger);
 app.use(metricsMiddleware);
 
 app.get('/', (_req: Request, res: Response) => {
-  res.send('ZizaLend Backend is running');
+  res.send('Zizalend Backend is running');
 });
 
 /**

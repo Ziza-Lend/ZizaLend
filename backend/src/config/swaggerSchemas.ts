@@ -45,7 +45,7 @@ export const swaggerSchemas = {
       message: {
         type: 'string',
         example:
-          'Sign this message to authenticate with ZizaLend.\n\nNonce: abc123\nTimestamp: 1700000000000\n\nThis request will expire in 5 minutes.',
+          'Sign this message to authenticate with Zizalend.\n\nNonce: abc123\nTimestamp: 1700000000000\n\nThis request will expire in 5 minutes.',
       },
       nonce: { type: 'string', example: 'abc123def456' },
       timestamp: { type: 'integer', example: 1700000000000 },

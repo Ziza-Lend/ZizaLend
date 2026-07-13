@@ -81,27 +81,27 @@ function buildEmailTemplate(
 ): { subject: string; html: string } {
   const templates: Record<NotificationType, { subject: string; html: string }> = {
     loan_approved: {
-      subject: 'Your loan has been approved — ZizaLend',
+      subject: 'Your loan has been approved — Zizalend',
       html: `<h2>Loan Approved</h2><p>${message}</p><p>Log in to view your loan details and repayment schedule.</p>`,
     },
     repayment_due: {
-      subject: 'Repayment reminder — ZizaLend',
+      subject: 'Repayment reminder — Zizalend',
       html: `<h2>Repayment Due Soon</h2><p>${message}</p><p>Please ensure funds are available to avoid a default.</p>`,
     },
     repayment_confirmed: {
-      subject: 'Repayment confirmed — ZizaLend',
+      subject: 'Repayment confirmed — Zizalend',
       html: `<h2>Repayment Confirmed</h2><p>${message}</p><p>Thank you for your payment.</p>`,
     },
     loan_defaulted: {
-      subject: 'Loan default notice — ZizaLend',
+      subject: 'Loan default notice — Zizalend',
       html: `<h2>Loan Defaulted</h2><p>${message}</p><p>Contact support immediately if you believe this is an error.</p>`,
     },
     loan_liquidated: {
-      subject: 'Your loan has been liquidated — ZizaLend',
+      subject: 'Your loan has been liquidated — Zizalend',
       html: `<h2>Loan Liquidated</h2><p>${message}</p><p>Contact support if you have questions about the outcome.</p>`,
     },
     score_changed: {
-      subject: 'Your credit score has changed — ZizaLend',
+      subject: 'Your credit score has changed — Zizalend',
       html: `<h2>Credit Score Update</h2><p>${message}</p><p>Log in to see your updated score and history.</p>`,
     },
   };
@@ -128,7 +128,7 @@ async function sendEmail(email: string, message: string, type?: NotificationType
 
   const template = type
     ? buildEmailTemplate(type, message)
-    : { subject: 'Notification from ZizaLend', html: `<p>${message}</p>` };
+    : { subject: 'Notification from Zizalend', html: `<p>${message}</p>` };
 
   try {
     const sgMail = await import('@sendgrid/mail');
@@ -479,7 +479,7 @@ class NotificationService {
         await fetch(webhookUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: `[ZizaLend] ${title}: ${message}` }),
+          body: JSON.stringify({ text: `[Zizalend] ${title}: ${message}` }),
         });
       } catch (err) {
         logger.withContext().error('[Admin] Webhook POST failed', { webhookUrl, err });
