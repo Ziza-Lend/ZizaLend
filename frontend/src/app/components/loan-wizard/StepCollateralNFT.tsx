@@ -41,7 +41,7 @@ export function StepCollateralNFT({ data, onChange, onNext, onBack }: StepCollat
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg">
-            <Shield className="h-5 w-5 text-indigo-500" />
+            <Shield className="h-5 w-5 text-violet-500" />
             Collateral & NFT Link
           </CardTitle>
           <p className="text-sm text-zinc-500 dark:text-zinc-400">
@@ -50,16 +50,16 @@ export function StepCollateralNFT({ data, onChange, onNext, onBack }: StepCollat
         </CardHeader>
         <CardContent className="space-y-6">
           {/* NFT Card */}
-          <div className="relative overflow-hidden rounded-xl border border-indigo-200 bg-gradient-to-br from-indigo-50 to-violet-50 p-5 dark:border-indigo-900/50 dark:from-indigo-950/30 dark:to-violet-950/30">
+          <div className="relative overflow-hidden rounded-xl border border-violet-200 bg-gradient-to-br from-violet-50 to-violet-50 p-5 dark:border-violet-900/50 dark:from-violet-950/30 dark:to-violet-950/30">
             {/* Badge */}
-            <div className="absolute right-4 top-4 rounded-full bg-indigo-100 px-2.5 py-1 text-xs font-semibold text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300">
+            <div className="absolute right-4 top-4 rounded-full bg-violet-100 px-2.5 py-1 text-xs font-semibold text-violet-700 dark:bg-violet-900/50 dark:text-violet-300">
               RemittanceNFT
             </div>
 
             <div className="space-y-4">
               {/* Score display */}
               <div>
-                <p className="text-xs font-medium uppercase tracking-widest text-indigo-500 dark:text-indigo-400">
+                <p className="text-xs font-medium uppercase tracking-widest text-violet-500 dark:text-violet-400">
                   Credit Score
                 </p>
                 <div className="mt-1 flex items-baseline gap-2">
@@ -101,7 +101,7 @@ export function StepCollateralNFT({ data, onChange, onNext, onBack }: StepCollat
                     href={`https://stellar.expert/explorer/testnet/contract/${nftContractId}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-0.5 text-indigo-500 hover:text-indigo-600"
+                    className="inline-flex items-center gap-0.5 text-violet-500 hover:text-violet-600"
                   >
                     <ExternalLink className="h-3 w-3" />
                     Explorer
@@ -116,15 +116,15 @@ export function StepCollateralNFT({ data, onChange, onNext, onBack }: StepCollat
             <p className="font-medium text-zinc-700 dark:text-zinc-300">How NFT collateral works</p>
             <ul className="mt-2 space-y-2 text-sm text-zinc-500 dark:text-zinc-400">
               <li className="flex items-start gap-2">
-                <span className="mt-0.5 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-500" />
+                <span className="mt-0.5 h-1.5 w-1.5 shrink-0 rounded-full bg-violet-500" />
                 Your RemittanceNFT is locked as on-chain collateral when the loan is active.
               </li>
               <li className="flex items-start gap-2">
-                <span className="mt-0.5 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-500" />
+                <span className="mt-0.5 h-1.5 w-1.5 shrink-0 rounded-full bg-violet-500" />
                 On successful repayment, the NFT is released and your credit score increases.
               </li>
               <li className="flex items-start gap-2">
-                <span className="mt-0.5 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-500" />
+                <span className="mt-0.5 h-1.5 w-1.5 shrink-0 rounded-full bg-violet-500" />
                 Your NFT encodes your full repayment history — it cannot be transferred while a loan
                 is active.
               </li>
@@ -149,7 +149,7 @@ export function StepCollateralNFT({ data, onChange, onNext, onBack }: StepCollat
               type="checkbox"
               checked={data.collateralConfirmed}
               onChange={(e) => onChange({ collateralConfirmed: e.target.checked })}
-              className="mt-0.5 h-4 w-4 shrink-0 rounded border-zinc-300 accent-indigo-600"
+              className="mt-0.5 h-4 w-4 shrink-0 rounded border-zinc-300 accent-violet-600"
               required
             />
             <span className="text-sm text-zinc-700 dark:text-zinc-300">

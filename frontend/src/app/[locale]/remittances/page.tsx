@@ -73,7 +73,7 @@ function ConnectWalletPrompt() {
   return (
     <main className="flex min-h-[60vh] flex-col items-center justify-center gap-6 p-8">
       <div className="rounded-2xl bg-zinc-50 p-6 dark:bg-zinc-900">
-        <SendHorizontal className="h-12 w-12 text-indigo-600 dark:text-indigo-400" />
+        <SendHorizontal className="h-12 w-12 text-violet-600 dark:text-violet-400" />
       </div>
       <div className="text-center">
         <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">Remittance History</h1>
@@ -153,7 +153,7 @@ export default function RemittancesPage() {
     <main className="mx-auto min-h-screen max-w-7xl space-y-8 p-8 lg:p-12">
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-widest text-indigo-600">
+          <p className="text-sm font-semibold uppercase tracking-widest text-violet-600">
             Transfers
           </p>
           <h1 className="mt-1 text-3xl font-bold text-zinc-900 dark:text-zinc-50">
@@ -165,7 +165,7 @@ export default function RemittancesPage() {
         </div>
         <Link
           href={`/${locale}/send-remittance`}
-          className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"
+          className="inline-flex items-center gap-2 rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-violet-700"
         >
           <ArrowUpRight className="h-4 w-4" />
           New Remittance
@@ -208,7 +208,7 @@ export default function RemittancesPage() {
               className="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950"
             >
               <div className="mb-4 w-fit rounded-lg bg-zinc-50 p-2 dark:bg-zinc-900">
-                <item.icon className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+                <item.icon className="h-5 w-5 text-violet-600 dark:text-violet-400" />
               </div>
               <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">{item.label}</p>
               <p className="mt-1 text-2xl font-bold text-zinc-900 dark:text-zinc-50">
@@ -238,7 +238,7 @@ export default function RemittancesPage() {
                 aria-label="Search remittances"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-lg border border-zinc-200 bg-white pl-10 pr-4 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50"
+                className="w-full rounded-lg border border-zinc-200 bg-white pl-10 pr-4 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-violet-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50"
               />
             </div>
 
@@ -249,7 +249,7 @@ export default function RemittancesPage() {
                   onClick={() => setStatusFilter(s)}
                   className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
                     statusFilter === s
-                      ? "bg-indigo-600 text-white"
+                      ? "bg-violet-600 text-white"
                       : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700"
                   }`}
                   aria-pressed={statusFilter === s}
@@ -270,7 +270,7 @@ export default function RemittancesPage() {
                 type="date"
                 value={dateFrom}
                 onChange={(e) => setDateFrom(e.target.value)}
-                className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50"
+                className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-violet-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50"
               />
             </div>
             <div>
@@ -281,7 +281,7 @@ export default function RemittancesPage() {
                 type="date"
                 value={dateTo}
                 onChange={(e) => setDateTo(e.target.value)}
-                className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50"
+                className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-violet-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50"
               />
             </div>
             <div>
@@ -293,7 +293,7 @@ export default function RemittancesPage() {
                 placeholder="0.00"
                 value={minAmount}
                 onChange={(e) => setMinAmount(e.target.value)}
-                className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50"
+                className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-violet-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50"
               />
             </div>
             <div>
@@ -305,7 +305,7 @@ export default function RemittancesPage() {
                 placeholder="0.00"
                 value={maxAmount}
                 onChange={(e) => setMaxAmount(e.target.value)}
-                className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50"
+                className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-violet-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50"
               />
             </div>
           </div>
@@ -370,8 +370,8 @@ export default function RemittancesPage() {
                       className="grid grid-cols-12 items-center gap-4 px-6 py-4 transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-900/30"
                     >
                       <div className="col-span-4 flex min-w-0 items-center gap-3">
-                        <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-indigo-50 dark:bg-indigo-500/10">
-                          <SendHorizontal className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
+                        <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-violet-50 dark:bg-violet-500/10">
+                          <SendHorizontal className="h-4 w-4 text-violet-600 dark:text-violet-400" />
                         </div>
                         <span className="truncate font-mono text-sm font-medium text-zinc-900 dark:text-zinc-50">
                           {remittance.recipientAddress.slice(0, 8)}...

@@ -127,7 +127,7 @@ export function LoanDetailsPageClient() {
       <header className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm shadow-zinc-200/50 dark:border-zinc-800 dark:bg-zinc-950 dark:shadow-none">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-indigo-600">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-violet-600">
               Borrower Portal
             </p>
             <h1 className="mt-3 text-3xl font-bold text-zinc-900 dark:text-zinc-50">
@@ -341,12 +341,12 @@ export function LoanDetailsPageClient() {
           )}
 
           <div className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm shadow-zinc-200/50 dark:border-zinc-800 dark:bg-zinc-950 dark:shadow-none">
-            <div className="rounded-2xl bg-indigo-50 p-5 dark:bg-indigo-500/10">
-              <div className="flex items-center gap-3 text-indigo-700 dark:text-indigo-300">
+            <div className="rounded-2xl bg-violet-50 p-5 dark:bg-violet-500/10">
+              <div className="flex items-center gap-3 text-violet-700 dark:text-violet-300">
                 <Wallet className="h-5 w-5" />
                 <h2 className="text-lg font-semibold">Next action</h2>
               </div>
-              <p className="mt-3 text-sm leading-6 text-indigo-700/80 dark:text-indigo-200">
+              <p className="mt-3 text-sm leading-6 text-violet-700/80 dark:text-violet-200">
                 Make a repayment before the next due date to keep your score trending upward.
               </p>
               {loan.status !== "repaid" &&
@@ -354,7 +354,7 @@ export function LoanDetailsPageClient() {
                 loan.status !== "liquidated" && (
                   <Link
                     href={`/repay/${loanId}`}
-                    className="mt-4 inline-flex items-center gap-2 rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-500"
+                    className="mt-4 inline-flex items-center gap-2 rounded-full bg-violet-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-violet-500"
                   >
                     Make Payment
                     <ChevronRight className="h-4 w-4" />
@@ -365,14 +365,14 @@ export function LoanDetailsPageClient() {
                   <button
                     type="button"
                     onClick={() => setIsRefinanceOpen(true)}
-                    className="inline-flex items-center rounded-full border border-indigo-200 bg-white px-3 py-1.5 text-xs font-semibold text-indigo-700 transition hover:bg-indigo-50 dark:border-indigo-800 dark:bg-zinc-950 dark:text-indigo-300 dark:hover:bg-zinc-900"
+                    className="inline-flex items-center rounded-full border border-violet-200 bg-white px-3 py-1.5 text-xs font-semibold text-violet-700 transition hover:bg-violet-50 dark:border-violet-800 dark:bg-zinc-950 dark:text-violet-300 dark:hover:bg-zinc-900"
                   >
                     {t("actions.refinance")}
                   </button>
                   <button
                     type="button"
                     onClick={() => setIsExtensionOpen(true)}
-                    className="inline-flex items-center rounded-full border border-indigo-200 bg-white px-3 py-1.5 text-xs font-semibold text-indigo-700 transition hover:bg-indigo-50 dark:border-indigo-800 dark:bg-zinc-950 dark:text-indigo-300 dark:hover:bg-zinc-900"
+                    className="inline-flex items-center rounded-full border border-violet-200 bg-white px-3 py-1.5 text-xs font-semibold text-violet-700 transition hover:bg-violet-50 dark:border-violet-800 dark:bg-zinc-950 dark:text-violet-300 dark:hover:bg-zinc-900"
                   >
                     {t("actions.requestExtension")}
                   </button>
@@ -381,7 +381,7 @@ export function LoanDetailsPageClient() {
 
               {latestTxHash && (
                 <div className="mt-3">
-                  <p className="mb-1 text-xs font-medium text-indigo-700/70 dark:text-indigo-300/70">
+                  <p className="mb-1 text-xs font-medium text-violet-700/70 dark:text-violet-300/70">
                     Latest transaction
                   </p>
                   <TxHashLink txHash={latestTxHash} />

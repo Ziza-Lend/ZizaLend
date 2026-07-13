@@ -129,8 +129,8 @@ export default function ActivityPage() {
     return (
       <main className="space-y-8 min-h-screen p-8 lg:p-12 max-w-4xl mx-auto animate-in fade-in duration-500">
         <div className="rounded-2xl bg-zinc-50 p-12 text-center dark:bg-zinc-900/50 border border-dashed border-zinc-200 dark:border-zinc-800">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 dark:bg-indigo-500/10 mb-6">
-            <Clock className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-violet-50 dark:bg-violet-500/10 mb-6">
+            <Clock className="h-8 w-8 text-violet-600 dark:text-violet-400" />
           </div>
           <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-50">{t("notConnected")}</h2>
           <p className="mt-2 text-zinc-500 dark:text-zinc-400">
@@ -146,7 +146,7 @@ export default function ActivityPage() {
       <header className="flex items-start justify-between gap-4 flex-wrap">
         <div>
           <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-50 flex items-center gap-2">
-            <Clock className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
+            <Clock className="h-8 w-8 text-violet-600 dark:text-violet-400" />
             {t("title")}
           </h1>
           <p className="text-zinc-500 dark:text-zinc-400 mt-2">{t("description")}</p>
@@ -172,7 +172,7 @@ export default function ActivityPage() {
               }}
               className={`px-4 py-2 rounded-full font-medium transition-all ${
                 filterType === filter
-                  ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/30"
+                  ? "bg-violet-600 text-white shadow-lg shadow-violet-500/30"
                   : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
               }`}
               aria-pressed={filterType === filter}
@@ -229,7 +229,7 @@ export default function ActivityPage() {
                               item.status === "defaulted" ||
                               item.status === "liquidated"
                             ? "bg-red-50 dark:bg-red-500/10"
-                            : "bg-indigo-50 dark:bg-indigo-500/10"
+                            : "bg-violet-50 dark:bg-violet-500/10"
                       }`}
                       aria-hidden="true"
                     >
@@ -244,7 +244,7 @@ export default function ActivityPage() {
                           }`}
                         />
                       ) : (
-                        <ArrowUpRight className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+                        <ArrowUpRight className="h-5 w-5 text-violet-600 dark:text-violet-400" />
                       )}
                     </div>
                     <div className="flex-1">
@@ -260,7 +260,7 @@ export default function ActivityPage() {
                             href={`https://stellar.expert/explorer/public/tx/${item.txHash}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300"
+                            className="text-violet-600 hover:text-violet-700 dark:text-violet-400 dark:hover:text-violet-300"
                             aria-label={`View transaction ${item.txHash} on Stellar Explorer`}
                           >
                             <ExternalLink className="h-3 w-3" />
@@ -317,7 +317,7 @@ export default function ActivityPage() {
                       onClick={() => setCurrentPage(pageNum)}
                       className={`w-10 h-10 rounded-lg font-medium transition-all ${
                         currentPage === pageNum
-                          ? "bg-indigo-600 text-white"
+                          ? "bg-violet-600 text-white"
                           : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
                       }`}
                       aria-current={currentPage === pageNum ? "page" : undefined}

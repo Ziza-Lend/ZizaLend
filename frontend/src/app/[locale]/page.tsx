@@ -435,7 +435,7 @@ export default function Home() {
                           {item.amount.startsWith("+") ? (
                             <ArrowDownLeft className="h-5 w-5 text-green-600 dark:text-green-400" />
                           ) : (
-                            <ArrowUpRight className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+                            <ArrowUpRight className="h-5 w-5 text-violet-600 dark:text-violet-400" />
                           )}
                         </div>
                         <div>

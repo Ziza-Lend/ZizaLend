@@ -145,7 +145,7 @@ export default function RequestLoanPage() {
   return (
     <main className="mx-auto max-w-4xl space-y-8 p-8">
       <header className="space-y-2">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-indigo-600">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-violet-600">
           Borrower Portal
         </p>
         <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-50">Request Loan</h1>

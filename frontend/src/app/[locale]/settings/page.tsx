@@ -111,7 +111,7 @@ function Toggle({
       <button
         onClick={() => onChange(!checked)}
         className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-          checked ? "bg-indigo-600" : "bg-zinc-300 dark:bg-zinc-700"
+          checked ? "bg-violet-600" : "bg-zinc-300 dark:bg-zinc-700"
         }`}
         role="switch"
         aria-checked={checked}
@@ -152,8 +152,8 @@ function ProfileSection() {
       <CardContent className="space-y-4">
         {/* Avatar */}
         <div className="flex items-center gap-4">
-          <div className="h-16 w-16 rounded-full bg-indigo-100 dark:bg-indigo-500/20 flex items-center justify-center">
-            <User className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
+          <div className="h-16 w-16 rounded-full bg-violet-100 dark:bg-violet-500/20 flex items-center justify-center">
+            <User className="h-8 w-8 text-violet-600 dark:text-violet-400" />
           </div>
           <div>
             <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">Profile Picture</p>
@@ -532,7 +532,7 @@ function SecuritySection() {
               </div>
               <button
                 onClick={() => setShowToken((v) => !v)}
-                className="text-xs font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400"
+                className="text-xs font-medium text-violet-600 hover:text-violet-700 dark:text-violet-400"
                 aria-label={showToken ? "Hide session token" : "Show session token"}
               >
                 {showToken ? "Hide" : "Show"}
@@ -604,7 +604,7 @@ function DisplaySection() {
                   onClick={() => setTheme(opt)}
                   className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
                     active
-                      ? "bg-indigo-600 text-white"
+                      ? "bg-violet-600 text-white"
                       : "bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200"
                   }`}
                 >
@@ -622,7 +622,7 @@ function DisplaySection() {
           <select
             value={language}
             onChange={(e) => setLanguage(e.target.value)}
-            className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-indigo-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50"
+            className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-violet-500 focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50"
           >
             {LANGUAGES.map((l) => (
               <option key={l.code} value={l.code}>
@@ -692,7 +692,7 @@ export default function SettingsPage() {
     <main className="space-y-8 min-h-screen p-8 lg:p-12 max-w-5xl mx-auto">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-widest text-indigo-600">Account</p>
+          <p className="text-sm font-semibold uppercase tracking-widest text-violet-600">Account</p>
           <h1 className="mt-1 text-3xl font-bold text-zinc-900 dark:text-zinc-50">Settings</h1>
           <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
             Manage your profile, wallet, notifications, and preferences.
@@ -732,7 +732,7 @@ export default function SettingsPage() {
                     onKeyDown={(event) => handleTabKeyDown(event, index)}
                     className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium w-full transition-colors whitespace-nowrap ${
                       isActive
-                        ? "bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400"
+                        ? "bg-violet-50 text-violet-600 dark:bg-violet-500/10 dark:text-violet-400"
                         : "text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-50"
                     }`}
                   >

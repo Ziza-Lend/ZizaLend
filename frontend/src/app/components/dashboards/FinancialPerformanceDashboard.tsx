@@ -336,7 +336,7 @@ export function FinancialPerformanceDashboard({
             <StatCard
               title="Total Loans"
               value={displayLoanStats.total}
-              colorClass="bg-indigo-50 text-indigo-900 dark:bg-indigo-950/30 dark:text-indigo-200"
+              colorClass="bg-violet-50 text-violet-900 dark:bg-violet-950/30 dark:text-violet-200"
               icon={Activity}
             />
             <StatCard
@@ -387,8 +387,8 @@ export function FinancialPerformanceDashboard({
               <ul className="space-y-3">
                 {improvementActions.map((action, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm">
-                    <span className="h-5 w-5 rounded-full bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400">
+                    <span className="h-5 w-5 rounded-full bg-violet-50 dark:bg-violet-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-xs font-bold text-violet-600 dark:text-violet-400">
                         {i + 1}
                       </span>
                     </span>
@@ -438,7 +438,7 @@ export function FinancialPerformanceDashboard({
               title="Pool Utilisation"
               value={`${displayDepositorStats.utilizationRate.toFixed(1)}%`}
               sub="Percentage of pool currently lent out"
-              colorClass="bg-indigo-50 text-indigo-900 dark:bg-indigo-950/30 dark:text-indigo-200"
+              colorClass="bg-violet-50 text-violet-900 dark:bg-violet-950/30 dark:text-violet-200"
             />
             <StatCard
               title="Current APY"

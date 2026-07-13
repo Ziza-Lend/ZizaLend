@@ -27,7 +27,7 @@ export default function SendRemittancePage() {
         <div className="mb-8">
           <button
             onClick={() => router.back()}
-            className="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 mb-4 focus-visible:ring-2 focus-visible:ring-focus-ring rounded px-1"
+            className="inline-flex items-center gap-2 text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 mb-4 focus-visible:ring-2 focus-visible:ring-focus-ring rounded px-1"
           >
             <ArrowLeft className="h-4 w-4" />
             Back
@@ -154,7 +154,7 @@ export default function SendRemittancePage() {
             Need help?
             <a
               href="#"
-              className="ml-1 text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 focus-visible:ring-2 focus-visible:ring-focus-ring rounded px-1"
+              className="ml-1 text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 focus-visible:ring-2 focus-visible:ring-focus-ring rounded px-1"
             >
               Contact Support
             </a>

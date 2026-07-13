@@ -1,7 +1,7 @@
 {
   "HomePage": {
     "title": "Welcome, {address}",
-    "description": "Empowering cross-border financial inclusion through micro-loans backed by remittances.",
+    "description": "Your premium DeFi command center. Track loans, yield, and cross-border remittances in real time.",
     "getStarted": "Get Started",
     "learnMore": "Learn More",
     "stats": {
@@ -30,10 +30,10 @@
     },
     "disconnected": {
       "heading": "Dashboard",
-      "subheading": "Welcome to ZizaLend. Please connect your wallet to view your portfolio.",
-      "walletNotConnected": "Wallet Not Connected",
-      "connectPrompt": "Connect your wallet to analyze your on-chain credit score, manage active positions, and track cross-border remittances.",
-      "connectButton": "Connect Wallet"
+      "subheading": "Welcome to Zizalend. Connect your wallet to unlock your financial dashboard.",
+      "walletNotConnected": "Enter the Citadel",
+      "connectPrompt": "Connect your Stellar wallet to unlock your credit score, manage positions, and track cross-border wealth.",
+      "connectButton": "Enter the Citadel"
     },
     "reminder": {
       "due": "Repayment due in {hours}h — Loan #{loanId}",

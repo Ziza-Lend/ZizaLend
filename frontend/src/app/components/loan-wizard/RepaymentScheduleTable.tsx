@@ -63,7 +63,7 @@ export function RepaymentScheduleTable({
     <Card>
       <CardHeader className={compact ? "pb-4" : undefined}>
         <CardTitle className="flex items-center gap-2 text-lg">
-          <CalendarDays className="h-5 w-5 text-indigo-500" />
+          <CalendarDays className="h-5 w-5 text-violet-500" />
           {title}
         </CardTitle>
         <p className="text-sm text-zinc-500 dark:text-zinc-400">{description}</p>
@@ -83,9 +83,9 @@ export function RepaymentScheduleTable({
                 {formatMoney(amortization.totalInterest)}
               </p>
             </div>
-            <div className="rounded-lg border border-indigo-200 bg-indigo-50 p-3 dark:border-indigo-900/50 dark:bg-indigo-950/30">
-              <p className="text-xs text-indigo-600 dark:text-indigo-400">Total Cost of Loan</p>
-              <p className="mt-0.5 font-semibold text-indigo-700 dark:text-indigo-300">
+            <div className="rounded-lg border border-violet-200 bg-violet-50 p-3 dark:border-violet-900/50 dark:bg-violet-950/30">
+              <p className="text-xs text-violet-600 dark:text-violet-400">Total Cost of Loan</p>
+              <p className="mt-0.5 font-semibold text-violet-700 dark:text-violet-300">
                 {formatMoney(amortization.totalDue)}
               </p>
             </div>
@@ -151,7 +151,7 @@ export function RepaymentScheduleTable({
                   >
                     Total Cost of Loan
                   </td>
-                  <td className="px-4 py-3 text-right font-semibold text-indigo-600 dark:text-indigo-400">
+                  <td className="px-4 py-3 text-right font-semibold text-violet-600 dark:text-violet-400">
                     {formatMoney(amortization.totalDue)}
                   </td>
                   <td />

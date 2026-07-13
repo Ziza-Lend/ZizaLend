@@ -188,7 +188,7 @@ export default function RepayLoanPage() {
   return (
     <section className="mx-auto max-w-3xl space-y-6">
       <header>
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-indigo-600">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-violet-600">
           Borrower Portal
         </p>
         <h1 className="mt-3 text-3xl font-bold text-zinc-900 dark:text-zinc-50">
@@ -223,7 +223,7 @@ export default function RepayLoanPage() {
                 setAmount(formatted);
               }
             }}
-            className={`mt-2 w-full rounded-2xl border bg-zinc-50 px-4 py-3 text-zinc-900 outline-none transition focus:border-indigo-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50 ${
+            className={`mt-2 w-full rounded-2xl border bg-zinc-50 px-4 py-3 text-zinc-900 outline-none transition focus:border-violet-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-50 ${
               precisionError ? "border-red-500" : "border-zinc-200"
             }`}
           />

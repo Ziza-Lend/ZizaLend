@@ -148,7 +148,7 @@ export default function WalletConnectionModal() {
               <button
                 type="button"
                 onClick={() => void wallet.refreshWallet()}
-                className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-indigo-500"
+                className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-violet-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-violet-500"
               >
                 <RefreshCw className="h-4 w-4" aria-hidden="true" />
                 {t("error.wrongNetwork.refresh")}
@@ -220,7 +220,7 @@ function ErrorCard({ kind, message, onRetry, onDismiss, t }: ErrorCardProps) {
         <button
           type="button"
           onClick={onRetry}
-          className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-indigo-500"
+          className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-violet-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-violet-500"
         >
           {t("error.retry")}
         </button>

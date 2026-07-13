@@ -410,7 +410,7 @@ export function LendPageClient() {
                       }
                     }}
                     aria-invalid={withdrawPrecisionError ? true : undefined}
-                    className={`w-full rounded-xl border bg-zinc-50 px-3 py-2 text-sm outline-none focus:border-indigo-500 dark:border-zinc-800 dark:bg-zinc-900 ${
+                    className={`w-full rounded-xl border bg-zinc-50 px-3 py-2 text-sm outline-none focus:border-violet-500 dark:border-zinc-800 dark:bg-zinc-900 ${
                       withdrawPrecisionError ? "border-red-500" : "border-zinc-200"
                     }`}
                   />

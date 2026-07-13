@@ -68,7 +68,7 @@ function LoanSummary({ dispute }: { dispute: AdminDispute }) {
         <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">{t("title")}</h2>
         <Link
           href={`/${locale}/loans/${dispute.loanId}`}
-          className="inline-flex items-center gap-2 text-sm font-semibold text-indigo-600 hover:text-indigo-500"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-violet-600 hover:text-violet-500"
         >
           {t("openLoan")}
           <ExternalLink className="h-4 w-4" aria-hidden="true" />
@@ -142,7 +142,7 @@ export default function AdminDisputeDetailPage() {
       <section className="space-y-4">
         <Link
           href={`/${locale}/admin/disputes`}
-          className="inline-flex items-center gap-2 text-sm font-semibold text-indigo-600 hover:text-indigo-500"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-violet-600 hover:text-violet-500"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />
           {t("back")}
@@ -158,7 +158,7 @@ export default function AdminDisputeDetailPage() {
     <section className="space-y-6">
       <Link
         href={`/${locale}/admin/disputes`}
-        className="inline-flex items-center gap-2 text-sm font-semibold text-indigo-600 hover:text-indigo-500"
+        className="inline-flex items-center gap-2 text-sm font-semibold text-violet-600 hover:text-violet-500"
       >
         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
         {t("back")}
@@ -197,7 +197,7 @@ export default function AdminDisputeDetailPage() {
           value={note}
           onChange={(event) => setNote(event.target.value)}
           placeholder={t("notePlaceholder")}
-          className="mt-2 min-h-32 w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-50 dark:focus:ring-indigo-950"
+          className="mt-2 min-h-32 w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none transition focus:border-violet-500 focus:ring-2 focus:ring-violet-100 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-50 dark:focus:ring-violet-950"
         />
         <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">{t("noteHelp")}</p>
         <div className="mt-5 flex flex-col gap-3 sm:flex-row">

@@ -181,7 +181,7 @@ export function RemittanceForm({ onSuccess }: RemittanceFormProps) {
                 value={token}
                 onChange={(e) => setToken(e.target.value)}
                 disabled={mutation.isPending}
-                className="w-full px-3 py-2 border border-zinc-300 rounded-lg bg-white dark:bg-zinc-900 dark:border-zinc-700 text-zinc-900 dark:text-zinc-50 focus:outline-none focus:ring-2 focus:ring-indigo-600 dark:focus:ring-indigo-400"
+                className="w-full px-3 py-2 border border-zinc-300 rounded-lg bg-white dark:bg-zinc-900 dark:border-zinc-700 text-zinc-900 dark:text-zinc-50 focus:outline-none focus:ring-2 focus:ring-violet-600 dark:focus:ring-violet-400"
               >
                 <option value="USDC">USDC</option>
                 <option value="EURC">EURC</option>
@@ -230,7 +230,7 @@ export function RemittanceForm({ onSuccess }: RemittanceFormProps) {
                 disabled={mutation.isPending}
                 maxLength={28}
                 rows={2}
-                className={`w-full px-3 py-2 border rounded-lg bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-50 focus:outline-none focus:ring-2 focus:ring-indigo-600 dark:focus:ring-indigo-400 resize-none dark:border-zinc-700 ${
+                className={`w-full px-3 py-2 border rounded-lg bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-50 focus:outline-none focus:ring-2 focus:ring-violet-600 dark:focus:ring-violet-400 resize-none dark:border-zinc-700 ${
                   errors.memo ? "border-red-600" : "border-zinc-300"
                 }`}
               />
@@ -284,12 +284,12 @@ export function RemittanceForm({ onSuccess }: RemittanceFormProps) {
         </Card>
 
         {/* Information Card */}
-        <Card className="bg-indigo-50 dark:bg-indigo-950/30 border-indigo-200 dark:border-indigo-800">
+        <Card className="bg-violet-50 dark:bg-violet-950/30 border-violet-200 dark:border-violet-800">
           <CardContent className="pt-6">
-            <h3 className="font-semibold text-indigo-900 dark:text-indigo-300 mb-3">
+            <h3 className="font-semibold text-violet-900 dark:text-violet-300 mb-3">
               About Remittances
             </h3>
-            <ul className="space-y-2 text-sm text-indigo-800 dark:text-indigo-400">
+            <ul className="space-y-2 text-sm text-violet-800 dark:text-violet-400">
               <li className="flex gap-2">
                 <span className="font-bold">•</span>
                 <span>Remittances help build your credit score</span>

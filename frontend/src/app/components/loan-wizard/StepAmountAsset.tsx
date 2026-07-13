@@ -93,7 +93,7 @@ export function StepAmountAsset({ data, onChange, onNext, error, onError }: Step
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-lg">
-              <HandCoins className="h-5 w-5 text-indigo-500" />
+              <HandCoins className="h-5 w-5 text-violet-500" />
               Loan Details
             </CardTitle>
           </CardHeader>
@@ -107,10 +107,10 @@ export function StepAmountAsset({ data, onChange, onNext, error, onError }: Step
                     key={asset.value}
                     type="button"
                     onClick={() => onChange({ asset: asset.value })}
-                    className="flex items-center gap-3 rounded-lg border border-indigo-500 bg-indigo-50 px-4 py-3 text-left transition dark:bg-indigo-500/10"
+                    className="flex items-center gap-3 rounded-lg border border-violet-500 bg-violet-50 px-4 py-3 text-left transition dark:bg-violet-500/10"
                     aria-pressed={data.asset === asset.value}
                   >
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 text-xs font-bold text-white">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-violet-600 text-xs font-bold text-white">
                       {asset.value[0]}
                     </span>
                     <div>
@@ -170,7 +170,7 @@ export function StepAmountAsset({ data, onChange, onNext, error, onError }: Step
                     onClick={() => onChange({ termDays: option.days })}
                     className={`rounded-lg border px-3 py-2 text-sm font-medium transition ${
                       data.termDays === option.days
-                        ? "border-indigo-500 bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300"
+                        ? "border-violet-500 bg-violet-50 text-violet-700 dark:bg-violet-500/10 dark:text-violet-300"
                         : "border-zinc-300 text-zinc-700 dark:border-zinc-700 dark:text-zinc-300"
                     }`}
                     aria-pressed={data.termDays === option.days}
@@ -210,7 +210,7 @@ export function StepAmountAsset({ data, onChange, onNext, error, onError }: Step
                 <span className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
                   {data.creditScore}
                 </span>
-                <span className="text-sm font-medium text-indigo-600 dark:text-indigo-400">
+                <span className="text-sm font-medium text-violet-600 dark:text-violet-400">
                   {scoreBandLabel}
                 </span>
               </div>

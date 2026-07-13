@@ -35,9 +35,9 @@ export function WizardStepper({ steps, currentStep }: WizardStepperProps) {
                 <div
                   className={cn(
                     "flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 text-sm font-semibold transition-all",
-                    isCompleted && "border-indigo-600 bg-indigo-600 text-white",
+                    isCompleted && "border-violet-600 bg-violet-600 text-white",
                     isCurrent &&
-                      "border-indigo-600 bg-white text-indigo-600 dark:bg-zinc-950 dark:text-indigo-400 shadow-sm",
+                      "border-violet-600 bg-white text-violet-600 dark:bg-zinc-950 dark:text-violet-400 shadow-sm",
                     !isCompleted &&
                       !isCurrent &&
                       "border-zinc-300 bg-white text-zinc-400 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-500",
@@ -51,7 +51,7 @@ export function WizardStepper({ steps, currentStep }: WizardStepperProps) {
                     className={cn(
                       "text-xs font-medium leading-tight",
                       isCurrent
-                        ? "text-indigo-600 dark:text-indigo-400"
+                        ? "text-violet-600 dark:text-violet-400"
                         : isCompleted
                           ? "text-zinc-700 dark:text-zinc-300"
                           : "text-zinc-400 dark:text-zinc-500",
@@ -70,7 +70,7 @@ export function WizardStepper({ steps, currentStep }: WizardStepperProps) {
                 <div
                   className={cn(
                     "mx-2 h-0.5 flex-1 transition-all",
-                    isCompleted ? "bg-indigo-600" : "bg-zinc-200 dark:bg-zinc-700",
+                    isCompleted ? "bg-violet-600" : "bg-zinc-200 dark:bg-zinc-700",
                   )}
                 />
               )}

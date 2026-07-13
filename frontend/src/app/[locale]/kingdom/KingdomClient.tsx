@@ -184,7 +184,7 @@ export default function KingdomClient() {
                 href={nft.metadataUri || undefined}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-xl border border-zinc-200 p-4 transition hover:border-indigo-300 hover:bg-indigo-50/60 dark:border-zinc-800 dark:hover:border-indigo-700 dark:hover:bg-indigo-950/20 sm:col-span-2"
+                className="rounded-xl border border-zinc-200 p-4 transition hover:border-violet-300 hover:bg-violet-50/60 dark:border-zinc-800 dark:hover:border-violet-700 dark:hover:bg-violet-950/20 sm:col-span-2"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div className="min-w-0">
