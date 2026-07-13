@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { z } from 'zod';
 import { requireApiKey } from '../middleware/auth.js';
 import { requireJwtAuth, requireRoles } from '../middleware/jwtAuth.js';
-import { strictRateLimiter } from '../middleware/rateLimiter.js';
+import { adminRateLimiter } from '../middleware/rateLimiter.js';
 import { validateBody } from '../middleware/validation.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { auditLog } from '../middleware/auditLog.js';
@@ -158,7 +158,7 @@ const checkDefaultsBodySchema = z.object({
 router.post(
   '/check-defaults',
   requireApiKey('admin:loans'),
-  strictRateLimiter,
+  adminRateLimiter,
   auditLog,
   validateBody(checkDefaultsBodySchema),
   asyncHandler(async (req, res) => {
@@ -197,7 +197,7 @@ router.post(
 router.post(
   '/reindex',
   requireApiKey('admin:indexer'),
-  strictRateLimiter,
+  adminRateLimiter,
   auditLog,
   reindexLedgerRange,
 );
@@ -257,7 +257,7 @@ router.get('/quarantine-events', requireApiKey('admin:indexer'), listQuarantined
 router.post(
   '/quarantine-events/reprocess',
   requireApiKey('admin:indexer'),
-  strictRateLimiter,
+  adminRateLimiter,
   auditLog,
   reprocessQuarantinedEvents,
 );
@@ -297,7 +297,7 @@ router.post(
 router.post(
   '/webhooks',
   requireApiKey('admin:webhooks'),
-  strictRateLimiter,
+  adminRateLimiter,
   auditLog,
   createWebhookSubscription,
 );
@@ -345,7 +345,7 @@ router.get('/webhooks', requireApiKey('admin:webhooks'), listWebhookSubscription
 router.delete(
   '/webhooks/:id',
   requireApiKey('admin:webhooks'),
-  strictRateLimiter,
+  adminRateLimiter,
   auditLog,
   deleteWebhookSubscription,
 );

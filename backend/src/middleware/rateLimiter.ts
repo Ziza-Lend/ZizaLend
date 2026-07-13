@@ -12,6 +12,21 @@ export const createRateLimiter = (max: number, windowMinutes: number = 15) =>
 export const globalRateLimiter = createRateLimiter(100);
 export const strictRateLimiter = createRateLimiter(10, 45);
 
+// Admin operations: 30 req/min per IP (higher limits for legitimate admin activity)
+export const adminRateLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 30,
+  keyGenerator: (req) => req.ip ?? 'unknown',
+  message: { success: false, message: 'Too many admin requests, please try again later.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+  skip: () => process.env.NODE_ENV === 'test',
+  handler: (_req, res, _next, options) => {
+    res.setHeader('Retry-After', Math.ceil(options.windowMs / 1000));
+    res.status(429).json(options.message);
+  },
+});
+
 // Auth endpoints: 10 req/min per IP (stricter rate limiting for brute-force protection)
 export const challengeRateLimiter = rateLimit({
   windowMs: 60 * 1000, // 1 minute
