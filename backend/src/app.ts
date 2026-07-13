@@ -115,7 +115,7 @@ app.use(express.json({ limit: '100kb' }));
 
 // Content-Type enforcement: reject non-JSON POST/PUT/PATCH requests early
 // to prevent confusion attacks and malformed payloads reaching route handlers.
-app.use((req: Request, res: Response, next: NextFunction) => {
+app.use((req: Request, _res: Response, next: NextFunction) => {
   if (['POST', 'PUT', 'PATCH'].includes(req.method)) {
     const contentType = req.headers['content-type'] ?? '';
     // The /submit and /build-* endpoints all send JSON. Skip enforcement

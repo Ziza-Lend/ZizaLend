@@ -4,7 +4,7 @@ import { requestLogger } from '../requestLogger.js';
 import logger from '../../utils/logger.js';
 
 describe('Request Logger Production Access Test Harness (#1207)', () => {
-  let writeSpy: jest.SpyInstance;
+  let writeSpy: jest.SpiedFunction<typeof logger.write>;
   const originalNodeEnv = process.env.NODE_ENV;
 
   const setNodeEnv = (value: string | undefined) => {

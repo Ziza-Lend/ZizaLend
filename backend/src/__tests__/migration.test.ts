@@ -41,6 +41,7 @@ describeIf('Migrations', () => {
       dir: './migrations',
       direction,
       count: Infinity,
+      migrationsTable: 'pgmigrations',
     });
   };
 

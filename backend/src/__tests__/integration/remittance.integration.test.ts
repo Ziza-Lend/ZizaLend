@@ -6,14 +6,11 @@ import { query } from '../../db/connection.js';
 // node --experimental-vm-modules) requires the mock be registered before
 // importing the consuming module, so app.js and sorobanService.js are
 // imported dynamically below.
-const mockSubmitSignedTx = jest.fn();
+const mockSubmitSignedTx = jest.fn<(...args: unknown[]) => Promise<unknown>>();
 jest.unstable_mockModule('../../services/sorobanService.js', () => ({
   sorobanService: { submitSignedTx: mockSubmitSignedTx },
 }));
 
-const { sorobanService } = (await import('../../services/sorobanService.js')) as {
-  sorobanService: { submitSignedTx: jest.Mock };
-};
 const { default: app } = await import('../../app.js');
 
 // Real-Postgres integration test. The default backend CI job points
@@ -62,7 +59,7 @@ describeIfDb('Integration: Remittance Submit Flow', () => {
 
   it('should submit remittance with valid signed XDR and return transaction hash', async () => {
     const mockTxHash = 'abc123def456ghi789';
-    (sorobanService.submitSignedTx as jest.Mock).mockResolvedValue({
+    mockSubmitSignedTx.mockResolvedValue({
       txHash: mockTxHash,
       status: 'SUCCESS',
     });
@@ -76,7 +73,7 @@ describeIfDb('Integration: Remittance Submit Flow', () => {
     expect(response.body.success).toBe(true);
     expect(response.body.data.txHash).toBe(mockTxHash);
     expect(response.body.data.status).toBe('completed');
-    expect(sorobanService.submitSignedTx).toHaveBeenCalledWith(validSignedXdr);
+    expect(mockSubmitSignedTx).toHaveBeenCalledWith(validSignedXdr);
 
     const dbResult = await query('SELECT status, tx_hash FROM remittances WHERE id = $1', [
       remittanceId,
@@ -86,7 +83,7 @@ describeIfDb('Integration: Remittance Submit Flow', () => {
   });
 
   it('should reject invalid XDR with 400 error', async () => {
-    (sorobanService.submitSignedTx as jest.Mock).mockRejectedValue(new Error('Invalid XDR format'));
+    mockSubmitSignedTx.mockRejectedValue(new Error('Invalid XDR format'));
 
     const response = await request(app)
       .post(`/api/remittances/${remittanceId}/submit`)
@@ -130,7 +127,7 @@ describeIfDb('Integration: Remittance Submit Flow', () => {
 
   it('should handle Stellar network rejection with 502 error message', async () => {
     const stellarError = new Error('Stellar network rejected transaction');
-    (sorobanService.submitSignedTx as jest.Mock).mockRejectedValue(stellarError);
+    mockSubmitSignedTx.mockRejectedValue(stellarError as unknown);
 
     const response = await request(app)
       .post(`/api/remittances/${remittanceId}/submit`)
@@ -139,7 +136,7 @@ describeIfDb('Integration: Remittance Submit Flow', () => {
       .expect(500);
 
     expect(response.body.success).toBe(false);
-    expect(sorobanService.submitSignedTx).toHaveBeenCalledWith(validSignedXdr);
+    expect(mockSubmitSignedTx).toHaveBeenCalledWith(validSignedXdr);
 
     const dbResult = await query('SELECT status, error_message FROM remittances WHERE id = $1', [
       remittanceId,

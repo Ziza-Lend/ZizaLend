@@ -196,9 +196,11 @@ export const errorHandler = (
       method: req.method,
     });
 
-    res.status(413).json(
-      buildErrorResponse(413, 'Request payload too large', ErrorCode.VALIDATION_ERROR, requestId),
-    );
+    res
+      .status(413)
+      .json(
+        buildErrorResponse(413, 'Request payload too large', ErrorCode.VALIDATION_ERROR, requestId),
+      );
     return;
   }
 

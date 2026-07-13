@@ -3,7 +3,8 @@ import type { NextFunction, Request, Response } from 'express';
 
 const mockGetSharePrice = jest.fn<(tokenAddress?: string) => Promise<number>>();
 const mockCacheGet = jest.fn<() => Promise<unknown>>();
-const mockCacheSet = jest.fn<() => Promise<void>>();
+const mockCacheSet =
+  jest.fn<(key: string, value: Record<string, unknown>, ttl: number) => Promise<void>>();
 
 jest.unstable_mockModule('../services/sorobanService.js', () => ({
   sorobanService: {
@@ -48,7 +49,11 @@ describe('getPoolSharePrice', () => {
     const res = createMockResponse();
     const next = jest.fn<(err?: unknown) => void>();
 
-    getPoolSharePrice(req, res, next as unknown as NextFunction);
+    void (getPoolSharePrice as any)(
+      req as Request,
+      res as Response,
+      next as unknown as NextFunction,
+    );
     await flushAsync();
 
     expect(mockGetSharePrice).toHaveBeenCalledWith('GTOKEN123');
@@ -76,7 +81,11 @@ describe('getPoolSharePrice', () => {
     const res = createMockResponse();
     const next = jest.fn<(err?: unknown) => void>();
 
-    getPoolSharePrice(req, res, next as unknown as NextFunction);
+    void (getPoolSharePrice as any)(
+      req as Request,
+      res as Response,
+      next as unknown as NextFunction,
+    );
     await flushAsync();
 
     expect(mockGetSharePrice).not.toHaveBeenCalled();
@@ -98,7 +107,11 @@ describe('getPoolSharePrice', () => {
     const res = createMockResponse();
     const next = jest.fn<(err?: unknown) => void>();
 
-    getPoolSharePrice(req, res, next as unknown as NextFunction);
+    void (getPoolSharePrice as any)(
+      req as Request,
+      res as Response,
+      next as unknown as NextFunction,
+    );
     await flushAsync();
 
     const jsonCall = (res.json as jest.Mock).mock.calls[0]?.[0] as Record<string, unknown>;

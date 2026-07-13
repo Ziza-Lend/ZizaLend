@@ -1,7 +1,9 @@
 import { registerTestUser } from '../controllers/authController.js';
 import { Router } from 'express';
 import { z } from 'zod';
-import { requestChallenge, login, verify, logout } from '../controllers/authController.js';import { challengeRateLimiter,
+import { requestChallenge, login, verify, logout } from '../controllers/authController.js';
+import {
+  challengeRateLimiter,
   loginRateLimiter,
   ipLoginRateLimiter,
 } from '../middleware/rateLimiter.js';

@@ -12,9 +12,9 @@ jest.unstable_mockModule('../../auth/rbac.js', () => ({
   resolveScopesForRole: jest.fn(),
 }));
 
-const mockAppErrorUnauthorized = jest.fn();
-const mockAppErrorForbidden = jest.fn();
-const mockAppErrorBadRequest = jest.fn();
+const mockAppErrorUnauthorized = jest.fn<(message: string) => Error>();
+const mockAppErrorForbidden = jest.fn<(message: string) => Error>();
+const mockAppErrorBadRequest = jest.fn<(message: string) => Error>();
 
 jest.unstable_mockModule('../../errors/AppError.js', () => ({
   AppError: {
@@ -68,15 +68,9 @@ describe('jwtAuth middleware', () => {
 
     mockNext = jest.fn();
 
-    mockAppErrorUnauthorized.mockImplementation(
-      mockAppErrorFactory(401) as unknown as typeof AppError.unauthorized,
-    );
-    mockAppErrorForbidden.mockImplementation(
-      mockAppErrorFactory(403) as unknown as typeof AppError.forbidden,
-    );
-    mockAppErrorBadRequest.mockImplementation(
-      mockAppErrorFactory(400) as unknown as typeof AppError.badRequest,
-    );
+    mockAppErrorUnauthorized.mockImplementation(mockAppErrorFactory(401));
+    mockAppErrorForbidden.mockImplementation(mockAppErrorFactory(403));
+    mockAppErrorBadRequest.mockImplementation(mockAppErrorFactory(400));
 
     mockResolveRoleForWallet.mockReturnValue('borrower');
     mockResolveScopesForRole.mockReturnValue(['read:loans', 'read:score']);
@@ -98,7 +92,7 @@ describe('jwtAuth middleware', () => {
 
       await requireJwtAuth(mockRequest as Request, mockResponse as Response, mockNext);
 
-      expect(mockExtractBearerToken).toHaveBeenCalledWith(mockRequest.headers.authorization);
+      expect(mockExtractBearerToken).toHaveBeenCalledWith(mockRequest.headers?.authorization);
       expect(mockVerifyJwtToken).toHaveBeenCalledWith('valid-token');
       expect(mockIsTokenRevoked).toHaveBeenCalled();
       expect(mockRequest.user).toBeDefined();
@@ -112,13 +106,14 @@ describe('jwtAuth middleware', () => {
         publicKey: 'GCOOKIE_USER',
         role: 'lender' as const,
         scopes: ['read:loans', 'read:pool'],
+        jti: 'test-jti-cookie',
         iat: 1000,
         exp: 2000,
       };
       mockVerifyJwtToken.mockReturnValue(payload);
       mockIsTokenRevoked.mockResolvedValue(false);
 
-      mockRequest.headers = {
+      (mockRequest as Request).headers = {
         cookie: 'ZizaLend_jwt=valid-cookie-token',
       };
 
@@ -132,7 +127,7 @@ describe('jwtAuth middleware', () => {
 
     it('should throw 401 when no token is provided', async () => {
       mockExtractBearerToken.mockReturnValue(null);
-      mockRequest.headers = {};
+      (mockRequest as Request).headers = {};
 
       await expect(() =>
         requireJwtAuth(mockRequest as Request, mockResponse as Response, mockNext),
@@ -192,13 +187,14 @@ describe('jwtAuth middleware', () => {
         publicKey: 'GURLENC_USER',
         role: 'borrower' as const,
         scopes: [],
+        jti: 'urlenc-jti',
         iat: 1000,
         exp: 2000,
       };
       mockVerifyJwtToken.mockReturnValue(payload);
       mockIsTokenRevoked.mockResolvedValue(false);
 
-      mockRequest.headers = {
+      (mockRequest as Request).headers = {
         cookie: 'ZizaLend_jwt=url%40encoded%2Btoken',
       };
 
@@ -210,7 +206,7 @@ describe('jwtAuth middleware', () => {
 
     it('should return null for empty cookie value and throw 401', async () => {
       mockExtractBearerToken.mockReturnValue(null);
-      mockRequest.headers = {
+      (mockRequest as Request).headers = {
         cookie: 'ZizaLend_jwt=  ',
       };
 
@@ -225,7 +221,7 @@ describe('jwtAuth middleware', () => {
 
     it('should ignore cookies with wrong name and throw 401', async () => {
       mockExtractBearerToken.mockReturnValue(null);
-      mockRequest.headers = {
+      (mockRequest as Request).headers = {
         cookie: 'other_cookie=some-value',
       };
 
@@ -245,6 +241,7 @@ describe('jwtAuth middleware', () => {
         publicKey: 'GADMIN',
         role: 'admin',
         scopes: ['admin:all'],
+        jti: 'admin-jti',
         iat: 1000,
         exp: 2000,
       };
@@ -260,6 +257,7 @@ describe('jwtAuth middleware', () => {
         publicKey: 'GBORROWER',
         role: 'borrower',
         scopes: ['read:loans'],
+        jti: 'borrower-jti',
         iat: 1000,
         exp: 2000,
       };
@@ -278,6 +276,7 @@ describe('jwtAuth middleware', () => {
         publicKey: 'GBORROWER',
         role: 'borrower',
         scopes: ['read:loans', 'write:repayment'],
+        jti: 'borrower-jti',
         iat: 1000,
         exp: 2000,
       };
@@ -289,7 +288,7 @@ describe('jwtAuth middleware', () => {
     });
 
     it('should throw 401 when user is not authenticated', () => {
-      mockRequest.user = undefined;
+      delete (mockRequest as { user?: unknown }).user;
 
       const middleware = requireScopes('read:loans');
 
@@ -307,6 +306,7 @@ describe('jwtAuth middleware', () => {
         publicKey: 'GMATCH',
         role: 'borrower',
         scopes: [],
+        jti: 'match-jti',
         iat: 1000,
         exp: 2000,
       };
@@ -323,6 +323,7 @@ describe('jwtAuth middleware', () => {
         publicKey: 'GREAL_USER',
         role: 'borrower',
         scopes: [],
+        jti: 'real-user-jti',
         iat: 1000,
         exp: 2000,
       };
@@ -338,7 +339,7 @@ describe('jwtAuth middleware', () => {
     });
 
     it('should throw 401 when user is not authenticated', () => {
-      mockRequest.user = undefined;
+      delete (mockRequest as { user?: unknown }).user;
       mockRequest.params = { walletId: 'GSOME_USER' };
 
       const middleware = requireWalletParamMatchesJwt('walletId');
@@ -355,6 +356,7 @@ describe('jwtAuth middleware', () => {
         publicKey: 'GMATCH',
         role: 'borrower',
         scopes: [],
+        jti: 'match-jti',
         iat: 1000,
         exp: 2000,
       };
