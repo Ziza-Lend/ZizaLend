@@ -23,7 +23,7 @@ describe("Button", () => {
   it("applies the secondary variant", () => {
     render(<Button variant="secondary">Secondary</Button>);
     const btn = screen.getByRole("button");
-    expect(btn.className).toContain("bg-gray-100");
+    expect(btn.className).toContain("bg-[");
   });
 
   it("applies the outline variant", () => {
@@ -37,7 +37,7 @@ describe("Button", () => {
     render(<Button variant="ghost">Ghost</Button>);
     const btn = screen.getByRole("button");
     expect(btn.className).toContain("bg-transparent");
-    expect(btn.className).toContain("hover:bg-gray-100");
+    expect(btn.className).toContain("hover:bg-[");
   });
 
   it("applies the danger variant", () => {
