@@ -40,9 +40,7 @@ export function EmptyState({
         <Icon className="h-8 w-8" />
       </div>
       <p className="mt-5 text-base font-semibold text-[var(--text-primary)]">{title}</p>
-      <p className="mx-auto mt-2 max-w-md text-sm text-[var(--text-secondary)]">
-        {description}
-      </p>
+      <p className="mx-auto mt-2 max-w-md text-sm text-[var(--text-secondary)]">{description}</p>
       {actionLabel && actionHref ? (
         <Link href={actionHref} className={actionClasses}>
           {actionLabel}

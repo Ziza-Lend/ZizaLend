@@ -20,9 +20,7 @@ export function RepaymentProgress({ totalRepaid, totalOwed, status }: RepaymentP
     <div className="rounded-2xl border border-[var(--border-default)] p-4">
       <div className="mb-2 flex items-center justify-between">
         <p className="text-sm text-[var(--text-secondary)]">Repayment progress</p>
-        <p className="text-sm font-semibold text-[var(--text-primary)]">
-          {progress.toFixed(1)}%
-        </p>
+        <p className="text-sm font-semibold text-[var(--text-primary)]">{progress.toFixed(1)}%</p>
       </div>
 
       <div className="h-2 w-full rounded-full bg-[var(--bg-surface-elevated)]">

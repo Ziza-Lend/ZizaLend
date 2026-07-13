@@ -87,17 +87,16 @@ function RepaymentReminderBanner({
 
   return (
     <div
-      role="alert"          className="flex items-start justify-between gap-4 rounded-xl border border-amber-500/20 bg-amber-500/10 px-5 py-4"
+      role="alert"
+      className="flex items-start justify-between gap-4 rounded-xl border border-amber-500/20 bg-amber-500/10 px-5 py-4"
     >
       <div className="flex items-start gap-3">
-        <Clock
-          className="mt-0.5 h-5 w-5 shrink-0 text-amber-400"
-          aria-hidden="true"
-        />
+        <Clock className="mt-0.5 h-5 w-5 shrink-0 text-amber-400" aria-hidden="true" />
         <div>
           <p className="text-sm font-semibold text-amber-200">
             {t("reminder.due", { hours: hoursLeft, loanId: mostUrgent.id })}
-            {urgentLoans.length > 1 && (                <span className="ml-2 inline-flex items-center rounded-full bg-amber-500/20 px-2 py-0.5 text-xs font-bold text-amber-300">
+            {urgentLoans.length > 1 && (
+              <span className="ml-2 inline-flex items-center rounded-full bg-amber-500/20 px-2 py-0.5 text-xs font-bold text-amber-300">
                 +{urgentLoans.length - 1} more
               </span>
             )}
@@ -119,13 +118,15 @@ function RepaymentReminderBanner({
       </div>
       <div className="flex items-center gap-2 shrink-0">
         <button
-          onClick={() => router.push(`/repay/${mostUrgent.id}`)}            className="rounded-lg bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-700 transition-colors"
+          onClick={() => router.push(`/repay/${mostUrgent.id}`)}
+          className="rounded-lg bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-700 transition-colors"
         >
           {t("reminder.repayNow")}
         </button>
         <button
           onClick={onDismiss}
-          aria-label={t("reminder.dismiss")}            className="rounded p-1 text-amber-400 hover:bg-amber-500/10 transition-colors"
+          aria-label={t("reminder.dismiss")}
+          className="rounded p-1 text-amber-400 hover:bg-amber-500/10 transition-colors"
         >
           ✕
         </button>
@@ -379,9 +380,7 @@ export default function Home() {
                       ) : null}
                     </span>
                   </p>
-                  <h3 className="text-2xl font-bold text-[var(--text-primary)]">
-                    {stat.value}
-                  </h3>
+                  <h3 className="text-2xl font-bold text-[var(--text-primary)]">{stat.value}</h3>
                 </div>
               </article>
             );
@@ -461,10 +460,7 @@ export default function Home() {
 
         <ErrorBoundary scope="quick actions panel" variant="section">
           <aside aria-labelledby="quick-actions-heading" className="space-y-4">
-            <h2
-              id="quick-actions-heading"
-              className="text-lg font-bold text-[var(--text-primary)]"
-            >
+            <h2 id="quick-actions-heading" className="text-lg font-bold text-[var(--text-primary)]">
               {t("quickActions.title")}
             </h2>
             <div className="space-y-3">

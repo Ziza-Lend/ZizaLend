@@ -75,7 +75,13 @@ export function OperationProgress({ transaction, type = "generic" }: OperationPr
           {statusIcons[status]}
           <div className="flex items-center gap-1">
             {getTypeIcon()}
-            <span className={clsx("font-medium text-sm", colors.text, "dark:text-[var(--text-primary)]")}>
+            <span
+              className={clsx(
+                "font-medium text-sm",
+                colors.text,
+                "dark:text-[var(--text-primary)]",
+              )}
+            >
               {message}
             </span>
           </div>

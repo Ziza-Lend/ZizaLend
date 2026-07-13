@@ -272,9 +272,7 @@ export function LendPageClient() {
                   {isLoading ? (
                     <Skeleton className="mt-1 h-7 w-24" />
                   ) : (
-                    <p className="text-xl font-semibold text-[var(--text-primary)]">
-                      {item.value}
-                    </p>
+                    <p className="text-xl font-semibold text-[var(--text-primary)]">{item.value}</p>
                   )}
                 </div>
               </div>

@@ -88,10 +88,7 @@ export default function WalletConnectionModal() {
           >
             <span className="flex items-center gap-3">
               <span className="grid h-10 w-10 place-items-center rounded-full bg-violet-500/10">
-                <Wallet
-                  className="h-5 w-5 text-violet-400"
-                  aria-hidden="true"
-                />
+                <Wallet className="h-5 w-5 text-violet-400" aria-hidden="true" />
               </span>
               <span className="flex flex-col">
                 <span className="text-sm font-semibold text-[var(--text-primary)]">

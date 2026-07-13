@@ -75,7 +75,8 @@ export function PaginationControls({
         {pages.map((page) => (
           <button
             key={page}
-            onClick={() => onPageChange(page)}              className={`h-10 w-10 rounded-full text-sm font-medium transition ${
+            onClick={() => onPageChange(page)}
+            className={`h-10 w-10 rounded-full text-sm font-medium transition ${
               currentPage === page
                 ? "bg-violet-600 text-white"
                 : "border border-[var(--border-default)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)]"

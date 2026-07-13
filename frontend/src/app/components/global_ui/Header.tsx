@@ -306,9 +306,7 @@ export function Header({ onMenuClick, className }: HeaderProps) {
                   Type to search loans, pages, and transaction hashes.
                 </p>
               ) : searchResults.length === 0 ? (
-                <p className="px-3 py-2 text-sm text-[var(--text-muted)]">
-                  No results found
-                </p>
+                <p className="px-3 py-2 text-sm text-[var(--text-muted)]">No results found</p>
               ) : (
                 groupedResults.map((group) => (
                   <div key={group.category} className="mb-2 last:mb-0">

@@ -94,9 +94,7 @@ export function LoansPageClient() {
             {t("borrowerPortal")}
           </p>
           <h1 className="text-3xl font-bold text-[var(--text-primary)]">{t("title")}</h1>
-          <p className="mt-2 max-w-2xl text-sm text-[var(--text-secondary)]">
-            {t("description")}
-          </p>
+          <p className="mt-2 max-w-2xl text-sm text-[var(--text-secondary)]">{t("description")}</p>
         </div>
       </header>
 
@@ -125,9 +123,7 @@ export function LoansPageClient() {
                 </div>
                 <div>
                   <p className="text-sm text-[var(--text-secondary)]">{item.label}</p>
-                  <p className="text-xl font-semibold text-[var(--text-primary)]">
-                    {item.value}
-                  </p>
+                  <p className="text-xl font-semibold text-[var(--text-primary)]">{item.value}</p>
                 </div>
               </div>
             </article>

@@ -35,9 +35,7 @@ export function InstallPrompt() {
   return (
     <div className="fixed bottom-4 right-4 z-50 flex items-center gap-3 rounded-xl border border-violet-500/30 bg-violet-500/10 px-4 py-3 shadow-lg backdrop-blur">
       <Download className="h-5 w-5 text-violet-400" />
-      <p className="text-sm font-medium text-violet-200">
-        Install Zizalend for offline access
-      </p>
+      <p className="text-sm font-medium text-violet-200">Install Zizalend for offline access</p>
       <button
         type="button"
         onClick={handleInstall}
