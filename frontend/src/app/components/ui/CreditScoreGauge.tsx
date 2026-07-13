@@ -21,11 +21,11 @@ type ScoreBand = {
 };
 
 const BANDS: ScoreBand[] = [
-  { label: "Poor", color: "text-red-500", arcColor: "#ef4444", range: [300, 579] },
-  { label: "Fair", color: "text-yellow-500", arcColor: "#eab308", range: [580, 669] },
-  { label: "Good", color: "text-blue-500", arcColor: "#3b82f6", range: [670, 739] },
-  { label: "Very Good", color: "text-blue-400", arcColor: "#60a5fa", range: [740, 799] },
-  { label: "Excellent", color: "text-green-500", arcColor: "#22c55e", range: [800, 850] },
+  { label: "Poor", color: "text-red-400", arcColor: "#ef4444", range: [300, 579] },
+  { label: "Fair", color: "text-amber-400", arcColor: "#f59e0b", range: [580, 669] },
+  { label: "Good", color: "text-teal-400", arcColor: "#0ecfcf", range: [670, 739] },
+  { label: "Very Good", color: "text-violet-400", arcColor: "#7c3aed", range: [740, 799] },
+  { label: "Excellent", color: "text-green-400", arcColor: "#22c55e", range: [800, 850] },
 ];
 
 function getBand(score: number): ScoreBand {

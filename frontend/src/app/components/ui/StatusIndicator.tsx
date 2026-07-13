@@ -3,19 +3,19 @@ import { CheckCircle2, AlertTriangle, Clock3, HelpCircle, type LucideIcon } from
 type StatusTone = "success" | "danger" | "warning" | "info" | "neutral";
 
 const TONE_STYLES: Record<StatusTone, string> = {
-  success: "bg-green-50 text-green-700 dark:bg-green-500/10 dark:text-green-400",
-  danger: "bg-red-50 text-red-700 dark:bg-red-500/10 dark:text-red-400",
-  warning: "bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400",
-  info: "bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400",
-  neutral: "bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300",
+  success: "bg-green-500/10 text-green-400",
+  danger: "bg-red-500/10 text-red-400",
+  warning: "bg-amber-500/10 text-amber-400",
+  info: "bg-violet-500/10 text-violet-400",
+  neutral: "bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)]",
 };
 
 const DOT_STYLES: Record<StatusTone, string> = {
   success: "bg-green-500",
   danger: "bg-red-500",
   warning: "bg-amber-500",
-  info: "bg-blue-500",
-  neutral: "bg-zinc-500",
+  info: "bg-violet-500",
+  neutral: "bg-[var(--text-muted)]",
 };
 
 const DEFAULT_ICONS: Record<StatusTone, LucideIcon> = {

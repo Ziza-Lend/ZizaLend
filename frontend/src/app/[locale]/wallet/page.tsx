@@ -344,7 +344,7 @@ function TransactionHistoryCard({
       };
     });
 
-    downloadCsv(`ZizaLend-activity-${today}.csv`, rowsToCsv(rows));
+    downloadCsv(`Zizalend-activity-${today}.csv`, rowsToCsv(rows));
   }
 
   return (
