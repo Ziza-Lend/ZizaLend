@@ -66,6 +66,8 @@ pub enum PoolError {
     CooldownTooLong = 11,
     /// Minimum share hold time (flash loan protection) not yet elapsed
     MinimumHoldTimeNotMet = 12,
+    /// Deposit amount is below the configured minimum
+    AmountBelowMinimum = 13,
 }
 
 /// Storage keys for the LendingPool contract.
@@ -129,6 +131,7 @@ impl LendingPool {
     const DEFAULT_WITHDRAWAL_COOLDOWN: u32 = 1_440;
     const SHARE_PRICE_SCALE: i128 = 1_000_000;
     const MAX_WITHDRAWAL_COOLDOWN_LEDGERS: u32 = 17_280 * 30;
+    const MIN_DEPOSIT_AMOUNT: i128 = 100;
 
     // ── TTL helpers ───────────────────────────────────────────────────────
 
@@ -609,6 +612,11 @@ impl LendingPool {
 
         if amount <= 0 {
             return Err(PoolError::InvalidAmount);
+        }
+
+        // Minimum deposit guard: prevents storage-DoS via tiny deposits.
+        if amount < Self::MIN_DEPOSIT_AMOUNT {
+            return Err(PoolError::AmountBelowMinimum);
         }
 
         // MaxPoolSize cap uses tracked principal, not pool balance.

@@ -403,7 +403,6 @@ fn test_emergency_withdraw_bypasses_pause_and_cooldown() {
 #[test]
 fn test_deposit_withdraw_invariants() {
     let scenarios: &[(i128, i128)] = &[
-        (1, 1),
         (100, 1),
         (100, 50),
         (100, 100),
