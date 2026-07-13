@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return buildPageMetadata({
     locale,
     path: "/kingdom",
-    title: "Kingdom | ZizaLend",
+    title: "Kingdom | Zizalend",
     description:
       "Track your lending kingdom progress, achievements, and exclusive rewards through our gamification system.",
   });

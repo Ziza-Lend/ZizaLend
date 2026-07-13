@@ -122,7 +122,7 @@ export default function ActivityPage() {
         ? `https://stellar.expert/explorer/public/tx/${item.txHash}`
         : "",
     }));
-    downloadCsv(`ZizaLend-activity-${today}.csv`, rowsToCsv(rows));
+    downloadCsv(`Zizalend-activity-${today}.csv`, rowsToCsv(rows));
   }
 
   if (!isConnected) {
@@ -207,7 +207,7 @@ export default function ActivityPage() {
                   isFilteredView
                     ? "Try a different filter to see more loan and remittance history."
                     : t("emptyState.description") ||
-                      "Your transaction history will appear here once you start using ZizaLend."
+                      "Your transaction history will appear here once you start using Zizalend."
                 }
                 actionLabel={isFilteredView ? undefined : "Send your first remittance"}
                 actionHref={isFilteredView ? undefined : `/${locale}/send-remittance`}

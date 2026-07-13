@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return buildPageMetadata({
     locale,
     path: "/liquidations",
-    title: "Liquidations | ZizaLend",
+    title: "Liquidations | Zizalend",
     description:
       "Monitor and manage collateral liquidations for undercollateralized loans to protect pool health.",
   });

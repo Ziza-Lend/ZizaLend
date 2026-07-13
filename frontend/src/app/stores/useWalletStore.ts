@@ -201,7 +201,7 @@ export const useWalletStore = create<WalletStore>()(
           set({ isLoadingBalances }, false, "wallet/setLoadingBalances"),
       }),
       {
-        name: "ZizaLend-wallet",
+        name: "Zizalend-wallet",
         version: 2,
         storage: createJSONStorage(() => localStorage),
         // v1 -> v2 migration: existing persisted state has no `phase` or

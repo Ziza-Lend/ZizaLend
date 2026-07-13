@@ -20,7 +20,7 @@ const SUPPORTED_ADDRESS = "GCJPBXSE6WCQDCEYZW6C3YVZCSSCHC4AE72L5KWKCYL2CLLL7NH5V
 
 async function seedDisconnected(page: Page) {
   await page.addInitScript(() => {
-    window.localStorage.removeItem("ZizaLend-wallet");
+    window.localStorage.removeItem("Zizalend-wallet");
     window.localStorage.removeItem("ConnectModalStore");
   });
 }
@@ -38,7 +38,7 @@ async function seedWrongNetwork(page: Page) {
     version: 2,
   };
   await page.addInitScript((payload: string) => {
-    window.localStorage.setItem("ZizaLend-wallet", payload);
+    window.localStorage.setItem("Zizalend-wallet", payload);
   }, JSON.stringify(wrongNetworkPayload));
 }
 

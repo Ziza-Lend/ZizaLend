@@ -379,7 +379,7 @@ function NotificationsSection() {
               checked={prefs.inApp}
               onChange={() => toggle("inApp")}
               label="In-App Notifications"
-              description="Show notifications inside ZizaLend"
+              description="Show notifications inside Zizalend"
             />
             <Toggle
               checked={prefs.email}

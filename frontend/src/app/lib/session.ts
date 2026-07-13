@@ -3,8 +3,8 @@
 import { useUserStore } from "../stores/useUserStore";
 import { useWalletStore } from "../stores/useWalletStore";
 
-const USER_STORAGE_KEY = "ZizaLend-user";
-const WALLET_STORAGE_KEY = "ZizaLend-wallet";
+const USER_STORAGE_KEY = "Zizalend-user";
+const WALLET_STORAGE_KEY = "Zizalend-wallet";
 
 let logoutTriggered = false;
 

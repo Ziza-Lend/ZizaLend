@@ -55,7 +55,7 @@ test.describe.skip("Send Remittance Flow", () => {
   test("shows connect-wallet warning when wallet is not connected", async ({ page }) => {
     await page.addInitScript(() => {
       window.localStorage.setItem(
-        "ZizaLend-wallet",
+        "Zizalend-wallet",
         JSON.stringify({
           state: { status: "disconnected", address: null },
           version: 0,
@@ -75,7 +75,7 @@ test.describe.skip("Send Remittance Flow", () => {
       seedConnectedWallet({ status: "connected", address: MOCK_SENDER_ADDRESS }),
     );
     await page.addInitScript((stateJson: string) => {
-      window.localStorage.setItem("ZizaLend-wallet", stateJson);
+      window.localStorage.setItem("Zizalend-wallet", stateJson);
     }, walletState);
     await setupMocks(page);
     await page.goto("/en/send-remittance");
@@ -95,7 +95,7 @@ test.describe.skip("Send Remittance Flow", () => {
       seedConnectedWallet({ status: "connected", address: MOCK_SENDER_ADDRESS }),
     );
     await page.addInitScript((stateJson: string) => {
-      window.localStorage.setItem("ZizaLend-wallet", stateJson);
+      window.localStorage.setItem("Zizalend-wallet", stateJson);
     }, walletState);
     await setupMocks(page);
 

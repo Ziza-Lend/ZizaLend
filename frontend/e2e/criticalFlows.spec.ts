@@ -24,7 +24,7 @@ test.beforeEach(async ({ page }: { page: Page }) => {
 
   const walletStateJson = JSON.stringify(walletState);
   await page.addInitScript((stateJson: string) => {
-    window.localStorage.setItem("ZizaLend-wallet", stateJson);
+    window.localStorage.setItem("Zizalend-wallet", stateJson);
   }, walletStateJson);
 
   // Mock User Profile
@@ -166,7 +166,7 @@ test.skip("Account: Settings update → logout → redirect to login", async ({
   await expect(page).toHaveURL(/.*\/en$/);
 
   // Verify localStorage cleared
-  const walletPersist = await page.evaluate(() => window.localStorage.getItem("ZizaLend-wallet"));
+  const walletPersist = await page.evaluate(() => window.localStorage.getItem("Zizalend-wallet"));
   const parsed = JSON.parse(walletPersist || "{}");
   expect(parsed.state?.status).toBe("disconnected");
 });

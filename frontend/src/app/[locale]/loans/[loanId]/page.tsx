@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return buildPageMetadata({
     locale,
     path: `/loans/${loanId}`,
-    title: `Loan #${loanId} | ZizaLend`,
+    title: `Loan #${loanId} | Zizalend`,
     description:
       "View loan details, repayment schedule, collateral status, and current loan status.",
   });

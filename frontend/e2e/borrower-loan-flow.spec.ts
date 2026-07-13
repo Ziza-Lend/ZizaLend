@@ -38,7 +38,7 @@ test.describe.skip("Borrower Loan Request Flow", () => {
 
     const walletStateJson = JSON.stringify(walletState);
     await page.addInitScript((stateJson: string) => {
-      window.localStorage.setItem("ZizaLend-wallet", stateJson);
+      window.localStorage.setItem("Zizalend-wallet", stateJson);
     }, walletStateJson);
 
     // Mock User Profile
@@ -96,7 +96,7 @@ test.describe.skip("Borrower Loan Request Flow", () => {
     await page.goto("/en");
 
     // Verify wallet is connected via mocked localStorage
-    const walletPersist = await page.evaluate(() => window.localStorage.getItem("ZizaLend-wallet"));
+    const walletPersist = await page.evaluate(() => window.localStorage.getItem("Zizalend-wallet"));
     const parsed = JSON.parse(walletPersist || "{}");
 
     expect(parsed.state?.status).toBe("connected");
@@ -354,7 +354,7 @@ test.describe.skip("Borrower Loan Request Flow", () => {
 
     const updatedWalletStateJson = JSON.stringify(updatedWalletState);
     await page.evaluate((stateJson: string) => {
-      window.localStorage.setItem("ZizaLend-wallet", stateJson);
+      window.localStorage.setItem("Zizalend-wallet", stateJson);
     }, updatedWalletStateJson);
 
     // Submit repayment

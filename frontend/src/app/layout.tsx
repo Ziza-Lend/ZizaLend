@@ -48,6 +48,11 @@ export default async function RootLayout({
             __html: `(function(){try{var root=document.documentElement;var stored=localStorage.getItem("${THEME_STORAGE_KEY}");if(stored==="system"){var resolved=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";root.dataset.theme="system";root.classList.toggle("dark",resolved==="dark");}else if(stored==="dark"||stored==="light"){root.dataset.theme=stored;root.classList.toggle("dark",stored==="dark");}else{var theme=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";root.dataset.theme=theme;root.classList.toggle("dark",theme==="dark");}}catch(e){}})()`,
           }}
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var map={"ZizaLend-wallet":"Zizalend-wallet","ZizaLend-user":"Zizalend-user","ZizaLend-gamification":"Zizalend-gamification"};var k,v;for(k in map){v=localStorage.getItem(k);if(v!==null&&localStorage.getItem(map[k])===null){localStorage.setItem(map[k],v)}localStorage.removeItem(k)}}catch(e){}})()`,
+          }}
+        />
       </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}>
         <NextIntlClientProvider locale={locale} messages={messages}>

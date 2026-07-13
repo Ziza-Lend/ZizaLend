@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 test("admin can view pending governance proposal", async ({ page }) => {
   await page.addInitScript(() => {
     window.localStorage.setItem(
-      "ZizaLend-user",
+      "Zizalend-user",
       JSON.stringify({
         state: {
           authToken: "mock-admin-token",

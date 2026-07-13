@@ -32,7 +32,7 @@ test.describe.skip("Lender Withdraw Flow", () => {
   test.beforeEach(async ({ page }: { page: Page }) => {
     const walletStateJson = JSON.stringify(lenderWalletState("1000.00"));
     await page.addInitScript((stateJson: string) => {
-      window.localStorage.setItem("ZizaLend-wallet", stateJson);
+      window.localStorage.setItem("Zizalend-wallet", stateJson);
     }, walletStateJson);
 
     // Pool stats.
@@ -105,7 +105,7 @@ test.describe.skip("Lender Withdraw Flow", () => {
     // Wallet balance after receiving the 500 USDC withdrawal.
     const updatedWalletStateJson = JSON.stringify(lenderWalletState("1500.00"));
     await page.evaluate((stateJson: string) => {
-      window.localStorage.setItem("ZizaLend-wallet", stateJson);
+      window.localStorage.setItem("Zizalend-wallet", stateJson);
     }, updatedWalletStateJson);
 
     await page.click('button:has-text("Review Withdrawal"), button:has-text("Confirm Withdrawal")');

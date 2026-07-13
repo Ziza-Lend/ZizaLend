@@ -4,7 +4,7 @@ import { test, expect } from "@playwright/test";
 test.skip("opens recent transactions drawer with copied hashes", async ({ page }) => {
   await page.addInitScript(() => {
     window.localStorage.setItem(
-      "ZizaLend-user",
+      "Zizalend-user",
       JSON.stringify({
         state: {
           authToken: "mock-token",
