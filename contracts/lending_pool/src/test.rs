@@ -48,6 +48,8 @@ fn test_upgrade_requires_admin_auth() {
 
 // ── Deposit ───────────────────────────────────────────────────────────────────
 
+mod property_tests;
+
 #[test]
 fn test_deposit_flow() {
     let env = Env::default();
