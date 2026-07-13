@@ -49,7 +49,11 @@
 
 ## 🌍 Overview
 
-**Zizalend** is a decentralized lending protocol on the Stellar network that transforms remittance history into credit history. Migrant workers — invisible to traditional credit bureaus — prove their financial reliability through consistent cross-border transfers, mint their creditworthiness as a verifiable on-chain identity, and access fair loans from decentralized lending pools. Lenders earn transparent yield by providing liquidity.
+**Zizalend** gives the world's 280 million migrant workers something traditional finance never could: **a credit score they can take anywhere.**
+
+Every remittance you send home is proof of your reliability. Zizalend captures that proof on the Stellar blockchain, turns it into a verifiable on-chain credit identity, and unlocks access to fair, collateralized loans — no credit bureau, no bank branch, no discrimination. Just the financial reputation you've already earned.
+
+Lenders provide liquidity to transparent, audited pools and earn real yield backed by real repayment history. Not algorithms. Not guesswork. **Real people. Real trust. Real returns.**
 
 ```mermaid
 flowchart LR
