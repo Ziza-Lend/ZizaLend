@@ -1,7 +1,7 @@
 <div align="center">
   <img src="https://img.shields.io/badge/Zizalend-DeFi%20Lending-7C3AED?style=for-the-badge&logo=stellar&labelColor=0D0D12" alt="Zizalend" />
 
-  <h3><strong>Turn remittance history into credit history</strong></h3>
+  <h3><strong>Every transfer builds your future</strong></h3>
 
   <!-- CI/CD Badges -->
   <a href="https://github.com/Ziza-Lend/ZizaLend/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/Ziza-Lend/ZizaLend/ci.yml?branch=main&label=CI&logo=github" alt="CI" /></a>
@@ -511,5 +511,5 @@ ISC License — see [LICENSE](LICENSE) for details.
 <div align="center">
   <sub>Built on <a href="https://stellar.org">Stellar</a> • Powered by <a href="https://soroban.stellar.org">Soroban</a></sub>
   <br/>
-  <sub>Zizalend — Turning remittances into financial inclusion</sub>
+  <sub>Zizalend — Every transfer builds your future</sub>
 </div>
