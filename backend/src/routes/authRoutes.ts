@@ -1,14 +1,12 @@
 import { registerTestUser } from '../controllers/authController.js';
 import { Router } from 'express';
 import { z } from 'zod';
-import { requestChallenge, login, verify, logout } from '../controllers/authController.js';
-import {
-  challengeRateLimiter,
+import { requestChallenge, login, verify, logout } from '../controllers/authController.js';import { challengeRateLimiter,
   loginRateLimiter,
   ipLoginRateLimiter,
 } from '../middleware/rateLimiter.js';
 import { requireJwtAuth } from '../middleware/jwtAuth.js';
-import { validateBody } from '../middleware/validation.js';
+import { sanitizedString, validateBody } from '../middleware/validation.js';
 
 const router = Router();
 
@@ -18,13 +16,13 @@ if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development') {
 }
 
 const challengeSchema = z.object({
-  publicKey: z.string().min(1, 'Public key is required'),
+  publicKey: sanitizedString(56, 'Public key is required'),
 });
 
 const loginSchema = z.object({
-  publicKey: z.string().min(1, 'Public key is required'),
-  message: z.string().min(1, 'Message is required'),
-  signature: z.string().min(1, 'Signature is required'),
+  publicKey: sanitizedString(56, 'Public key is required'),
+  message: sanitizedString(4096, 'Message is required'),
+  signature: sanitizedString(256, 'Signature is required'),
 });
 
 /**
