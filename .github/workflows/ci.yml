@@ -283,7 +283,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          cargo build --target wasm32-unknown-unknown --release --exclude zizalend-integration-tests
+          cargo build --workspace --target wasm32-unknown-unknown --release --exclude zizalend-integration-tests
 
           # Generous initial budget: 256 KiB per contract. Tighten after baseline optimization.
           max_bytes=$((256 * 1024))
