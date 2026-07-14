@@ -46,6 +46,7 @@ describe('Rate Limit Middleware', () => {
 
     mockResponse = {
       set: jest.fn(),
+      setHeader: jest.fn(),
     } as unknown as Response;
 
     mockNext = jest.fn();

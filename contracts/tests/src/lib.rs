@@ -33,8 +33,7 @@ mod tests {
         let liquidator = Address::generate(env);
 
         // Token
-        let token_contract = env
-            .register_stellar_asset_contract_v2(admin.clone());
+        let token_contract = env.register_stellar_asset_contract_v2(admin.clone());
         let token_id = token_contract.address();
 
         // NFT contract
@@ -167,7 +166,8 @@ mod tests {
 
         // Calculate total debt (principal + accrued interest + late fees)
         let loan = manager.get_loan(&loan_id);
-        let total_debt = loan.amount
+        let total_debt = loan
+            .amount
             .checked_add(loan.accrued_interest)
             .and_then(|v| v.checked_add(loan.accrued_late_fee))
             .expect("debt overflow");

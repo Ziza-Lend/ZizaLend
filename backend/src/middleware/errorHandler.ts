@@ -29,6 +29,7 @@ function getErrorType(statusCode: number, errorCode?: string): ErrorType {
   if (statusCode === 403) return 'AUTHORIZATION';
   if (statusCode === 404) return 'NOT_FOUND';
   if (statusCode === 409) return 'CONFLICT';
+  if (statusCode === 413) return 'VALIDATION';
   if (statusCode === 429) return 'RATE_LIMIT';
   if (statusCode >= 500) return 'SERVER';
   return 'BUSINESS_LOGIC';

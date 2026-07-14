@@ -16,7 +16,7 @@ export const strictRateLimiter = createRateLimiter(10, 45);
 export const adminRateLimiter = rateLimit({
   windowMs: 60 * 1000,
   max: 30,
-  keyGenerator: (req) => req.ip ?? 'unknown',
+  keyGenerator: (req) => ipKeyGenerator(req.ip ?? 'unknown'),
   message: { success: false, message: 'Too many admin requests, please try again later.' },
   standardHeaders: true,
   legacyHeaders: false,

@@ -340,9 +340,7 @@ impl LendingPool {
             return;
         }
         let current = Self::accumulated_dust(env);
-        let updated = current
-            .checked_add(dust_amount)
-            .expect("dust overflow");
+        let updated = current.checked_add(dust_amount).expect("dust overflow");
         env.storage()
             .instance()
             .set(&DataKey::AccumulatedDust, &updated);
@@ -827,7 +825,8 @@ impl LendingPool {
         };
 
         deposit_ledger.saturating_add(cooldown)
-    }    /// Collect accumulated rounding dust from the contract and send it to
+    }
+    /// Collect accumulated rounding dust from the contract and send it to
     /// the admin. This prevents value loss from integer division rounding
     /// across many deposit/withdraw operations.
     ///
