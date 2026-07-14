@@ -49,11 +49,13 @@ describe('getPoolSharePrice', () => {
     const res = createMockResponse();
     const next = jest.fn<(err?: unknown) => void>();
 
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     void (getPoolSharePrice as any)(
       req as Request,
       res as Response,
       next as unknown as NextFunction,
     );
+    /* eslint-enable @typescript-eslint/no-explicit-any */
     await flushAsync();
 
     expect(mockGetSharePrice).toHaveBeenCalledWith('GTOKEN123');
@@ -81,11 +83,13 @@ describe('getPoolSharePrice', () => {
     const res = createMockResponse();
     const next = jest.fn<(err?: unknown) => void>();
 
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     void (getPoolSharePrice as any)(
       req as Request,
       res as Response,
       next as unknown as NextFunction,
     );
+    /* eslint-enable @typescript-eslint/no-explicit-any */
     await flushAsync();
 
     expect(mockGetSharePrice).not.toHaveBeenCalled();
@@ -107,11 +111,13 @@ describe('getPoolSharePrice', () => {
     const res = createMockResponse();
     const next = jest.fn<(err?: unknown) => void>();
 
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     void (getPoolSharePrice as any)(
       req as Request,
       res as Response,
       next as unknown as NextFunction,
     );
+    /* eslint-enable @typescript-eslint/no-explicit-any */
     await flushAsync();
 
     const jsonCall = (res.json as jest.Mock).mock.calls[0]?.[0] as Record<string, unknown>;

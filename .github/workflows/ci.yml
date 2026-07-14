@@ -32,6 +32,29 @@ jobs:
   backend:
     needs: supply-chain-audit
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: pguser
+          POSTGRES_PASSWORD: pgpass
+          POSTGRES_DB: ZizaLend_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U pguser"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js 22
@@ -52,12 +75,17 @@ jobs:
       - name: Type check
         run: npm run typecheck
         working-directory: backend
+      - name: Run migrations
+        run: npm run migrate:up
+        working-directory: backend
+        env:
+          DATABASE_URL: postgres://pguser:pgpass@localhost:5432/ZizaLend_test
       - name: Run tests
         run: npm test
         working-directory: backend
         env:
           NODE_ENV: test
-          DATABASE_URL: postgres://user:pass@localhost:5432/test
+          DATABASE_URL: postgres://pguser:pgpass@localhost:5432/ZizaLend_test
           REDIS_URL: redis://localhost:6379
           JWT_SECRET: test_jwt_secret
           STELLAR_RPC_URL: https://rpc.test.invalid
