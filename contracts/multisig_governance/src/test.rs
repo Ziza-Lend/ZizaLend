@@ -1,5 +1,5 @@
 use super::*;
-use soroban_sdk::testutils::{Address as _, Ledger, LedgerInfo};
+use soroban_sdk::testutils::{Address as _, Ledger as _, LedgerInfo};
 use soroban_sdk::{Address, BytesN, Env, Vec};
 #[allow(deprecated)]
 #[contract]
