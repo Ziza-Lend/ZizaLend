@@ -5,7 +5,7 @@ edition = "2021"
 publish = false
 
 [dependencies]
-soroban-sdk = "22.0.0"
+soroban-sdk = { workspace = true, features = ["testutils"] }
 
 [dev-dependencies]
 lending_pool = { path = "../lending_pool" }
