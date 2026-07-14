@@ -165,11 +165,12 @@ mod tests {
         let pool_balance_before_repay = token_client.balance(&pool.address);
         let borrower_balance_before_repay = token_client.balance(&borrower);
 
-        // Calculate total debt (principal + accrued interest)
+        // Calculate total debt (principal + accrued interest + late fees)
         let loan = manager.get_loan(&loan_id);
         let total_debt = loan.amount
-            + loan.accrued_interest
-            + loan.accrued_late_fee;
+            .checked_add(loan.accrued_interest)
+            .and_then(|v| v.checked_add(loan.accrued_late_fee))
+            .expect("debt overflow");
 
         // Borrowers needs enough tokens to repay
         stellar.mint(&borrower, &total_debt);
