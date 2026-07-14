@@ -87,6 +87,8 @@ describe('Rate Limit Middleware', () => {
         expect.objectContaining({
           statusCode: 429,
           message: 'Rate limit exceeded. Please try again later.',
+          isOperational: true,
+          errorCode: 'RATE_LIMIT_EXCEEDED',
         }),
       );
     });
@@ -228,6 +230,8 @@ describe('Rate Limit Middleware', () => {
         expect.objectContaining({
           statusCode: 429,
           message: 'Too many score updates. Maximum 5 updates allowed per user per day.',
+          isOperational: true,
+          errorCode: 'RATE_LIMIT_EXCEEDED',
         }),
       );
     });

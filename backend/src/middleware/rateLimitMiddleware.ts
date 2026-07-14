@@ -1,4 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
+import { ipKeyGenerator } from 'express-rate-limit';
 import { rateLimitService, SCORE_UPDATE_RATE_LIMIT } from '../services/rateLimitService.js';
 import { AppError } from '../errors/AppError.js';
 import { ErrorCode } from '../errors/errorCodes.js';
@@ -144,7 +145,7 @@ export const createIpRateLimitMiddleware = (
 ) =>
   createRateLimitMiddleware({
     getIdentifier: (req: Request) => {
-      const ip = req.ip || req.connection.remoteAddress || req.socket.remoteAddress;
+      const ip = ipKeyGenerator(req.ip ?? 'unknown');
       if (!ip) {
         throw new Error('Unable to determine client IP address for rate limiting');
       }
