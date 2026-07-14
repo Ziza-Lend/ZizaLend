@@ -109,6 +109,11 @@ mod tests {
         // ═══════════════════════════════════════════════════════════════════
         // Step 3: Approve the loan
         // ═══════════════════════════════════════════════════════════════════
+        // Advance to ledger 1 before approval so last_interest_ledger is set to 1
+        // (not 0). accrue_interest short-circuits when last_interest_ledger == 0,
+        // so approval at ledger 0 would prevent any interest from ever accruing.
+        env.ledger().set_sequence_number(1);
+
         let borrower_balance_before = token_client.balance(&borrower);
         let pool_balance_before = token_client.balance(&pool.address);
 
