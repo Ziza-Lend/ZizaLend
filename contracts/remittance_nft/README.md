@@ -24,36 +24,36 @@ A non-transferable (with cooldown) reputation NFT that tracks a borrower's credi
 
 ## Public Functions
 
-| Function | Auth | Description |
-|----------|------|-------------|
-| `initialize(admin)` | — | One-time initialisation |
-| `mint(user, score, hash, uri, minter)` | Admin/minter | Create new NFT |
-| `admin_remint(user, score, hash, uri)` | Admin | Recover burned account |
-| `burn(user, minter)` | Admin/minter | Remove NFT |
-| `update_score(user, amount, minter)` | Admin/minter | Increase score by repayment |
-| `decrease_score(user, points, minter)` | Admin/minter | Apply penalty |
-| `apply_score_delta(user, delta, minter)` | Admin/minter | Positive/negative score adjustment |
-| `seize_collateral(user, minter)` | Admin/minter | Set seized flag |
-| `record_default(user, minter)` | Admin/minter | Increment default counter |
-| `transfer(from, to, minter)` | User + admin/minter | Move NFT between wallets |
-| `approve_remint(user)` | Admin | Grant one-time remint approval |
-| `authorize_minter(minter)` | Admin | Add authorized minter |
-| `revoke_minter(minter)` | Admin | Remove authorized minter |
+| Function                                 | Auth                | Description                        |
+| ---------------------------------------- | ------------------- | ---------------------------------- |
+| `initialize(admin)`                      | —                   | One-time initialisation            |
+| `mint(user, score, hash, uri, minter)`   | Admin/minter        | Create new NFT                     |
+| `admin_remint(user, score, hash, uri)`   | Admin               | Recover burned account             |
+| `burn(user, minter)`                     | Admin/minter        | Remove NFT                         |
+| `update_score(user, amount, minter)`     | Admin/minter        | Increase score by repayment        |
+| `decrease_score(user, points, minter)`   | Admin/minter        | Apply penalty                      |
+| `apply_score_delta(user, delta, minter)` | Admin/minter        | Positive/negative score adjustment |
+| `seize_collateral(user, minter)`         | Admin/minter        | Set seized flag                    |
+| `record_default(user, minter)`           | Admin/minter        | Increment default counter          |
+| `transfer(from, to, minter)`             | User + admin/minter | Move NFT between wallets           |
+| `approve_remint(user)`                   | Admin               | Grant one-time remint approval     |
+| `authorize_minter(minter)`               | Admin               | Add authorized minter              |
+| `revoke_minter(minter)`                  | Admin               | Remove authorized minter           |
 
 ## View Functions
 
-| Function | Returns |
-|----------|---------|
-| `get_score(user)` | Current score (0 if no NFT) |
-| `get_metadata(user)` | `RemittanceMetadata` (score, hash, URI) |
-| `get_metadata_uri(user)` | Metadata URI string |
-| `is_seized(user)` | Whether collateral is seized |
-| `get_default_count(user)` | Number of recorded defaults |
-| `get_score_history(user, offset, limit)` | Paginated score change history |
-| `get_transfer_cooldown_remaining(user)` | Ledgers until next transfer |
-| `is_remint_approved(user)` | Whether remint approval exists |
-| `is_authorized_minter(minter)` | Whether address can mint |
-| `get_authorized_minters()` | List of all authorized minters |
+| Function                                 | Returns                                 |
+| ---------------------------------------- | --------------------------------------- |
+| `get_score(user)`                        | Current score (0 if no NFT)             |
+| `get_metadata(user)`                     | `RemittanceMetadata` (score, hash, URI) |
+| `get_metadata_uri(user)`                 | Metadata URI string                     |
+| `is_seized(user)`                        | Whether collateral is seized            |
+| `get_default_count(user)`                | Number of recorded defaults             |
+| `get_score_history(user, offset, limit)` | Paginated score change history          |
+| `get_transfer_cooldown_remaining(user)`  | Ledgers until next transfer             |
+| `is_remint_approved(user)`               | Whether remint approval exists          |
+| `is_authorized_minter(minter)`           | Whether address can mint                |
+| `get_authorized_minters()`               | List of all authorized minters          |
 
 ## Events
 

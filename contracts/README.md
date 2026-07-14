@@ -81,6 +81,7 @@ cargo build -p lending_pool --target wasm32-unknown-unknown --release
 ### Build Output
 
 Compiled WASM files are located at:
+
 ```
 target/wasm32-unknown-unknown/release/
 ├── remittance_nft.wasm
@@ -136,6 +137,7 @@ cargo tarpaulin --out Html
 **Purpose**: Mint and manage NFTs representing borrower credit scores.
 
 **Key Functions**:
+
 ```rust
 // Initialize the contract
 pub fn initialize(env: Env, admin: Address)
@@ -160,6 +162,7 @@ pub fn unlock_nft(env: Env, nft_id: u64)
 ```
 
 **Storage Keys**:
+
 - `NFT_COUNTER` - Total NFTs minted
 - `NFT_OWNER_{id}` - NFT ownership mapping
 - `NFT_SCORE_{id}` - Credit score storage
@@ -167,6 +170,7 @@ pub fn unlock_nft(env: Env, nft_id: u64)
 - `NFT_LOCKED_{id}` - Lock status
 
 **Tests**:
+
 - ✅ Mint NFT flow
 - ✅ Update score
 - ✅ Update history hash
@@ -179,6 +183,7 @@ pub fn unlock_nft(env: Env, nft_id: u64)
 **Purpose**: Coordinate loan requests, approvals, and repayments.
 
 **Key Functions**:
+
 ```rust
 // Initialize the contract
 pub fn initialize(env: Env, admin: Address, pool_address: Address)
@@ -205,6 +210,7 @@ pub fn get_loan_status(env: Env, loan_id: u64) -> LoanStatus
 ```
 
 **Loan States**:
+
 ```rust
 pub enum LoanStatus {
     Requested,   // Loan requested, awaiting approval
@@ -216,12 +222,14 @@ pub enum LoanStatus {
 ```
 
 **Business Logic**:
+
 - Minimum credit score: 600
 - Maximum loan-to-value: 80%
 - Interest rate: Based on credit score
 - Repayment period: Configurable
 
 **Tests**:
+
 - ✅ Loan request flow
 - ✅ Loan approval flow
 - ✅ Repayment flow
@@ -234,6 +242,7 @@ pub enum LoanStatus {
 **Purpose**: Manage lender deposits and loan fund allocation.
 
 **Key Functions**:
+
 ```rust
 // Initialize the contract
 pub fn initialize(env: Env, admin: Address)
@@ -258,12 +267,14 @@ pub fn get_lender_balance(env: Env, lender: Address) -> i128
 ```
 
 **Pool Mechanics**:
+
 - Proportional share tracking
 - Interest distribution
 - Reserve ratio maintenance
 - Withdrawal limits
 
 **Tests**:
+
 - ✅ Deposit flow
 - ✅ Withdrawal flow
 - ✅ Liquidity tracking
@@ -346,14 +357,14 @@ soroban contract invoke \
 ### Using Stellar SDK (JavaScript)
 
 ```javascript
-import { Contract, SorobanRpc } from '@stellar/stellar-sdk';
+import { Contract, SorobanRpc } from "@stellar/stellar-sdk";
 
 const contract = new Contract(contractId);
-const server = new SorobanRpc.Server('https://soroban-testnet.stellar.org');
+const server = new SorobanRpc.Server("https://soroban-testnet.stellar.org");
 
 // Call contract method
-const result = await contract.call('get_score', [nftId]);
-console.log('Score:', result);
+const result = await contract.call("get_score", [nftId]);
+console.log("Score:", result);
 ```
 
 ## Development
@@ -513,4 +524,3 @@ ISC License - See LICENSE file for details.
 - Check existing issues before creating new ones
 - Provide error messages and logs
 - Include contract IDs for deployment issues
-
