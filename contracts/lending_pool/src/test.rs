@@ -435,7 +435,7 @@ fn test_deposit_withdraw_invariants() {
         assert!(shares >= 0);
 
         env.ledger()
-        .set_sequence_number(env.ledger().sequence() + 1);
+            .set_sequence_number(env.ledger().sequence() + 1);
         pool_client.withdraw(&provider, &token_id, &withdraw_shares);
 
         let final_shares = pool_client.get_shares(&provider, &token_id);
