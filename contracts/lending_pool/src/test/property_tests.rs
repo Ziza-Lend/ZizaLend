@@ -143,7 +143,8 @@ fn invariant_total_shares_equals_sum_of_individual_shares() {
     );
 
     // After partial withdraw from one provider
-    env.ledger().set_sequence_number(env.ledger().sequence() + 1);
+    env.ledger()
+        .set_sequence_number(env.ledger().sequence() + 1);
     pool.withdraw(&providers.get(0).unwrap(), &token_id, &500);
 
     let total_shares_after = pool.get_total_shares(&token_id);
@@ -174,7 +175,8 @@ fn invariant_pool_empties_cleanly() {
     }
 
     // Full withdrawal of all providers
-    env.ledger().set_sequence_number(env.ledger().sequence() + 1);
+    env.ledger()
+        .set_sequence_number(env.ledger().sequence() + 1);
     for provider in &providers {
         let shares = pool.get_shares(&provider, &token_id);
         if shares > 0 {
@@ -270,7 +272,8 @@ fn invariant_depositor_count_tracks_correctly() {
     assert_eq!(pool.get_depositor_count(&token_id), 2);
 
     // P1 withdraws all — count should go to 1
-    env.ledger().set_sequence_number(env.ledger().sequence() + 1);
+    env.ledger()
+        .set_sequence_number(env.ledger().sequence() + 1);
     pool.withdraw(&p1, &token_id, &1_000);
     assert_eq!(pool.get_depositor_count(&token_id), 1);
 
