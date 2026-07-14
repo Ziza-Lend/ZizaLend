@@ -146,6 +146,7 @@ fn test_withdraw_flow() {
     assert_eq!(pool_client.get_shares(&provider, &token_id), 3000);
 
     // Redeem 1000 shares → 1000 assets (no yield yet, 1:1 rate).
+    env.ledger().set_sequence_number(env.ledger().sequence() + 1);
     pool_client.withdraw(&provider, &token_id, &1000);
 
     assert_eq!(token_client.balance(&provider), 3000);
@@ -432,6 +433,7 @@ fn test_deposit_withdraw_invariants() {
         assert_eq!(shares, deposit_amount, "1:1 initial share allocation");
         assert!(shares >= 0);
 
+        env.ledger().set_sequence_number(env.ledger().sequence() + 1);
         pool_client.withdraw(&provider, &token_id, &withdraw_shares);
 
         let final_shares = pool_client.get_shares(&provider, &token_id);
@@ -521,6 +523,7 @@ fn test_withdraw_returns_principal_plus_interest() {
     stellar_asset_client.mint(&pool_id, &200);
 
     // Redeem all 1000 shares → should receive 1200 tokens (principal + yield).
+    env.ledger().set_sequence_number(env.ledger().sequence() + 1);
     pool_client.withdraw(&provider, &token_id, &1_000);
 
     assert_eq!(token_client.balance(&provider), 1_200);
@@ -558,6 +561,7 @@ fn test_pro_rata_yield_distribution_on_withdrawal() {
     // Pool: 1100 | Shares: 1000
 
     // provider_a redeems 600 shares: 600 * 1100 / 1000 = 660 tokens.
+    env.ledger().set_sequence_number(env.ledger().sequence() + 1);
     pool_client.withdraw(&provider_a, &token_id, &600);
 
     // provider_b redeems 400 shares: 400 * 440 / 400 = 440 tokens.
@@ -606,6 +610,7 @@ fn test_subsequent_depositor_does_not_dilute_existing_holders() {
 
     // Each share is worth 2200 / 2000 = 1.1.
     // provider_a redeems → 1100 (1000 principal + 100 yield).
+    env.ledger().set_sequence_number(env.ledger().sequence() + 1);
     pool_client.withdraw(&provider_a, &token_id, &1_000);
     assert_eq!(token_client.balance(&provider_a), 1_100);
 
@@ -645,6 +650,7 @@ fn test_full_loan_cycle_with_interest() {
     assert_eq!(token_client.balance(&pool_id), 1_080);
 
     // Provider redeems all 1000 shares → 1080 (principal + interest).
+    env.ledger().set_sequence_number(env.ledger().sequence() + 1);
     pool_client.withdraw(&provider, &token_id, &1_000);
     assert_eq!(token_client.balance(&provider), 1_080);
     assert_eq!(token_client.balance(&pool_id), 0);
@@ -715,6 +721,7 @@ fn test_many_depositors_receive_proportional_yield() {
 
     stellar_asset_client.mint(&pool_id, &600);
 
+    env.ledger().set_sequence_number(env.ledger().sequence() + 1);
     for (provider, shares) in &depositors {
         pool_client.withdraw(provider, &token_id, shares);
     }
@@ -908,6 +915,7 @@ fn test_withdraw_reduces_total_deposits() {
     assert_eq!(pool_client.get_total_deposits(&token_id), 3_000);
 
     // Redeem 1000 shares → 1000 assets (no yield), total_deposits reduces by 1000.
+    env.ledger().set_sequence_number(env.ledger().sequence() + 1);
     pool_client.withdraw(&provider, &token_id, &1_000);
     assert_eq!(pool_client.get_total_deposits(&token_id), 2_000);
 }
@@ -931,6 +939,7 @@ fn test_deposit_after_withdraw_frees_cap_space() {
     pool_client.deposit(&provider, &token_id, &3_000);
 
     // Pool is full; redeem 1000 shares to free cap space.
+    env.ledger().set_sequence_number(env.ledger().sequence() + 1);
     pool_client.withdraw(&provider, &token_id, &1_000);
 
     stellar_asset_client.mint(&provider, &1_000);
@@ -1037,6 +1046,7 @@ fn test_pool_stats() {
     // Return borrowed tokens before withdrawals so providers get full value.
     token_client.transfer(&borrower, &pool_id, &1000);
 
+    env.ledger().set_sequence_number(env.ledger().sequence() + 1);
     // provider1 redeems 2000 shares → 2000 assets (no yield in this test).
     pool_client.withdraw(&provider1, &token_id, &2000);
     let stats = pool_client.get_pool_stats(&token_id);
@@ -1323,6 +1333,7 @@ fn test_withdrawal_with_utilization() {
     // If user tries to withdraw 500 shares, they only get 100 tokens
     // because share value is based on liquid balance.
     // assets = shares * pool_balance / total_shares = 500 * 200 / 1000 = 100
+    env.ledger().set_sequence_number(env.ledger().sequence() + 1);
     pool_client.withdraw(&provider, &token_id, &500);
     assert_eq!(token_client.balance(&provider), 100);
 }
@@ -1501,6 +1512,7 @@ fn test_share_price_rises_proportionally_with_yield() {
     assert_eq!(share_price, 1_250_000);
 
     // Redeem half the shares (1000) → should receive 1000 * 2500 / 2000 = 1250.
+    env.ledger().set_sequence_number(env.ledger().sequence() + 1);
     pool_client.withdraw(&provider, &token_id, &1_000);
     assert_eq!(token_client.balance(&provider), 1_250); // 0 initial + 1250 redeemed
     assert_eq!(pool_client.get_shares(&provider, &token_id), 1_000);
@@ -1541,6 +1553,7 @@ fn test_multiple_depositors_share_yield_proportionally_and_total_shares_track_co
     // Pool: 11000 | Shares: 10000
 
     // Each provider redeems all shares.
+    env.ledger().set_sequence_number(env.ledger().sequence() + 1);
     // p1: 5000 * 11000 / 10000 = 5500  (pool=11000, shares=10000)
     pool_client.withdraw(&p1, &token_id, &5_000);
     assert_eq!(token_client.balance(&p1), 5_500);
