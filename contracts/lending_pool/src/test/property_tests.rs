@@ -76,13 +76,16 @@ fn invariant_proportional_claim_holds_after_multiple_deposits() {
     let env = Env::default();
     let (pool, token_id, _token_client, _admin) = setup_pool(&env);
     let stellar = StellarAssetClient::new(&env, &token_id);
-    let providers: Vec<Address> = (0..5).map(|_| Address::generate(&env)).collect();
-    let deposit_amounts: Vec<i128> = vec![1_000, 2_000, 3_000, 4_000, 5_000];
+    let mut providers = Vec::new(&env);
+    for _ in 0..5u32 {
+        providers.push_back(Address::generate(&env));
+    }
+    let deposit_amounts: Vec<i128> = vec![&env, 1_000i128, 2_000, 3_000, 4_000, 5_000];
 
     // Deposit different amounts for each provider
     for (i, provider) in providers.iter().enumerate() {
-        stellar.mint(provider, &deposit_amounts[i]);
-        pool.deposit(provider, &token_id, &deposit_amounts[i]);
+        stellar.mint(&provider, &deposit_amounts.get(i as u32).unwrap());
+        pool.deposit(&provider, &token_id, &deposit_amounts.get(i as u32).unwrap());
     }
 
     // Add some yield
@@ -92,8 +95,8 @@ fn invariant_proportional_claim_holds_after_multiple_deposits() {
     let total_shares = pool.get_total_shares(&token_id);
 
     for (i, provider) in providers.iter().enumerate() {
-        let shares = pool.get_shares(provider, &token_id);
-        let deposit_value = pool.get_deposit(provider, &token_id);
+        let shares = pool.get_shares(&provider, &token_id);
+        let deposit_value = pool.get_deposit(&provider, &token_id);
 
         // Math: proportional_claim = shares * total_assets / total_shares
         let expected_value = shares * total_assets / total_shares;
@@ -112,19 +115,22 @@ fn invariant_total_shares_equals_sum_of_individual_shares() {
     let (pool, token_id, _token_client, _admin) = setup_pool(&env);
     let stellar = StellarAssetClient::new(&env, &token_id);
 
-    let providers: Vec<Address> = (0..5).map(|_| Address::generate(&env)).collect();
+    let mut providers = Vec::new(&env);
+    for _ in 0..5u32 {
+        providers.push_back(Address::generate(&env));
+    }
     let amounts = [1_111, 2_222, 3_333, 4_444, 5_555];
 
     for (i, provider) in providers.iter().enumerate() {
-        stellar.mint(provider, &amounts[i]);
-        pool.deposit(provider, &token_id, &amounts[i]);
+        stellar.mint(&provider, &amounts[i]);
+        pool.deposit(&provider, &token_id, &amounts[i]);
     }
 
     // Verify total shares = sum of individual shares
     let total_shares = pool.get_total_shares(&token_id);
     let sum_shares: i128 = providers
         .iter()
-        .map(|p| pool.get_shares(p, &token_id))
+        .map(|p| pool.get_shares(&p, &token_id))
         .sum();
     assert_eq!(
         total_shares, sum_shares,
@@ -133,12 +139,12 @@ fn invariant_total_shares_equals_sum_of_individual_shares() {
     );
 
     // After partial withdraw from one provider
-    pool.withdraw(&providers[0], &token_id, &500);
+    pool.withdraw(&providers.get(0).unwrap(), &token_id, &500);
 
     let total_shares_after = pool.get_total_shares(&token_id);
     let sum_shares_after: i128 = providers
         .iter()
-        .map(|p| pool.get_shares(p, &token_id))
+        .map(|p| pool.get_shares(&p, &token_id))
         .sum();
     assert_eq!(total_shares_after, sum_shares_after);
 }
@@ -151,19 +157,22 @@ fn invariant_pool_empties_cleanly() {
     let (pool, token_id, _token_client, _admin) = setup_pool(&env);
     let stellar = StellarAssetClient::new(&env, &token_id);
 
-    let providers: Vec<Address> = (0..3).map(|_| Address::generate(&env)).collect();
+    let mut providers = Vec::new(&env);
+    for _ in 0..3u32 {
+        providers.push_back(Address::generate(&env));
+    }
     let amounts = [2_000, 3_000, 5_000];
 
     for (i, provider) in providers.iter().enumerate() {
-        stellar.mint(provider, &amounts[i]);
-        pool.deposit(provider, &token_id, &amounts[i]);
+        stellar.mint(&provider, &amounts[i]);
+        pool.deposit(&provider, &token_id, &amounts[i]);
     }
 
     // Full withdrawal of all providers
     for provider in &providers {
-        let shares = pool.get_shares(provider, &token_id);
+        let shares = pool.get_shares(&provider, &token_id);
         if shares > 0 {
-            pool.withdraw(provider, &token_id, &shares);
+            pool.withdraw(&provider, &token_id, &shares);
         }
     }
 
