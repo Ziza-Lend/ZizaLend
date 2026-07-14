@@ -6,7 +6,7 @@
 //! by exploring the state space more broadly.
 
 use crate::{LendingPool, LendingPoolClient};
-use soroban_sdk::testutils::Address as _;
+use soroban_sdk::testutils::{Address as _, Ledger};
 use soroban_sdk::token::{Client as TokenClient, StellarAssetClient};
 use soroban_sdk::{vec, Address, Env, Vec};
 

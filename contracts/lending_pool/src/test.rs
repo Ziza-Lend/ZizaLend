@@ -1,5 +1,5 @@
 use crate::{events, LendingPool, LendingPoolClient};
-use soroban_sdk::testutils::{Address as _, Events as _, Ledger as _};
+use soroban_sdk::testutils::{Address as _, Events as _, Ledger};
 use soroban_sdk::token::Client as TokenClient;
 use soroban_sdk::token::StellarAssetClient;
 use soroban_sdk::{Address, BytesN, Env, FromVal, IntoVal, TryFromVal};
