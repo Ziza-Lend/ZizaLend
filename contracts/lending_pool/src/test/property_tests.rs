@@ -85,7 +85,11 @@ fn invariant_proportional_claim_holds_after_multiple_deposits() {
     // Deposit different amounts for each provider
     for (i, provider) in providers.iter().enumerate() {
         stellar.mint(&provider, &deposit_amounts.get(i as u32).unwrap());
-        pool.deposit(&provider, &token_id, &deposit_amounts.get(i as u32).unwrap());
+        pool.deposit(
+            &provider,
+            &token_id,
+            &deposit_amounts.get(i as u32).unwrap(),
+        );
     }
 
     // Add some yield
