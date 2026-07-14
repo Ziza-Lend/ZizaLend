@@ -198,7 +198,11 @@ mod tests {
         // Step 7: Verify pool is in a clean state
         // ═══════════════════════════════════════════════════════════════════
         assert_eq!(manager.get_borrower_loan_count(&borrower), 0);
-        assert_eq!(nft.get_score(&borrower), 710); // 700 initial + ~10 from repayment
+        // Score delta = total_debt / 100.
+        // principal=5_000, interest=173 (12% APR over 5_000 ledgers of 17_280-ledger term),
+        // no late fees (repaid before due_date=17_280).
+        // total_debt ≈ 5_173 → delta = 51 → 700 + 51 = 751.
+        assert_eq!(nft.get_score(&borrower), 751);
     }
 
     /// Tests the default path (not liquidation): default → seize collateral → score penalty.
