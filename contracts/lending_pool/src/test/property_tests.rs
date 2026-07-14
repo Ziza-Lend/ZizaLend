@@ -8,14 +8,14 @@
 use crate::{LendingPool, LendingPoolClient};
 use soroban_sdk::testutils::Address as _;
 use soroban_sdk::token::{Client as TokenClient, StellarAssetClient};
-use soroban_sdk::{Address, Env};
+use soroban_sdk::{vec, Address, Env, Vec};
 
 fn setup_pool(env: &Env) -> (LendingPoolClient, Address, TokenClient, Address) {
     env.mock_all_auths();
     let admin = Address::generate(env);
     let token_contract = env.register_stellar_asset_contract_v2(admin.clone());
     let token_id = token_contract.address();
-    let stellar = StellarAssetClient::new(env, &token_id);
+    let _stellar = StellarAssetClient::new(env, &token_id);
     let token_client = TokenClient::new(env, &token_id);
     let pool_id = env.register(LendingPool, ());
     let pool_client = LendingPoolClient::new(env, &pool_id);
