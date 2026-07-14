@@ -9,11 +9,11 @@
 #[cfg(test)]
 mod tests {
     use lending_pool::{LendingPool, LendingPoolClient};
-    use loan_manager::{LoanError, LoanManager, LoanManagerClient, LoanStatus};
+    use loan_manager::{LoanManager, LoanManagerClient, LoanStatus};
     use remittance_nft::{RemittanceNFT, RemittanceNFTClient};
     use soroban_sdk::testutils::{Address as _, Ledger as _};
     use soroban_sdk::token::{Client as TokenClient, StellarAssetClient};
-    use soroban_sdk::{Address, BytesN, Env, String, Vec};
+    use soroban_sdk::{Address, BytesN, Env, String};
 
     fn setup_full_protocol(
         env: &Env,
@@ -30,7 +30,7 @@ mod tests {
         // ── Deploy contracts ────────────────────────────────────────────────
         let admin = Address::generate(env);
         let borrower = Address::generate(env);
-        let liquidator = Address::generate(env);
+        let _liquidator = Address::generate(env);
 
         // Token
         let token_contract = env.register_stellar_asset_contract_v2(admin.clone());
@@ -206,7 +206,7 @@ mod tests {
     fn test_default_path() {
         let env = Env::default();
         let (manager, pool, nft, token_id, _admin, borrower) = setup_full_protocol(&env);
-        let token_client = TokenClient::new(&env, &token_id);
+        let _token_client = TokenClient::new(&env, &token_id);
         let stellar = StellarAssetClient::new(&env, &token_id);
 
         // Deposit into pool
@@ -242,7 +242,7 @@ mod tests {
     #[test]
     fn test_cancel_loan_flow() {
         let env = Env::default();
-        let (manager, _pool, nft, token_id, _admin, borrower) = setup_full_protocol(&env);
+        let (manager, _pool, nft, _token_id, _admin, _borrower) = setup_full_protocol(&env);
 
         // Mint NFT for borrower (separate from setup)
         let borrower2 = Address::generate(&env);
@@ -278,7 +278,7 @@ mod tests {
     #[test]
     fn test_loan_extension_flow() {
         let env = Env::default();
-        let (manager, pool, nft, token_id, _admin, borrower) = setup_full_protocol(&env);
+        let (manager, pool, _nft, token_id, _admin, borrower) = setup_full_protocol(&env);
         let token_client = TokenClient::new(&env, &token_id);
         let stellar = StellarAssetClient::new(&env, &token_id);
 
