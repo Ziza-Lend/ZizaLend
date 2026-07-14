@@ -3,22 +3,13 @@
 
   <h3><strong>Every transfer builds your future</strong></h3>
 
-  <!-- CI / Quality Gates -->
+  <!-- CI / Quality Gates + License -->
 
 <a href="https://github.com/Ziza-Lend/ZizaLend/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/Ziza-Lend/ZizaLend/ci.yml?branch=main&label=CI&logo=github&style=flat-square" alt="CI" /></a>
 <a href="https://github.com/Ziza-Lend/ZizaLend/actions/workflows/codeql.yml"><img src="https://img.shields.io/github/actions/workflow/status/Ziza-Lend/ZizaLend/codeql.yml?branch=main&label=CodeQL&logo=github&style=flat-square" alt="CodeQL" /></a>
 <a href="https://github.com/Ziza-Lend/ZizaLend/actions/workflows/deploy-staging.yml"><img src="https://img.shields.io/github/actions/workflow/status/Ziza-Lend/ZizaLend/deploy-staging.yml?branch=main&label=Deploy%20Staging&logo=docker&style=flat-square" alt="Deploy Staging" /></a>
-<a href="https://github.com/Ziza-Lend/ZizaLend/actions/workflows/loadtest.yml"><img src="https://img.shields.io/github/actions/workflow/status/Ziza-Lend/ZizaLend/loadtest.yml?branch=main&label=Load%20Test&logo=github&style=flat-square" alt="Load Test" /></a>
-<a href="https://github.com/Ziza-Lend/ZizaLend/actions/workflows/dependency-review.yml"><img src="https://img.shields.io/github/actions/workflow/status/Ziza-Lend/ZizaLend/dependency-review.yml?branch=main&label=Dependency%20Review&logo=github&style=flat-square" alt="Dependency Review" /></a>
 <a href="https://github.com/Ziza-Lend/ZizaLend/actions/workflows/commitlint.yml"><img src="https://img.shields.io/github/actions/workflow/status/Ziza-Lend/ZizaLend/commitlint.yml?branch=main&label=Commitlint&logo=conventionalcommits&style=flat-square" alt="Commitlint" /></a>
-
-  <!-- Project Meta (auto-fetched from GitHub) -->
-  <br/>
-  <a href="https://github.com/Ziza-Lend/ZizaLend/stargazers"><img src="https://img.shields.io/github/stars/Ziza-Lend/ZizaLend?style=flat-square&logo=github" alt="GitHub Stars" /></a>
-  <a href="https://github.com/Ziza-Lend/ZizaLend/network/members"><img src="https://img.shields.io/github/forks/Ziza-Lend/ZizaLend?style=flat-square&logo=github" alt="Forks" /></a>
-  <a href="https://github.com/Ziza-Lend/ZizaLend/issues"><img src="https://img.shields.io/github/issues/Ziza-Lend/ZizaLend?style=flat-square&logo=github" alt="Open Issues" /></a>
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/Ziza-Lend/ZizaLend?style=flat-square&color=blue" alt="License: ISC" /></a>
-  <a href="https://github.com/Ziza-Lend/ZizaLend/commits/main"><img src="https://img.shields.io/github/last-commit/Ziza-Lend/ZizaLend/main?style=flat-square" alt="Last Commit" /></a>
+<a href="LICENSE"><img src="https://img.shields.io/github/license/Ziza-Lend/ZizaLend?style=flat-square&color=blue" alt="License: ISC" /></a>
 
   <!-- Tech Stack (versions verified against package.json / Cargo.toml / CI) -->
   <br/>
