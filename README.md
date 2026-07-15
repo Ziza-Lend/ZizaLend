@@ -277,7 +277,7 @@ Four Soroban (Rust) smart contracts power the protocol:
 ### Prerequisites
 
 ```bash
-node -v        # Node ≥ 18 required (CI runs on Node 22)
+node -v        # Node ≥ 22 required (CI runs on Node 22)
 docker --version
 rustup target add wasm32-unknown-unknown
 ```
