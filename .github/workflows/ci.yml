@@ -276,6 +276,18 @@ jobs:
         run: npm run format:check
         working-directory: backend
 
+  shell-check:
+    timeout-minutes: 1
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check shell script syntax
+        run: |
+          find . -name '*.sh' -not -path './node_modules/*' -not -path './.git/*' \
+            -exec bash -n {} \;
+          echo "All shell scripts pass syntax check."
+
   e2e:
     needs: [supply-chain-audit, frontend]
     runs-on: ubuntu-latest
