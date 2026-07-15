@@ -304,6 +304,34 @@ jobs:
           fi
           echo "No merge conflict markers found."
 
+  openapi-check:
+    needs: supply-chain-audit
+    timeout-minutes: 2
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate OpenAPI spec is well-formed JSON
+        run: |
+          node -e "
+            const fs = require('fs');
+            const spec = JSON.parse(fs.readFileSync('packages/openapi.json', 'utf8'));
+            if (!spec.openapi) {
+              console.error('Missing openapi version field');
+              process.exit(1);
+            }
+            if (!spec.info || !spec.info.title) {
+              console.error('Missing info.title field');
+              process.exit(1);
+            }
+            console.log('OpenAPI spec is valid (' + spec.openapi + '): ' + spec.info.title);
+          "
+
   e2e:
     needs: [supply-chain-audit, frontend]
     runs-on: ubuntu-latest
