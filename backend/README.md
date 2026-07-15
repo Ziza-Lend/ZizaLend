@@ -14,9 +14,11 @@ The backend serves as a bridge between the frontend application and the Stellar 
 
 ## Tech Stack
 
-- **Runtime**: Node.js 18+
+- **Runtime**: Node.js 22
 - **Framework**: Express.js 5
 - **Language**: TypeScript
+- **Database**: PostgreSQL 16
+- **Cache**: Redis 7
 - **Validation**: Zod
 - **Testing**: Jest + Supertest
 - **Documentation**: Swagger/OpenAPI
@@ -26,8 +28,10 @@ The backend serves as a bridge between the frontend application and the Stellar 
 
 ### Prerequisites
 
-- Node.js 18 or higher
-- npm or yarn
+- Node.js 22 or higher
+- PostgreSQL 16
+- Redis 7
+- npm
 
 ### Installation
 
@@ -435,27 +439,25 @@ export const simulateRemittanceSchema = z.object({
 
 ## Future Enhancements
 
-### Phase 1: Real Remittance Integration
-
-- [ ] Wise API integration
-- [ ] Western Union API integration
-- [ ] Remittance data verification
-- [ ] Historical data import
-
 ### Phase 2: Enhanced Features
 
-- [ ] User authentication (JWT)
-- [ ] Database integration (PostgreSQL)
-- [ ] IPFS integration for NFT metadata
-- [ ] Webhook support for blockchain events
+- [x] User authentication (JWT + Stellar challenge-signature)
+- [x] Database integration (PostgreSQL)
+- [x] Redis caching layer
+- [x] Webhook delivery with HMAC signing
+- [x] SSE event streaming
+- [x] Notification service (in-app, email via SendGrid, SMS via Twilio)
+- [x] CI/CD pipeline (GitHub Actions)
 
 ### Phase 3: Production Ready
 
-- [ ] Caching layer (Redis)
-- [ ] Logging and monitoring
-- [ ] CI/CD pipeline
-- [ ] Load balancing support
-- [ ] API versioning
+- [x] Rate limiting (tiered: anon, authed, admin)
+- [x] RBAC (borrower, lender, admin roles)
+- [x] API versioning (v1)
+- [x] Audit logging
+- [x] Metrics (Prometheus)
+- [ ] Real remittance API integration (Wise, Western Union)
+- [ ] IPFS for NFT metadata
 
 ## Deployment
 
