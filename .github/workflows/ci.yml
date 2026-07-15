@@ -288,6 +288,22 @@ jobs:
             -exec bash -n {} \;
           echo "All shell scripts pass syntax check."
 
+  conflict-check:
+    timeout-minutes: 1
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for unresolved merge conflict markers
+        run: |
+          if grep -rE '^(<<<<<<<|=======|>>>>>>>)' \
+            --include='*.ts' --include='*.tsx' --include='*.rs' \
+            --include='*.js' --include='*.md' --include='*.json' . ; then
+            echo "::error::Unresolved merge conflict markers found in the codebase"
+            exit 1
+          fi
+          echo "No merge conflict markers found."
+
   e2e:
     needs: [supply-chain-audit, frontend]
     runs-on: ubuntu-latest
