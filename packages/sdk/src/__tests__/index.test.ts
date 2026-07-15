@@ -1,4 +1,4 @@
-import { ZizaLend, Client, ApiError } from '../index.js';
+import { Zizalend, Client, ApiError } from '../index.js';
 import { Auth } from '../auth.js';
 import { Health } from '../health.js';
 import { Loans } from '../loans.js';
@@ -7,9 +7,9 @@ import { Scores } from '../scores.js';
 import { Notifications } from '../notifications.js';
 import { Remittances } from '../remittances.js';
 
-describe('ZizaLend', () => {
+describe('Zizalend', () => {
   it('creates an instance with all modules', () => {
-    const api = new ZizaLend({ baseUrl: 'http://localhost:3001/api/v1' });
+    const api = new Zizalend({ baseUrl: 'http://localhost:3001/api/v1' });
 
     expect(api.auth).toBeInstanceOf(Auth);
     expect(api.health).toBeInstanceOf(Health);
@@ -27,7 +27,7 @@ describe('ZizaLend', () => {
   });
 
   it('passes configuration to the underlying client', () => {
-    const api = new ZizaLend({
+    const api = new Zizalend({
       baseUrl: 'http://example.com/api/v1',
       token: 'test-token',
       apiKey: 'test-api-key',
@@ -39,7 +39,7 @@ describe('ZizaLend', () => {
   });
 
   it('can set token after construction via auth.login', () => {
-    const api = new ZizaLend({ baseUrl: 'http://localhost:3001/api/v1' });
+    const api = new Zizalend({ baseUrl: 'http://localhost:3001/api/v1' });
     expect(api.auth.isAuthenticated()).toBe(false);
 
     // Token can be set through auth (this doesn't call the server)
