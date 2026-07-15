@@ -151,6 +151,8 @@ describe('EventIndexer score delta wiring', () => {
   });
 
   it.skip('calls sorobanService.getScoreConfig for LoanRepaid events', async () => {
+    // TODO(#469): re-enable after indexer test environment supports mocked
+    // on-chain simulation without requiring a live Soroban RPC instance.
     mockQuery
       .mockResolvedValueOnce({ rows: [{ event_id: 'evt-1' }], rowCount: 1 }) // INSERT
       .mockResolvedValueOnce({ rows: [], rowCount: 1 }); // score upsert
@@ -162,6 +164,8 @@ describe('EventIndexer score delta wiring', () => {
   }, 20000);
 
   it.skip('calls sorobanService.getScoreConfig for LoanDefaulted events', async () => {
+    // TODO(#469): re-enable after indexer test environment supports mocked
+    // on-chain simulation without requiring a live Soroban RPC instance.
     mockQuery
       .mockResolvedValueOnce({ rows: [{ event_id: 'evt-2' }], rowCount: 1 }) // INSERT
       .mockResolvedValueOnce({ rows: [], rowCount: 1 }); // score upsert
