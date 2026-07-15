@@ -23,6 +23,8 @@ import {
 class SorobanService {
   private static readonly FALLBACK_CREDIT_SCORE = 500;
   private static readonly SCORE_SIMULATION_RETRY_ATTEMPTS = 2;
+  /** Default Soroban transaction timeout in seconds. */
+  private static readonly SOROBAN_TX_TIMEOUT = 30;
 
   private getRpcServer() {
     return createSorobanRpcServer();
@@ -59,7 +61,7 @@ class SorobanService {
           args: [borrowerScVal, loanIdScVal],
         }),
       )
-      .setTimeout(30)
+      .setTimeout(SorobanService.SOROBAN_TX_TIMEOUT)
       .build();
 
     const prepared = await server.prepareTransaction(tx);
@@ -96,7 +98,7 @@ class SorobanService {
           args: [adminScVal, loanIdScVal, reasonScVal],
         }),
       )
-      .setTimeout(30)
+      .setTimeout(SorobanService.SOROBAN_TX_TIMEOUT)
       .build();
 
     const prepared = await server.prepareTransaction(tx);
@@ -224,7 +226,7 @@ class SorobanService {
           args: [borrowerScVal, amountScVal],
         }),
       )
-      .setTimeout(30)
+      .setTimeout(SorobanService.SOROBAN_TX_TIMEOUT)
       .build();
 
     const prepared = await server.prepareTransaction(tx);
@@ -270,7 +272,7 @@ class SorobanService {
           args: [borrowerScVal, loanIdScVal, amountScVal],
         }),
       )
-      .setTimeout(30)
+      .setTimeout(SorobanService.SOROBAN_TX_TIMEOUT)
       .build();
 
     const prepared = await server.prepareTransaction(tx);
@@ -320,7 +322,7 @@ class SorobanService {
           args: [providerScVal, tokenScVal, amountScVal],
         }),
       )
-      .setTimeout(30)
+      .setTimeout(SorobanService.SOROBAN_TX_TIMEOUT)
       .build();
 
     const prepared = await server.prepareTransaction(tx);
@@ -370,7 +372,7 @@ class SorobanService {
           args: [providerScVal, tokenScVal, sharesScVal],
         }),
       )
-      .setTimeout(30)
+      .setTimeout(SorobanService.SOROBAN_TX_TIMEOUT)
       .build();
 
     const prepared = await server.prepareTransaction(tx);
@@ -420,7 +422,7 @@ class SorobanService {
           args: [providerScVal, tokenScVal, sharesScVal],
         }),
       )
-      .setTimeout(30)
+      .setTimeout(SorobanService.SOROBAN_TX_TIMEOUT)
       .build();
 
     const prepared = await server.prepareTransaction(tx);
@@ -463,7 +465,7 @@ class SorobanService {
           args: [loanIdScVal],
         }),
       )
-      .setTimeout(30)
+      .setTimeout(SorobanService.SOROBAN_TX_TIMEOUT)
       .build();
 
     const prepared = await server.prepareTransaction(tx);
@@ -506,7 +508,7 @@ class SorobanService {
           args: [loanIdScVal, amountScVal],
         }),
       )
-      .setTimeout(30)
+      .setTimeout(SorobanService.SOROBAN_TX_TIMEOUT)
       .build();
 
     const prepared = await server.prepareTransaction(tx);
@@ -548,7 +550,7 @@ class SorobanService {
           args: [loanIdScVal],
         }),
       )
-      .setTimeout(30)
+      .setTimeout(SorobanService.SOROBAN_TX_TIMEOUT)
       .build();
 
     const prepared = await server.prepareTransaction(tx);
@@ -593,7 +595,7 @@ class SorobanService {
           args: [loanIdScVal, amountScVal, termScVal],
         }),
       )
-      .setTimeout(30)
+      .setTimeout(SorobanService.SOROBAN_TX_TIMEOUT)
       .build();
 
     const prepared = await server.prepareTransaction(tx);
@@ -641,7 +643,7 @@ class SorobanService {
           args: [borrowerScVal, loanIdScVal, extraLedgersScVal],
         }),
       )
-      .setTimeout(30)
+      .setTimeout(SorobanService.SOROBAN_TX_TIMEOUT)
       .build();
 
     const prepared = await server.prepareTransaction(tx);
@@ -686,7 +688,7 @@ class SorobanService {
           args: [liquidatorScVal, loanIdScVal],
         }),
       )
-      .setTimeout(30)
+      .setTimeout(SorobanService.SOROBAN_TX_TIMEOUT)
       .build();
 
     const prepared = await server.prepareTransaction(tx);
@@ -826,7 +828,7 @@ class SorobanService {
           args: [userScVal],
         }),
       )
-      .setTimeout(30)
+      .setTimeout(SorobanService.SOROBAN_TX_TIMEOUT)
       .build();
 
     const defaultScore = this.getDefaultCreditScore();
@@ -932,7 +934,7 @@ class SorobanService {
           args: [userScVal, offsetScVal, limitScVal],
         }),
       )
-      .setTimeout(30)
+      .setTimeout(SorobanService.SOROBAN_TX_TIMEOUT)
       .build();
 
     const simulation = await server.simulateTransaction(tx);
@@ -1013,7 +1015,7 @@ class SorobanService {
           args: [userScVal, ...extraArgs],
         }),
       )
-      .setTimeout(30)
+      .setTimeout(SorobanService.SOROBAN_TX_TIMEOUT)
       .build();
 
     const simulation = await server.simulateTransaction(tx);
@@ -1117,7 +1119,7 @@ class SorobanService {
           args: [tokenScVal],
         }),
       )
-      .setTimeout(30)
+      .setTimeout(SorobanService.SOROBAN_TX_TIMEOUT)
       .build();
 
     const simulation = await server.simulateTransaction(tx);
@@ -1166,7 +1168,7 @@ class SorobanService {
           args: [poolScVal],
         }),
       )
-      .setTimeout(30)
+      .setTimeout(SorobanService.SOROBAN_TX_TIMEOUT)
       .build();
 
     const simulation = await server.simulateTransaction(tx);
@@ -1206,7 +1208,7 @@ class SorobanService {
           args: [],
         }),
       )
-      .setTimeout(30)
+      .setTimeout(SorobanService.SOROBAN_TX_TIMEOUT)
       .build();
 
     const simulation = await server.simulateTransaction(tx);
