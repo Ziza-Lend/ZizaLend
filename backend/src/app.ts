@@ -306,7 +306,7 @@ app.get(
   }),
 );
 
-// Legacy routes (deprecated, maintained for backward compatibility)
+// Unversioned routes (maintained for backward compatibility; prefer /api/v1/*)
 app.use('/api', simulationRoutes);
 app.use('/api/score', scoreRoutes);
 app.use('/api/loans', loanRoutes);
