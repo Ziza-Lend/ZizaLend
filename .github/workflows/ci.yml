@@ -264,22 +264,22 @@ jobs:
      
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
-      - name: Cache dependencies
+      - name: Cache Rust dependencies
         uses: Swatinem/rust-cache@v2
         with:
           workspaces: |
             contracts
             contracts/fuzz
-      - name: Format check
+      - name: Check formatting
         run: cargo fmt --all -- --check
         working-directory: contracts
-      - name: Clippy
+      - name: Run Clippy lints
         run: cargo clippy --all-targets --all-features -- -D warnings
         working-directory: contracts
-      - name: Run tests
+      - name: Run unit tests
         run: cargo test -- --test-threads=1
         working-directory: contracts
-      - name: Build contracts for wasm32 and enforce size budget
+      - name: Build WASM contracts
         run: |
           set -euo pipefail
 
