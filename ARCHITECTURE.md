@@ -878,10 +878,10 @@ graph TB
         BC4["Stellar SDK"]
     end
     
-    subgraph Database["💾 Data Stack (Planned)"]
-        DB1["PostgreSQL"]
-        DB2["Redis Cache"]
-        DB3["IPFS Storage"]
+    subgraph Database["💾 Data Layer"]
+        DB1["PostgreSQL 16<br/>• User Profiles<br/>• Loan Events<br/>• Metadata"]
+        DB2["Redis 7<br/>• Session Cache<br/>• Rate Limiting<br/>• Query Cache"]
+        DB3["IPFS Storage<br/>(Planned)"]
     end
     
     subgraph DevOps["🚀 DevOps Stack"]
@@ -1065,12 +1065,10 @@ flowchart TD
 ### Infrastructure
 - **Containerization**: Docker, Docker Compose
 - **Blockchain**: Stellar Testnet (Mainnet planned)
-- **Version Control**: Git, GitHub
-
-### Development Tools
-- **Linting**: ESLint (TypeScript), Clippy (Rust)
-- **Formatting**: Prettier (TypeScript), rustfmt (Rust)
-- **CI/CD**: GitHub Actions (planned)
+- **CI/CD**: GitHub Actions (6 workflow types, 9+ job types)
+- **Database**: PostgreSQL 16
+- **Cache**: Redis 7
+- **Container Registry**: GHCR
 
 ## Deployment Architecture
 
