@@ -34,12 +34,21 @@ jobs:
       - name: Lint push commits
         if: github.event_name == 'push'
         run: |
-          # github.event.before is 0000... on the first push — fall back to HEAD~1
           FROM_SHA="${{ github.event.before }}"
+          TO_SHA="${{ github.event.after }}"
+
           if [ "$FROM_SHA" = "0000000000000000000000000000000000000000" ]; then
+            # First push to the branch — check only the latest commit
+            FROM_SHA="HEAD~1"
+          elif ! git cat-file -e "$FROM_SHA" 2>/dev/null; then
+            # Force push: github.event.before is an orphaned commit no longer
+            # reachable after checkout. We cannot reliably determine the push
+            # range (origin/main already points to the new HEAD), so fall back
+            # to checking only the tip commit.
             FROM_SHA="HEAD~1"
           fi
-          npx commitlint --from "$FROM_SHA" --to ${{ github.event.after }}
+
+          npx commitlint --from "$FROM_SHA" --to "$TO_SHA"
 
       - name: Validate PR title
         if: github.event_name == 'pull_request'
