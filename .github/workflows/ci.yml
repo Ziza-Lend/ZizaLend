@@ -214,6 +214,46 @@ jobs:
         run: npm run typecheck
         working-directory: scripts
 
+  packages:
+    needs: supply-chain-audit
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install types dependencies
+        run: npm install
+        working-directory: packages/types
+
+      - name: Generate types from OpenAPI
+        run: npm run generate
+        working-directory: packages/types
+
+      - name: Type check types package
+        run: npm run typecheck
+        working-directory: packages/types
+
+      - name: Build types package
+        run: npm run build
+        working-directory: packages/types
+
+      - name: Install SDK dependencies
+        run: npm install
+        working-directory: packages/sdk
+
+      - name: Type check SDK
+        run: npm run typecheck
+        working-directory: packages/sdk
+
+      - name: Build SDK
+        run: npm run build
+        working-directory: packages/sdk
+
   e2e:
     needs: [supply-chain-audit, frontend]
     runs-on: ubuntu-latest
