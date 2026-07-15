@@ -27,7 +27,7 @@
   <img src="https://img.shields.io/badge/Conventional_Commits-1.0.0-fe5196?style=flat-square&logo=conventionalcommits" alt="Conventional Commits" />
 
 <br/><br/>
-<strong><a href="ARCHITECTURE.md">Architecture</a> • <a href="docs/wiki/README.md">Wiki</a> • <a href="CONTRIBUTING.md">Contributing</a> • <a href="SECURITY.md">Security</a> • <a href="ROADMAP.md">Roadmap</a></strong>
+<strong><a href="ARCHITECTURE.md">Architecture</a> • <a href="docs/DEVELOPMENT.md">Development</a> • <a href="docs/TESTING.md">Testing</a> • <a href="docs/wiki/README.md">Wiki</a> • <a href="CONTRIBUTING.md">Contributing</a> • <a href="SECURITY.md">Security</a> • <a href="ROADMAP.md">Roadmap</a></strong>
 </div>
 
 ---
@@ -366,14 +366,17 @@ cargo fuzz run lending_pool_fuzz
 
 | Resource                                                                 | Description                                                              |
 | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
+| **[Development Guide](docs/DEVELOPMENT.md)**                             | Setup, workflow, and code quality across all components                  |
 | **[Architecture](ARCHITECTURE.md)**                                      | System architecture with diagrams, data flow, security model             |
+| **[Testing Guide](docs/TESTING.md)**                                     | Testing strategy, commands, and CI pipeline                              |
+| **[SDK Documentation](packages/sdk/README.md)**                          | TypeScript SDK usage, modules, and examples                              |
 | **[docs/wiki/](docs/wiki/README.md)**                                    | Technical wiki — contract state machine, indexer sync, frontend patterns |
 | **[docs/adr/](docs/adr/)**                                               | Architecture Decision Records (contracts, event indexer, auth model)     |
 | **[docs/ENVIRONMENT.md](docs/ENVIRONMENT.md)**                           | Complete environment variable reference                                  |
 | **[docs/webhooks.md](docs/webhooks.md)**                                 | Webhook integration with HMAC signature verification                     |
 | **[docs/deployed-contracts.md](docs/deployed-contracts.md)**             | Contract IDs on testnet/mainnet                                          |
 | **[docs/contracts-ACCESS-CONTROL.md](docs/contracts-ACCESS-CONTROL.md)** | Permission matrix for all 4 contracts                                    |
-| **[docs/runbooks/](docs/runbooks/)**                                     | Operational runbooks (indexer recovery, troubleshooting)                 |
+| **[docs/runbooks/](docs/runbooks/)**                                     | Operational runbooks (indexer recovery, staging deployment)              |
 | **[docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)**                   | Common issues and resolutions                                            |
 | **[DESIGN.md](DESIGN.md)**                                               | UI/UX design spec with component specifications                          |
 | **[ROADMAP.md](ROADMAP.md)**                                             | Product roadmap and planned features                                     |
